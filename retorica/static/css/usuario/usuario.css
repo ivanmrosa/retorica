@@ -1,0 +1,50 @@
+.label-login{
+  padding-top: 15px;
+}
+
+#form_signin{
+  margin-top:10px;
+}
+
+#form_signin > section{
+  float:left;
+}
+
+
+.rec-pass-msg{
+  float:left;
+  text-align:justify;
+  padding: 5px;
+
+}
+
+.br-right{
+  border-right: 1px solid white;
+}
+
+
+
+#divlogin > div, #divlogin > form >div{
+  margin-top: 7px;
+}
+
+
+.fixed-header > div{
+  height: 68px;
+}
+
+
+@media screen and (max-width: 800px) {
+
+.br-right, {
+    border-bottom: 1px solid white;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.fixed-header > div{
+  height: auto;
+}
+
+
+}

@@ -1,0 +1,423 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/evento/evento_index.css'%}">
+{% endblock %}
+
+{% block 'body' %}
+<header class="fixed-header bck-blue">
+    <div class="col col-1 no-margin br-right">
+        <center><img src="{% static 'images/logo.png' %}" style="height:64px;width:64px"/></center>
+    </div>
+
+    <div id="div-pesq" class="col col-6 ">
+        <div class="col col-1 text-center group-pesq">
+            <img src="{%static 'images/search-icon48.png' %}">
+        </div>
+        <div class="col col-5 group-pesq" id="pesqtext">
+            <input class="field small-radius" placeholder="pesquise eventos aqui..." type="search">
+        </div>
+        <div class="col col-2 group-pesq">
+            <a href="" class="btn btn-orange full-width">buscar</a>
+        </div>
+        <div class="col col-2 group-pesq">
+            <a href="javascript:void(0)"
+               class="btn btn-blue full-width" tabindex="-1">pesquisa avançada</a>
+
+        </div>
+    </div>
+    <div class="col col-1 flo-right br-left">
+        <div class="col col-5">
+            <center>
+                <img id="img-usr" src="{% static 'uploads/profiles/ivan.jpg'%}" class="big-radius bor-white group-pesq"
+                     style="height:50px;width:50px"/>
+            </center>
+        </div>
+        <div class="col col-5 group-pesq text-center">
+            <a href="javascript:void(0)" class="white small-font bold">Bem vindo, Ivan!</a>
+        </div>
+    </div>
+
+</header>
+
+<section id="menu" class="after-header  menu">
+
+    <div class="menu-content">
+
+        <ul>
+            <li>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"><img src="{% static 'images/event.png'%}"></a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"> inscrições </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)"><img src="{% static 'images/Folder-Profiles-icon32.png'%}"></a>
+                <a href="javascript:void(0)"> meus dados </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"><img src="{% static 'images/manage.png'%}"></a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"> gerenciar eventos </a>
+            </li>
+
+        </ul>
+    </div>
+
+</section>
+
+<section id="lista_eventos" class="after-header after-menu col col-5 page hidde">
+    <div class="event col col-10">
+        <h3 class="title"><a href="#">Evento teste</a></h3>
+        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
+        <p class="text-justify des-event">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
+            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
+            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
+            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
+            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
+            nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut cursus
+            accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum bibendum.
+            Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu nisi.
+            Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
+
+            Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
+            Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis erat
+            finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum commodo
+            sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque habitant
+            morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin lacus
+            convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem pharetra
+            dui, ut condimentum velit elit in urna.
+
+            Curabitur quis libero ac urna mattis vestibulum at sit amet mauris. Morbi sed dolor urna. Duis congue
+            fringilla placerat. Fusce ultrices ullamcorper facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit. Sed a ipsum dui. Fusce dignissim vitae tellus quis pulvinar. Maecenas tristique nisl id nulla accumsan
+            vehicula. Aliquam ac eros sed nunc blandit dignissim eu sit amet turpis. Etiam vestibulum odio at ornare
+            dapibus. Curabitur pulvinar eleifend ipsum, at iaculis urna tempus fermentum. Maecenas quam urna, porttitor
+            eu laoreet et, malesuada nec arcu. Maecenas vitae cursus elit, quis ornare odio.
+
+            Aliquam euismod convallis tellus, ac rutrum est. Suspendisse lobortis mauris elit, eu scelerisque nisi
+            auctor in. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi
+            ultrices velit et ipsum rhoncus, id placerat mi dignissim. Aliquam luctus pharetra ligula quis varius. Ut eu
+            ante a ante luctus tincidunt. Quisque porttitor mattis blandit. In viverra, turpis a vehicula malesuada,
+            velit libero faucibus magna, et tristique arcu augue vel leo. Donec elementum lectus augue, eu tincidunt
+            eros semper ac. Nullam tristique tellus at varius volutpat. Maecenas id enim ultrices, interdum leo nec,
+            bibendum nulla. Suspendisse massa leo, condimentum et placerat id, sagittis sed est. Nulla nec est vel nunc
+            rhoncus varius. Nullam tempus scelerisque est quis condimentum.
+
+            Suspendisse potenti. Curabitur mollis et quam quis consequat. Pellentesque habitant morbi tristique senectus
+            et netus et malesuada fames ac turpis egestas. Integer bibendum faucibus felis. Quisque dictum tortor in
+            odio viverra, eget posuere magna hendrerit. Sed consectetur, turpis a sodales semper, purus mauris vulputate
+            velit, in dignissim odio felis vitae erat. Donec id pharetra ipsum, sed porta est. Fusce enim nibh, bibendum
+            vitae arcu nec, suscipit accumsan turpis. Sed convallis egestas velit, et sodales elit maximus non
+
+        </p>
+        <div class="col col-10 small-radius event-pan-det">
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width"
+                   onclick="mainLib.popup.openPopup('detalhe_evento')">detalhes</a>
+            </div>
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width"
+                   onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="event col col-10">
+        <h3 class="title"><a href="#">Evento teste</a></h3>
+        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
+        <p class="text-justify des-event">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
+            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
+            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
+            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
+            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
+            nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut cursus
+            accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum bibendum.
+            Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu nisi.
+            Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
+
+            Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
+            Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis erat
+            finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum commodo
+            sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque habitant
+            morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin lacus
+            convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem pharetra
+            dui, ut condimentum velit elit in urna.
+
+        </p>
+        <div class="col col-10  small-radius event-pan-det">
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width">detalhes</a>
+            </div>
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width">participar</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="event col col-10">
+        <h3 class="title"><a href="#">Evento teste</a></h3>
+        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
+        <p class="text-justify des-event">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
+            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
+            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
+            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
+            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas.
+        <div class="col col-10 small-radius event-pan-det">
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width">detalhes</a>
+            </div>
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width">participar</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="gerenciar_eventos" class="after-header after-menu page hidde col col-5">
+  <div class="col col-10 title">
+     <div class="card cur-pointer text-center bigger-on-hover">
+         <img src="{% static 'images/add32.png' %}">
+         <div class="green small-font">adicionar evento</div>
+     </div>
+     <div class="card cur-pointer text-center bigger-on-hover">
+         <img src="{% static 'images/list32_1.png' %}">
+         <div class="green small-font ">meus eventos</div>
+     </div>
+  </div>
+
+</section>
+
+<section id="detalhe_evento" class="popup full">
+    <div class="popup-body">
+        <a href="javascript:void(0)" class="btn btn-red btn-small small-radius fixed"
+           onclick="mainLib.popup.closePopup('detalhe_evento')">X</a>
+
+        <a href="javascript:void(0)" class="btn btn-blue small-radius fixed btn-float-participar"
+           onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+
+        <div class="event col col-9">
+            <h3 class="title"><a href="#">Evento teste</a></h3>
+            <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
+            <p class="text-justify des-event">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
+                lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
+                malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla
+                condimentum
+                risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
+                turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
+                nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut
+                cursus
+                accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum
+                bibendum.
+                Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu
+                nisi.
+                Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
+
+                Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
+                Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis
+                erat
+                finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum
+                commodo
+                sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque
+                habitant
+                morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin
+                lacus
+                convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem
+                pharetra
+                dui, ut condimentum velit elit in urna.
+
+                Curabitur quis libero ac urna mattis vestibulum at sit amet mauris. Morbi sed dolor urna. Duis congue
+                fringilla placerat. Fusce ultrices ullamcorper facilisis. Lorem ipsum dolor sit amet, consectetur
+                adipiscing
+                elit. Sed a ipsum dui. Fusce dignissim vitae tellus quis pulvinar. Maecenas tristique nisl id nulla
+                accumsan
+                vehicula. Aliquam ac eros sed nunc blandit dignissim eu sit amet turpis. Etiam vestibulum odio at ornare
+                dapibus. Curabitur pulvinar eleifend ipsum, at iaculis urna tempus fermentum. Maecenas quam urna,
+                porttitor
+                eu laoreet et, malesuada nec arcu. Maecenas vitae cursus elit, quis ornare odio.
+
+                Aliquam euismod convallis tellus, ac rutrum est. Suspendisse lobortis mauris elit, eu scelerisque nisi
+                auctor in. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                Morbi
+                ultrices velit et ipsum rhoncus, id placerat mi dignissim. Aliquam luctus pharetra ligula quis varius.
+                Ut eu
+                ante a ante luctus tincidunt. Quisque porttitor mattis blandit. In viverra, turpis a vehicula malesuada,
+                velit libero faucibus magna, et tristique arcu augue vel leo. Donec elementum lectus augue, eu tincidunt
+                eros semper ac. Nullam tristique tellus at varius volutpat. Maecenas id enim ultrices, interdum leo nec,
+                bibendum nulla. Suspendisse massa leo, condimentum et placerat id, sagittis sed est. Nulla nec est vel
+                nunc
+                rhoncus varius. Nullam tempus scelerisque est quis condimentum.
+
+                Suspendisse potenti. Curabitur mollis et quam quis consequat. Pellentesque habitant morbi tristique
+                senectus
+                et netus et malesuada fames ac turpis egestas. Integer bibendum faucibus felis. Quisque dictum tortor in
+                odio viverra, eget posuere magna hendrerit. Sed consectetur, turpis a sodales semper, purus mauris
+                vulputate
+                velit, in dignissim odio felis vitae erat. Donec id pharetra ipsum, sed porta est. Fusce enim nibh,
+                bibendum
+                vitae arcu nec, suscipit accumsan turpis. Sed convallis egestas velit, et sodales elit maximus non
+
+            </p>
+            <div class="col col-10"><a id="btn-cancelar-inscricao" class="btn btn-red">cancelar inscrição</a></div>
+            <section id="evento-periodo" class="col col-2">
+                <h3 class="title">período</h3>
+                <ul>
+                    <li>data - 01/07/2016</li>
+                    <li>inicio - 13:00</li>
+                    <li>fim - 18:00</li>
+                </ul>
+
+                <ul>
+                    <li>data - 02/07/2016</li>
+                    <li>inicio - 13:00</li>
+                    <li>fim - 18:00</li>
+                </ul>
+
+            </section>
+
+            <section id="evento-localidade" class="col col-3">
+                <h3 class="title">local</h3>
+                <ul>
+                    <li>estado - Minas Gerais</li>
+                    <li>cidade - Belo Horizonte</li>
+                    <li>logradouro - Av. teste 1 teste 3</li>
+                    <li>bairro - Copa cabana</li>
+                    <li>número - 2569</li>
+                </ul>
+
+            </section>
+
+            <section id="evento-palestrantes" class="col col-10">
+                <h3 class="title">palestrantes</h3>
+                <div class="col col-4 palestrante">
+                    <h5 class="title">Blenet Ferreira</h5>
+
+                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
+                        que frango
+                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
+                        aidid lddi
+                        didi
+                    </p>
+
+                </div>
+                <div class="col col-4 palestrante">
+                    <h5 class="title">Blenet Ferreira</h5>
+
+                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
+                        que frango
+                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
+                        aidid lddi
+                        didi
+                    </p>
+
+                </div>
+                <div class="col col-4 palestrante">
+                    <h5 class="title">Rsooo</h5>
+
+                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
+                        que frango
+                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
+                        aidid lddi
+                        didi
+                    </p>
+
+                </div>
+            </section>
+
+            <section id="evento-videos" class="col col-10">
+                <h3 class="title">Vídeos</h3>
+
+                <div class="col col-4">
+                    <h5 class="">Vídeo do youtube 1</h5>
+                    <iframe width="420" height="315"
+                            src="http://www.youtube.com/embed/FRSH-egVyzk?autoplay=0">
+                    </iframe>
+
+                </div>
+                <div class="col col-4">
+                    <h5 class="">Vídeo do youtube 2</h5>
+                    <iframe width="420" height="315"
+                            src="http://www.youtube.com/embed/e77tLfkiVn8?autoplay=0">
+                    </iframe>
+
+                </div>
+
+                <div class="col col-40">
+                    <h5 class="">Vídeo do vimeo 1</h5>
+                    <iframe src="https://player.vimeo.com/video/91007134" width="420" height="315" frameborder="0"
+                            webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+
+            </section>
+
+            <section id="evento-anexos" class="col col-10">
+                <h3 class="title">anexos</h3>
+                <ul>
+                    <li><a href="{% static 'uploads/anexos/Atores e casos de uso.docx'%}">Titulo anexo</a></li>
+
+                </ul>
+            </section>
+
+            <section id="evento-comentario" class="col col-10">
+                <h3 class="title">adicionar comentário</h3>
+
+                <textarea id="comentario">
+                </textarea>
+
+                <a class="btn btn-blue" href="javascript:void(0)">adicionar</a>
+
+                <h3 class="title">comentários</h3>
+                <div class="comentario">
+                    <h4 class="title">Nome usuário</h4>
+                    <p>
+                        tesate aafsasd sdfdas dstea dsfdas fastea sfas teasdfasd teasfa
+                    </p>
+                </div>
+                <div class="comentario">
+                    <h4 class="title">Nome usuário 2</h4>
+                    <p>
+                        tesate aafsasd sdfdas dstea dsfdas fastea sfas teasdfasd teasfa
+                        asdfads asdfkasdlfj asdl asd lkjdasl fasdl dfasjflasdkç jfas f aslf
+                        asdfkjasdl falsj fdlas
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="inscricao_evento" class="popup">
+    <div class="popup-body popup-dlg small-radius" id="inscricao-evento-periodo">
+
+        <h3 class="title">período</h3>
+        <ul>
+            <li> data - 01/07/2016 <input type="checkbox" value="1"></li>
+        </ul>
+
+        <ul>
+            <li>data - 02/07/2016 <input type="checkbox" value="1"></li>
+        </ul>
+        <a href="javascript:void(0)" class="btn btn-orange">confirmar</a>
+        <a href="javascript:void(0)" class="btn btn-red"
+           onclick="mainLib.popup.closePopup('inscricao_evento')">cancelar</a>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block 'js' %}
+<script type="text/javascript" src="{% static 'js/evento/evento_index.js' %}"></script>
+<script>
+      mainLib.loadMenu();
+      evento.ir_pagina('lista_eventos');
+</script>
+
+{% endblock %}

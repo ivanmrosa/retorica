@@ -1,0 +1,73 @@
+.br-right{
+  border-right: 1px solid white;
+}
+
+/*#pesqtext, #img-usr{
+  margin-left: 17px;
+}*/
+
+.br-left{
+  border-left: 1px solid white;
+}
+
+
+
+.event{
+   background-color: ghostwhite;
+   padding: 20px;
+}
+
+.event-pan-det .btn{
+   margin-left: 5px;
+}
+
+.group-pesq{
+  margin-top: 7px;
+}
+
+
+.img-event{
+  margin-right: 14px;
+}
+
+
+.fixed-header > div{
+  height: 68px;
+}
+
+.palestrante{
+  margin-left: 50px;
+}
+
+.btn-float-participar{
+   margin-left: 80%;
+}
+
+
+@media screen and (max-width: 800px) {
+.br-right, .br-left{
+    border-bottom: 1px solid white;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.palestrante{
+  width: 85%;
+  margin-left: 50px;
+}
+
+.group-pesq{
+  margin-top: 0px;
+}
+
+
+.fixed-header > div{
+  height: auto;
+}
+
+#pesquisa-avancada{
+  margin-left: 0px;
+}
+
+
+}

@@ -1,0 +1,207 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/usuario/usuario.css'%}">
+{% endblock %}
+
+{% block 'body' %}
+
+<div class="popup" id="recuperar_senha">
+    <div class="popup-body popup-dlg small-radius">
+
+        <h1 class="title blue">recuperação de senha</h1>
+
+        <input type="email" class="field small-radius" id="email-recuperacao" placeholder="e-mail">
+        <a class="btn btn-orange full-width" href="javascript:void(0)"
+           onclick="mainLib.popup.closePopup('recuperar_senha')">
+            recuperar
+        </a>
+        <a class="btn btn-red full-width" href="javascript:void(0)"
+           onclick="mainLib.popup.closePopup('recuperar_senha')">
+            cancelar
+        </a>
+
+    </div>
+</div>
+
+<header class="fixed-header bck-blue">
+    <div class="col col-2 no-margin br-right">
+        <center><img src="{% static 'images/logo.png' %}" style="height:64px;width:64px"/></center>
+    </div>
+    <div class="col col-5 flo-right" id="divlogin">
+
+        <div class="col col-1 white label-login bold text-center ">
+            <span class="">Login</span>
+        </div>
+        <form id="form_login" method="post">
+            <div class="col col-3">
+                <input type="emaillogin" class="field small-radius " placeholder="usuário" id="user">
+            </div>
+            <div class="col col-3">
+                <input type="password" class="field small-radius" id="senhalogin" placeholder="senha">
+            </div>
+            <div class="col col-1">
+                <a href="{% url 'evento_index' %}" class="btn btn-orange full-width">entrar</a>
+            </div>
+        </form>
+        <div class="col col-2">
+            <a href="javascript:void(0)" class="btn btn-blue full-width"
+               onclick="mainLib.popup.openPopup('recuperar_senha')">recuperar senha</a>
+
+        </div>
+
+
+    </div>
+</header>
+<aside class="col col-3 after-header" id="div-left">
+</aside>
+<section class="col col-4 after-header" id="cadastro">
+    <div class="title">faça o seu cadastro aqui! \0/</div>
+    <form id="form_signin" method="post">
+        <section id="cadastro_base">
+            <h4 class="title">Identificação</h4>
+            <div class="form-field">
+                <label for="email">e-mail</label>
+                <input type="email" name="email" id="email">
+            </div>
+            <div class="form-field">
+                <label for="first_name">primeiro nome:</label>
+                <input type="text" id="first_name" name="first_name">
+            </div>
+            <div class="form-field">
+                <label for="last_name">sobrenome:</label>
+                <input type="text" id="last_name" name="last_name">
+            </div>
+            <div class="form-field">
+                <label for="telefone">telefone:</label>
+                <input type="text" id="telefone" name="telefone">
+            </div>
+            <div class="form-field">
+                <label for="sexo">sexo:</label>
+                <select name="sexo" id="sexo">
+                    <option value=""></option>
+                    <option value="F">Feminino</option>
+                    <option value="M">Masculino</option>
+                    <option value="O">Outros</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="tipo_usuario" class="bold">desejo organizar eventos</label>
+                <input type="checkbox" id="tipo_usuario" name="last_name">
+            </div>
+            <a href="javascript:void(0)" class="btn full-width bold btn-orange"
+               onclick="usuario.ir_cadastro('cadastro_localidade')">prosseguir</a>
+
+        </section>
+
+        <section id="cadastro_localidade" class="hidde">
+            <h4 class="title">Localização</h4>
+            <div class="form-field">
+                <label for="pais">país:</label>
+                <select name="pais" id="pais">
+                    <option value="1">Brasil</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="estado">estado:</label>
+                <select name="estado" id="estado">
+                    <option value="1">Minas gerais</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="cidade">cidade:</label>
+                <select name="cidade" id="cidade">
+                    <option value="1">Belo Horizonte</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="cep">cep/zip-code:</label>
+                <input name="cep" id="cep" type="text">
+            </div>
+            <div class="form-field">
+                <label for="bairro">bairro:</label>
+                <input name="bairro" id="bairro" type="text">
+            </div>
+            <div class="form-field">
+                <label for=endereci">logradouro:</label>
+                <input name="endereco" id="endereco" type="text">
+            </div>
+            <div class="form-field">
+                <label for="numero_endereco">número:</label>
+                <input name="numero_endereco" id="numero_endereco" type="number">
+            </div>
+            <a href="javascript:void(0)" class="btn full-width bold btn-orange"
+               onclick="usuario.ir_cadastro('cpf_rg')">prosseguir</a>
+            <a href="javascript:void(0)" class="btn full-width bold btn-red"
+               onclick="usuario.ir_cadastro('cadastro_base')">retornar</a>
+
+        </section>
+
+        <section id="cpf_rg" class="hidde">
+            <h4 class="title">Indentificação oficial</h4>
+            <div class="form-field">
+                <label for="cpf">cpf:</label>
+                <input name="cpf" id=cpf" type="text">
+            </div>
+            <div class="form-field">
+                <label for="numero_identidade">registro geral (RG) :</label>
+                <input name="numero_identidade" id="numero_identidade" type="text">
+            </div>
+            <a href="javascript:void(0)" class="btn full-width bold btn-orange"
+               onclick="usuario.ir_cadastro('cadastro_pagseguro')">prosseguir</a>
+            <a href="javascript:void(0)" class="btn full-width bold btn-red"
+               onclick="usuario.ir_cadastro('cadastro_localidade')">retornar</a>
+
+        </section>
+
+        <section id="cadastro_pagseguro" class="hidde">
+            <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
+            <div class="form-field">
+                <label for="email_pagseguro">email pagseguro:</label>
+                <input name="email_pagseguro" id="email_pagseguro" type="email">
+            </div>
+            <div class="form-field">
+                <label for="token_pagseguro">token único pagseguro :</label>
+                <input name="token_pagseguro" id="token_pagseguro" type="text">
+            </div>
+            <a href="javascript:void(0)" class="btn full-width bold btn-orange"
+               onclick="usuario.ir_cadastro('usuario_senha')">prosseguir</a>
+            <a href="javascript:void(0)" class="btn full-width bold btn-red"
+               onclick="usuario.ir_cadastro('cpf_rg')">retornar</a>
+
+        </section>
+
+        <section id="usuario_senha" class="hidde">
+            <h4 class="title">autenticação:</h4>
+
+            <div class="form-field">
+                <label for="username">usuário:</label>
+                <input type="text" name="username" id="username">
+            </div>
+
+            <div class="form-field">
+                <label for="password">senha:</label>
+                <input name="password" id="password" type="password">
+            </div>
+            <div class="form-field">
+                <label for="password">confirmação da senha:</label>
+                <input name="confirmacao_senha" id="confirmacao_senha" type="password">
+            </div>
+            <a href="javascript:void(0)" class="btn full-width bold btn-orange"
+               onclick="mainLib.aviso('Cadastro realizado! Agora realize o login!')">prosseguir</a>
+            <a href="javascript:void(0)" class="btn full-width bold btn-red"
+               onclick="usuario.ir_cadastro('cadastro_pagseguro')">retornar</a>
+
+        </section>
+
+    </form>
+</section>
+<aside class="col col-3 after-header" id="div-right">
+
+    {% endblock %}
+
+    {% block 'js' %}
+    <script type="text/javascript" src="{% static 'js/usuario/usuario.js' %}"></script>
+    {% endblock %}
