@@ -557,8 +557,8 @@ a.btn{
 .btn.btn-small {
    padding-left: 5px !important;
    padding-right: 5px !important;
-   padding-top: 5px !important;
-   padding-bottom: 5px !important;
+   padding-top: 9px !important;
+   padding-bottom: 9px !important;
 }
 
 .btn.full-width{
@@ -837,8 +837,9 @@ a.btn.full-width{
 }
 
 .form-field.ff-small, .field.ff-small{
-   width: 30% !important;
+   width: 90% !important;
    font-size: 12px;
+   height: 30px;
 }
 
 .form-field.ff-medium, .field.ff-medium{
@@ -938,6 +939,25 @@ a.btn.full-width{
 	.after-menu{
 
 	}
+    .form-field.ff-small, .field.ff-small{
+       width: 98% !important;
+       float:left;
+       display: inline;
+       margin:4px 1px;
+       font-size: 18px;
+       height: 35px;
+    }
+    a.btn{
+       padding-left: 5px !important;
+       padding-right: 5px !important;
+       padding-top: 11px !important;
+       padding-bottom: 11px !important;
+       display:table-cell;
+       vertical-align:middle;
+
+}
+
+
 }
 	
 	

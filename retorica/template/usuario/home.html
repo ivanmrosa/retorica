@@ -30,25 +30,21 @@
     </div>
     <div class="col col-5 flo-right" id="divlogin">
 
-        <div class="col col-1 white label-login bold text-center ">
-            <span class="">Login</span>
+        <div class="col col-1 white label-login bold  text-center">
+            <span class="small-font">Login</span>
         </div>
         <form id="form_login" method="post">
-            <div class="col col-3">
-                <input type="emaillogin" class="field small-radius " placeholder="usuário" id="user">
+            <div class="col col-4">
+                <input type="emaillogin" class="field ff-small small-radius " placeholder="usuário" id="user">
             </div>
             <div class="col col-3">
-                <input type="password" class="field small-radius" id="senhalogin" placeholder="senha">
+                <input type="password" class="field ff-small small-radius" id="senhalogin" placeholder="senha">
             </div>
             <div class="col col-1">
-                <a href="{% url 'evento_index' %}" class="btn btn-orange full-width">entrar</a>
+                <a href="{% url 'evento_index' %}" class="btn btn-orange btn-small full-width">entrar</a>
             </div>
-        </form>
-        <div class="col col-2">
-            <a href="javascript:void(0)" class="btn btn-blue full-width"
-               onclick="mainLib.popup.openPopup('recuperar_senha')">recuperar senha</a>
 
-        </div>
+        </form>
 
 
     </div>
@@ -56,7 +52,10 @@
 <aside class="col col-3 after-header" id="div-left">
 </aside>
 <section class="col col-4 after-header" id="cadastro">
-    <div class="title">faça o seu cadastro aqui! \0/</div>
+    <div class="title">faça o seu cadastro abaixo \0/ ou recupere sunha senha
+        <a href="javascript:void(0)" class=""
+               onclick="mainLib.popup.openPopup('recuperar_senha')"> aqui</a>
+</div>
     <form id="form_signin" method="post">
         <section id="cadastro_base">
             <h4 class="title">Identificação</h4>
