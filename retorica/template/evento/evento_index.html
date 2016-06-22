@@ -15,7 +15,7 @@
             <img src="{%static 'images/search-icon48.png' %}">
         </div>
         <div class="col col-5 group-pesq" id="pesqtext">
-            <input class="field small-radius" placeholder="pesquise eventos aqui..." type="search">
+            <input class="field small-radius" placeholder="pesquise eventos aqui..." type="text">
         </div>
         <div class="col col-2 group-pesq">
             <a href="" class="btn btn-orange full-width">buscar</a>
@@ -46,7 +46,8 @@
 
         <ul>
             <li>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"><img src="{% static 'images/event.png'%}"></a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"><img
+                        src="{% static 'images/event.png'%}"></a>
                 <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"> inscrições </a>
             </li>
             <li>
@@ -54,7 +55,8 @@
                 <a href="javascript:void(0)"> meus dados </a>
             </li>
             <li>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"><img src="{% static 'images/manage.png'%}"></a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"><img
+                        src="{% static 'images/manage.png'%}"></a>
                 <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"> gerenciar eventos </a>
             </li>
 
@@ -178,26 +180,101 @@
 </section>
 
 <section id="gerenciar_eventos" class="after-header after-menu page hidde col col-5">
-  <div class="col col-10 title">
-     <div class="card cur-pointer text-center bigger-on-hover">
-         <img src="{% static 'images/add32.png' %}">
-         <div class="green small-font">adicionar evento</div>
-     </div>
-     <div class="card cur-pointer text-center bigger-on-hover">
-         <img src="{% static 'images/list32_1.png' %}">
-         <div class="green small-font ">meus eventos</div>
-     </div>
-  </div>
+    <div class="col col-10 title">
+        <div class="card cur-pointer text-center bigger-on-hover">
+            <img src="{% static 'images/add32.png' %}">
+            <div class="green small-font">adicionar evento</div>
+        </div>
+        <div class="card cur-pointer text-center bigger-on-hover">
+            <img src="{% static 'images/list32_1.png' %}">
+            <div class="green small-font ">meus eventos</div>
+        </div>
+    </div>
+    <section id="criar_editar_evento" class="col col-10 ">
+        <h3 class="title orange">adicionar evento</h3>
 
+        <form id="form-criar-evento">
+            <div class="form-field">
+                <label for="titulo">título</label>
+                <input type="text" id="titulo" name="titulo">
+            </div>
+            <div class="form-field">
+                <label for="descricao">descrição dealhada</label>
+                <textarea id="descricao" name="descricao">
+                </textarea>
+            </div>
+            <div class="form-field">
+                <label for="palavras_chave">palavras chaves</label>
+                <input type="text" id="palavras_chave" name="palavras_chave">
+            </div>
+            <div class="form-field">
+                <label for="tipo_cobranca">tipo da cobrança</label>
+                <select>
+                    <option value=""></option>
+                    <option value="G">Gratuíto</option>
+                    <option value="P">Pago</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="pais">país:</label>
+                <select name="pais" id="pais">
+                    <option value="1">Brasil</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="estado">estado:</label>
+                <select name="estado" id="estado">
+                    <option value="1">Minas gerais</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="cidade">cidade:</label>
+                <select name="cidade" id="cidade">
+                    <option value="1">Belo Horizonte</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="cep">cep/zip-code:</label>
+                <input name="cep" id="cep" type="text">
+            </div>
+            <div class="form-field">
+                <label for="bairro">bairro:</label>
+                <input name="bairro" id="bairro" type="text">
+            </div>
+            <div class="form-field">
+                <label for="endereco">logradouro:</label>
+                <input name="endereco" id="endereco" type="text">
+            </div>
+            <div class="form-field">
+                <label for="numero_endereco">número:</label>
+                <input name="numero_endereco" id="numero_endereco" type="number">
+            </div>
+            <label for="evento_privado" class="bold">evento privado(não mostrar na timeline)</label>
+            <input type="checkbox" id="evento_privado" name="evento_privado">
+
+            <div class="form-field">
+                <label for="imagem_divulgacao">imagem para timeline:</label>
+                <input name=imagem_divulgacao" id="imagem_divulgacao" type="file" accept="image/*">
+            </div>
+
+            <a href="javascript:void(0)" class="btn btn-blue">salvar e gerenciar</a>
+
+        </form>
+    </section>
+    <section id="lista_eventos_gerenciar" class="col col-10 hidde">
+       <div class="col col-3 card text-center v-center orange small-font ">
+           evento teste
+       </div>
+    </section>
 </section>
 
 <section id="detalhe_evento" class="popup full">
     <div class="popup-body">
-        <a href="javascript:void(0)" class="btn btn-red btn-small small-radius fixed"
+        <a href="javascript:void(0)" class="btn red big-radius fixed"
            onclick="mainLib.popup.closePopup('detalhe_evento')">X</a>
-
-        <a href="javascript:void(0)" class="btn btn-blue small-radius fixed btn-float-participar"
-           onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
 
         <div class="event col col-9">
             <h3 class="title"><a href="#">Evento teste</a></h3>
@@ -262,8 +339,14 @@
                 vitae arcu nec, suscipit accumsan turpis. Sed convallis egestas velit, et sodales elit maximus non
 
             </p>
-            <div class="col col-10"><a id="btn-cancelar-inscricao" class="btn btn-red">cancelar inscrição</a></div>
-            <section id="evento-periodo" class="col col-2">
+            <div class="col col-5">
+                <a href="javascript:void(0)" class="btn btn-blue full-width" id="btn-inscrever-evento"
+                   onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+            </div>
+            <div class="col col-5"><a id="btn-cancelar-inscricao" class="btn btn-red full-width">cancelar inscrição</a></div>
+
+
+            <section id="evento-periodo" class="col col-5">
                 <h3 class="title">período</h3>
                 <ul>
                     <li>data - 01/07/2016</li>
@@ -279,7 +362,7 @@
 
             </section>
 
-            <section id="evento-localidade" class="col col-3">
+            <section id="evento-localidade" class="col col-5">
                 <h3 class="title">local</h3>
                 <ul>
                     <li>estado - Minas Gerais</li>
@@ -418,6 +501,11 @@
 <script>
       mainLib.loadMenu();
       evento.ir_pagina('lista_eventos');
+
+
+
+
+
 </script>
 
 {% endblock %}
