@@ -30,8 +30,6 @@ class UsuarioDetalhe(User):
     token_pagseguro = models.CharField(verbose_name="Token PagSeguro", null=True, blank=True, max_length=300)
     foto_usuario = models.ImageField(verbose_name="Foto do perfil", null=True, blank=True)
     telefone = models.CharField(verbose_name="Telefone", max_length=10)
-    pais = models.ForeignKey(verbose_name="País", to=Pais)
-    estado = models.ForeignKey(verbose_name="Estado", to=Estado)
     cidade = models.ForeignKey(verbose_name="Cidade", to=Cidade)
     cep = models.CharField(verbose_name="CEP/ZIP-Code", max_length=10)
     endereco = models.CharField(verbose_name="Endereço", max_length=100)

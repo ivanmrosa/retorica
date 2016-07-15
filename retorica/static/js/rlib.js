@@ -1,3 +1,26 @@
+/*csrf for django*/
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+
 //cria a funcionalidade icontains no JQUERY
 jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function(arg) {
     return function( elem ) {
@@ -108,8 +131,8 @@ mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
           '  <div class="popup-body popup-dlg small-radius">	'+
  	      '    <h2 class="yellow title">Confirmação ! </h2> '+
           '    <p><center> ' + message + ' </center> </p>'+          
- 	  	  '   <div> <button type="button" id="vmsisMsgBtnYes" class="button full-width button-green small-radius">Sim</button> '+
-          '    <button type="button" id="vmsisMsgBtnNo" class="button button-red full-width small-radius">Não</button> </div>'+                  
+ 	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn full-width btn-green small-radius">Sim</a> '+
+          '    <a href="javascript:void()" id="vmsisMsgBtnNo" class="btn btn-red full-width small-radius">Não</a> </div>'+
  	      '  </div> ';
  
     var popupE = document.createElement('div');
@@ -334,6 +357,10 @@ mainLib.loopElements = function(listOfElements, routine) {
 
             };
 
+            listOfElements[i].find = function(selector){
+                return mainLib.find(selector, this)
+            }
+
             routine.call(listOfElements[i]);
 
         }
@@ -342,9 +369,10 @@ mainLib.loopElements = function(listOfElements, routine) {
 
 }
 
-mainLib.find = function(selector) {
+mainLib.find = function(selector, parent) {
+    var doc = parent || document;
 
-    this.foundElements = document.querySelectorAll(selector);
+    this.foundElements = doc.querySelectorAll(selector);
 
     var result = {};
 
@@ -709,6 +737,7 @@ mainLib.pageControl.prototype.addTab = function(idAba, caption, htmlElementChild
 
 mainLib.pageControl.prototype.activeTab = function(idTab) {
 
+
     for (var i = 0; i <= this.htmlElement.childElementCount - 1; i++) {
 
         for (var a = 0; a <= this.htmlElement.childNodes[i].childElementCount - 1; a++) {
@@ -721,13 +750,18 @@ mainLib.pageControl.prototype.activeTab = function(idTab) {
 
     mainLib.find(mainLib.format("div[data-tab='%s']", [idTab])).loop(function() {
 
-        this.addClass('active');
+        this.adCl('active');
+
+        var gbody = this.parentNode;
+        if(getComputedStyle(gbody, null).display == 'none'){
+           mainLib.addClass('active', gbody);
+        }
 
     });
 
     mainLib.find("#" + idTab).loop(function() {
 
-        this.addClass('active');
+        this.adCl('active');
 
     });
 
@@ -748,6 +782,21 @@ mainLib.pageControl.prototype.draw = function() {
     groupBody.htmlClass = 'body-group';
 
     groupBody.draw();
+
+    var painelClose = new mainLib.panel(groupBody.htmlElement);
+    painelClose.htmlClass = 'flo-left fixed close-tab';
+    painelClose.draw();
+
+    var linkClose = new mainLib.link('javascript:void(0)', painelClose.htmlElement);
+    linkClose.htmlClass = "circle circle-small-small cancel ";
+
+    var closeTab = function(){
+      mainLib.removeClass('active', this.parentNode.parentNode)
+    };
+
+    linkClose.events = {"click":closeTab}
+    linkClose.draw();
+
 
     for (dtab in this.dataTabs) {
 
@@ -788,6 +837,10 @@ mainLib.pageControl.prototype.draw = function() {
         }
 
     }
+
+    if(getComputedStyle(groupBody.htmlElement, null).display != 'none'){
+      this.activeTab(this.dataTabs[0].id);
+    };
 
 }
 
@@ -842,32 +895,29 @@ mainLib.contextMenu = function(fnExecuteOnItenClick, idContext){
             }
         });
     });
-    
-    
 };
 
 
 function control_click(){
-                    var menuList = document.querySelector('.menu-content');
-                    if(menuList){
-                        var menuShow = document.querySelector('.menu');
-                        var visible = mainLib.hasClass("menu-full", menuList);
-                        var content = document.querySelector('.menu-content > ul');
-                        if(!visible){
-                            mainLib.addClass("menu-full", menuList);
-                            mainLib.addClass("menu-full", menuShow)
-                            menuList.setAttribute("style", "display:table !important;");
-                            menuShow.setAttribute("style", "height:100%");
-                            content.setAttribute("style", "display:table");
-
-                        }else{
-                            mainLib.removeClass("menu-full", menuList);
-                            mainLib.removeClass("menu-full", menuShow);
-                            menuList.setAttribute("style", "");
-                            menuShow.setAttribute("style", "");
-                            content.setAttribute("style", "");
-                        };
-                    };
+    var menuList = document.querySelector('.menu-content');
+    if(menuList){
+      var menuShow = document.querySelector('.menu');
+      var visible = mainLib.hasClass("menu-full", menuList);
+      var content = document.querySelector('.menu-content > ul');
+      if(!visible){
+        mainLib.addClass("menu-full", menuList);
+        mainLib.addClass("menu-full", menuShow)
+        menuList.setAttribute("style", "display:table !important;");
+        menuShow.setAttribute("style", "height:100%");
+        content.setAttribute("style", "display:table");
+      }else{
+        mainLib.removeClass("menu-full", menuList);
+        mainLib.removeClass("menu-full", menuShow);
+        menuList.setAttribute("style", "");
+        menuShow.setAttribute("style", "");
+        content.setAttribute("style", "");
+      };
+    };
 };
 
 
@@ -1001,4 +1051,109 @@ mainLib.storage.get = function(name) {
 
     return result;
 
+}
+
+/*data server*/
+
+mainLib.server = {}
+
+mainLib.server.post = function(url, data, routineOk, routineNotOk){
+  var xhttp = new XMLHttpRequest();
+  var csrftoken = getCookie('csrftoken');
+
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 ) {
+      if(xhttp.status == 200){
+        routineOk(xhttp.responseText);
+      }else{
+        routineNotOk(xhttp.responseText);
+      };
+    };
+  };
+
+  xhttp.open("POST", url + "?" + data, true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  if(!csrfSafeMethod('POST') && !this.crossDomain){
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+  };
+  xhttp.send(data);
+};
+
+
+/*data binder*/
+mainLib.dataBinder = {}
+
+mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
+  mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
+     if(typeof data != 'object'){
+       data = JSON.parse(data);
+     }
+     var template = this.innerHTML;
+
+     var parser = new DOMParser();
+     var details = []
+     this.find('[data-model]').loop(function(){
+       details.push(this.getAttribute('data-model'));
+     });
+
+     for(var row = 0; row < data.length; row ++){
+       var columns = data[row];
+       var rowTemplate = template;
+       for(col in columns){
+         if(columns.hasOwnProperty(col)){
+           if(!(col in details)){
+             rowTemplate = mainLib.replace(rowTemplate, "\\[{" + col + "}\\]", columns[col]);
+           };
+         };
+       };
+       var chElements = parser.parseFromString(rowTemplate, 'text/html').body.children;
+       while(chElements.length > 0){
+         var ele = this.parentNode.insertBefore(chElements[0], this);
+         ele.removeAttribute("data-model");
+         for(var i = 0; i < details.length; i++){
+           mainLib.dataBinder.bindOnTemplate(details[i], columns[details[i]], ele);
+         };
+       };
+
+     };
+
+  });
+
+  mainLib.find('html:not([data-model]) [data-src]', parent).loop(function(){
+    this.setAttribute('src', this.getAttribute('data-src'));
+  });
+  mainLib.find('html:not([data-model]) [data-href]', parent).loop(function(){
+    this.setAttribute('href', this.getAttribute('data-href'));
+  });
+
+}
+
+
+mainLib.dataBinder.formParser = function(selector){
+  var frm = mainLib.find(selector).elements[0];
+  var data = "";
+  for(var i = 0; i < frm.length; i++){
+    var ele = frm[i];
+
+    if(ele.type === "checkbox"){
+      data += ele.getAttribute("name").toString() + "=" + ele.checked.toString() + "&";
+    }else{
+      data += ele.getAttribute("name").toString() + "=" + ele.value.toString() + "&";
+    }
+  }
+
+  return data.substr(0, data.length-1);
+}
+
+mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent){
+  var received = {};
+  mainLib.server.post(url, "",
+    function(data){
+      received = JSON.parse(data);
+        mainLib.dataBinder.bindOnTemplate(model, received, parent);
+      },
+      function(data){
+        mainLib.aviso('Ocorreu um erro ao obter os dados necessários.' + data);
+      }
+  )
 }

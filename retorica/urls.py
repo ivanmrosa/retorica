@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from usuario import views as viewsusuario
+from evento import views as viewsevento
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
-    url(r'^$', 'usuario.views.home', name='home'),
-    url(r'^evento/$', 'evento.views.evento_index', name='evento_index'),
-    url(r'^login', 'usuario.views.ObtemEventosUsuario', name="obtemusuario"),
-    url(r'^admin/', admin.site.urls),
-]
+                  url(r'^$', viewsusuario.home, name='home'),
+                  url(r'^login', viewsusuario.logar, name="logar"),
+                  url(r'^evento/$', viewsevento.evento_index, name='evento_index'),
+                  url(r'^evento/lista_eventos/$', viewsevento.EventoController.ListaEventos, name='lista_eventos'),
+                  url(r'^evento/detalhe_evento',
+                      viewsevento.EventoController.to_view(method_name='ObterDetalhesEvento', login_required=True,
+                                                           method_type='GET'), name='detalhe_evento'),
+                  url(r'^admin/', admin.site.urls),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

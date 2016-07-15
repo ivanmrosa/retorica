@@ -6,35 +6,28 @@
 
 {% block 'body' %}
 <header class="fixed-header bck-blue">
-    <div class="col col-1 no-margin br-right">
-        <center><img src="{% static 'images/logo.png' %}" style="height:64px;width:64px"/></center>
+    <div class="col col-1 br-right">
+        <center><img src="{% static 'images/logo2.png' %}" style="height:50px;width:76px"/></center>
     </div>
 
-    <div id="div-pesq" class="col col-6 ">
-        <div class="col col-1 text-center group-pesq">
-            <img src="{%static 'images/search-icon48.png' %}">
-        </div>
-        <div class="col col-5 group-pesq" id="pesqtext">
-            <input class="field small-radius" placeholder="pesquise eventos aqui..." type="text">
-        </div>
-        <div class="col col-2 group-pesq">
-            <a href="" class="btn btn-orange full-width">buscar</a>
-        </div>
-        <div class="col col-2 group-pesq">
-            <a href="javascript:void(0)"
-               class="btn btn-blue full-width" tabindex="-1">pesquisa avançada</a>
-
+    <div id="div-pesq" class="col col-8 ">
+        <!--  <div class="col col-1 text-center group-pesq hide-mobile">
+              <img src="{%static 'images/search-icon48.png' %}">
+          </div> -->
+        <div class="col col-10" id="pesqtext">
+            <input class="field small-radius search" placeholder="pesquise eventos aqui..." type="text">
         </div>
     </div>
-    <div class="col col-1 flo-right br-left">
-        <div class="col col-5">
+    <div class="col col-1 flo-right hide-mobile ">
+
+        <div class="col col-10 group-pesq">
             <center>
-                <img id="img-usr" src="{% static 'uploads/profiles/ivan.jpg'%}" class="big-radius bor-white group-pesq"
-                     style="height:50px;width:50px"/>
+                <a href="javascript:void(0)" class="white small-font bold">
+                    <img id="img-usr" src="{% static 'uploads/profiles/ivan.jpg'%}"
+                         class="big-radius"
+                    />
+                </a>
             </center>
-        </div>
-        <div class="col col-5 group-pesq text-center">
-            <a href="javascript:void(0)" class="white small-font bold">Bem vindo, Ivan!</a>
         </div>
     </div>
 
@@ -46,453 +39,593 @@
 
         <ul>
             <li>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"><img
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo')"><img
                         src="{% static 'images/event.png'%}"></a>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos')"> inscrições </a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo')">
+                    inscrições </a>
             </li>
             <li>
-                <a href="javascript:void(0)"><img src="{% static 'images/Folder-Profiles-icon32.png'%}"></a>
-                <a href="javascript:void(0)"> meus dados </a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('dados_usuario_logado','evento_conteudo')"><img
+                        src="{% static 'images/Folder-Profiles-icon32.png'%}"></a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('dados_usuario_logado','evento_conteudo')"> meus
+                    dados </a>
+            </li>
+
+            <li>
+                <a href="javascript:void(0)"><img
+                        src="{% static 'images/finder32.png'%}"></a>
+                <a href="javascript:void(0)">
+                    pesquisa avançada </a>
             </li>
             <li>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"><img
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo')"><img
                         src="{% static 'images/manage.png'%}"></a>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos')"> gerenciar eventos </a>
+                <a href="javascript:void(0)" onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo')">
+                    gerenciar eventos </a>
+            </li>
+            <li>
+                <a href="/"><img
+                        src="{% static 'images/logout32.png'%}"></a>
+                <a href="/">
+                    sair </a>
             </li>
 
         </ul>
     </div>
 
 </section>
+<div id="evento_conteudo" class="after-header after-menu col col-8">
+    <section id="lista_eventos" class="col col-6 page hidde">
+        <div data-model="evento_lista">
+            <div class="event col col-10">
+                <div class="col col-10 ">
+                    <h3 class="title"><a href="#">[{titulo}]</a></h3>
+                    <a href="#" class="flo-left img-event"><img data-src="/static/uploads/[{imagem_divulgacao}]"/></a>
+                    <p class="text-justify des-event">
+                        [{descricao}]
+                    </p>
+                </div>
 
-<section id="lista_eventos" class="after-header after-menu col col-5 page hidde">
-    <div class="event col col-10">
-        <h3 class="title"><a href="#">Evento teste</a></h3>
-        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
-        <p class="text-justify des-event">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
-            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
-            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
-            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
-            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
-            nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut cursus
-            accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum bibendum.
-            Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu nisi.
-            Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
+                <section class="col col-5">
+                    <h3 class="title">local</h3>
+                    <ul>
+                        <li>estado - [{estado}]</li>
+                        <li>cidade - [{cidade_nome}]</li>
+                        <li>logradouro - [{endereco}]</li>
+                        <li>bairro - [{bairro}]</li>
+                        <li>número - [{numero_endereco}]</li>
+                    </ul>
 
-            Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
-            Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis erat
-            finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum commodo
-            sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque habitant
-            morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin lacus
-            convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem pharetra
-            dui, ut condimentum velit elit in urna.
+                </section>
 
-            Curabitur quis libero ac urna mattis vestibulum at sit amet mauris. Morbi sed dolor urna. Duis congue
-            fringilla placerat. Fusce ultrices ullamcorper facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Sed a ipsum dui. Fusce dignissim vitae tellus quis pulvinar. Maecenas tristique nisl id nulla accumsan
-            vehicula. Aliquam ac eros sed nunc blandit dignissim eu sit amet turpis. Etiam vestibulum odio at ornare
-            dapibus. Curabitur pulvinar eleifend ipsum, at iaculis urna tempus fermentum. Maecenas quam urna, porttitor
-            eu laoreet et, malesuada nec arcu. Maecenas vitae cursus elit, quis ornare odio.
-
-            Aliquam euismod convallis tellus, ac rutrum est. Suspendisse lobortis mauris elit, eu scelerisque nisi
-            auctor in. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi
-            ultrices velit et ipsum rhoncus, id placerat mi dignissim. Aliquam luctus pharetra ligula quis varius. Ut eu
-            ante a ante luctus tincidunt. Quisque porttitor mattis blandit. In viverra, turpis a vehicula malesuada,
-            velit libero faucibus magna, et tristique arcu augue vel leo. Donec elementum lectus augue, eu tincidunt
-            eros semper ac. Nullam tristique tellus at varius volutpat. Maecenas id enim ultrices, interdum leo nec,
-            bibendum nulla. Suspendisse massa leo, condimentum et placerat id, sagittis sed est. Nulla nec est vel nunc
-            rhoncus varius. Nullam tempus scelerisque est quis condimentum.
-
-            Suspendisse potenti. Curabitur mollis et quam quis consequat. Pellentesque habitant morbi tristique senectus
-            et netus et malesuada fames ac turpis egestas. Integer bibendum faucibus felis. Quisque dictum tortor in
-            odio viverra, eget posuere magna hendrerit. Sed consectetur, turpis a sodales semper, purus mauris vulputate
-            velit, in dignissim odio felis vitae erat. Donec id pharetra ipsum, sed porta est. Fusce enim nibh, bibendum
-            vitae arcu nec, suscipit accumsan turpis. Sed convallis egestas velit, et sodales elit maximus non
-
-        </p>
-        <div class="col col-10 small-radius event-pan-det">
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width"
-                   onclick="mainLib.popup.openPopup('detalhe_evento')">detalhes</a>
+                <div class="col col-10 small-radius event-pan-det">
+                    <div class="col col-5">
+                        <a href="javascript:void(0)" class="btn btn-blue full-width"
+                           onclick="evento.abrir_detalhe_evento([{id}])">detalhes</a>
+                    </div>
+                    <div class="col col-5">
+                        <a href="javascript:void(0)" class="btn btn-blue full-width"
+                           onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+                    </div>
+                </div>
             </div>
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width"
-                   onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+        </div>
+    </section>
+
+    <section id="gerenciar_eventos" class=" page hidde col col-7">
+        <div class="col col-10 title" id="gerenciar-evento-cards">
+            <div class="card c-small cur-pointer text-center bigger-on-hover"
+                 onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos')">
+                <img src="{% static 'images/list32_1.png' %}">
+                <div class="green small-font">meus eventos</div>
+            </div>
+
+            <div class="card c-small cur-pointer text-center bigger-on-hover"
+                 onclick="evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
+                <img src="{% static 'images/add32.png' %}">
+                <div class="green small-font">adicionar evento</div>
+            </div>
+        </div>
+        <section id="lista_eventos_gerenciar" class="col col-10  page">
+            <h3 class="title orange">meus eventos</h3>
+            <ul class="list-btn ">
+                <li>eventods asdfasd fas fasasdsds sdfasd sd sdfs</li>
+                <li>eventodsafdsaf asdf asd fsadfsdfsdfs sd fsd fsdfsdfsdf sfdsdfsd</li>
+                <li>evento sadfasdfasdfsdfasdfasdfsfsdfsdfasdfasdfsdfasdfasdfasdfsdfasdfdsfas</li>
+                <li>eventodsafadsfsdfsdfsdfskaldjflsdçjfklsdjflkjasdlfjsldjflsazlkfjasldjflçsajçljfd
+                    sdalfsadççãsdkfkasdçfkçsdkçfksçdfkaçsdkfçaksdçfksçdkf fdsçlfkasç ak
+                </li>
+            </ul>
+        </section>
+
+        <div id="gerenciar-evento-tabs" class="hidde page col col-10">
+            <section id="criar_editar_evento" class="col col-10">
+                <h3 class="title">adicione e altere o evento</h3>
+
+                <form id="form-criar-evento" class="col col-10">
+                    <div class="form-field">
+                        <label for="titulo">título</label>
+                        <input type="text" id="titulo" name="titulo">
+                    </div>
+                    <div class="form-field">
+                        <label for="descricao">descrição dealhada</label>
+                        <textarea id="descricao" name="descricao">
+                        </textarea>
+                    </div>
+                    <div class="form-field">
+                        <label for="palavras_chave">palavras chaves</label>
+                        <input type="text" id="palavras_chave" name="palavras_chave">
+                    </div>
+                    <div class="form-field">
+                        <label for="tipo_cobranca">tipo da cobrança</label>
+                        <select>
+                            <option value=""></option>
+                            <option value="G">Gratuíto</option>
+                            <option value="P">Pago</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="pais">país:</label>
+                        <select name="pais" id="pais">
+                            <option value="1">Brasil</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="estado">estado:</label>
+                        <select name="estado" id="estado">
+                            <option value="1">Minas gerais</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="cidade">cidade:</label>
+                        <select name="cidade" id="cidade">
+                            <option value="1">Belo Horizonte</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="cep">cep/zip-code:</label>
+                        <input name="cep" id="cep" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label for="bairro">bairro:</label>
+                        <input name="bairro" id="bairro" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label for="endereco">logradouro:</label>
+                        <input name="endereco" id="endereco" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label for="numero_endereco">número:</label>
+                        <input name="numero_endereco" id="numero_endereco" type="number">
+                    </div>
+                    <div class="form-field text-center">
+                        <label for="evento_privado">evento privado(não mostrar na timeline)</label>
+                        <input type="checkbox" id="evento_privado" name="evento_privado">
+                    </div>
+                    <div class="form-field">
+                        <label for="imagem_divulgacao">imagem para timeline:</label>
+                        <input name="imagem_divulgacao" id="imagem_divulgacao" type="file" accept="image/*">
+                    </div>
+
+                </form>
+                <div id="gerenciar-periodo-evento" class="col col-10">
+
+                    <h3 class="title">adicione as datas em que o evento ocorrerá</h3>
+                    <div class="col col-10">
+                        <div class="form-field ff-small">
+                            <label for="data-evento">data do fim</label>
+                            <input type="date" id="data-evento">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="hora-inicio-evento">hora do início</label>
+                            <input type="time" id="hora-inicio-evento">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="hora-fim-evento">hora do fim</label>
+                            <input type="time" id="hora-fim-evento">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="quantidade-vagas-evento">quantidade de vagas</label>
+                            <input type="number" id="quantidade-vagas-evento">
+                        </div>
+                        <div class="col col-10">
+                            <a href="javascript:void(0)" class="btn btn-blue">adicionar período</a>
+                        </div>
+
+                        <div class="col col-10">
+                            <small class="red">remova os períodos clicando sobre as datas</small>
+                            <ul class="list-btn">
+                                <li>01-01-2017 - de 13:00 à 19:00 - 20 vagas</li>
+                                <li>02-01-2017 - de 13:00 à 19:00 - 20 vagas</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col col-10">
+                    <h3 class="title"></h3>
+                    <a href="javascript:void(0)" class="btn btn-blue">salvar e gerenciar</a>
+                </div>
+            </section>
+
+            <section id="gerenciar-evento-organizadores" class="col col-10">
+                <section class="lista_organizadores">
+                    <h3 class="title">adicione os organizadores do evento</h3>
+                    <div class="col col-10">
+                        <input id="busca_adicionar_organizador" placeholder="adicione organizadores pesquisando aqui..."
+                               class="field small-radius search" type="text">
+                    </div>
+                    <small class="red">remova os organizadores clicando sobre seus nomes</small>
+                    <div class="col col-10">
+                        <ul class="list-btn">
+                            <li onclick="mainLib.confirma('Deseja realmente excluir o organizador?')">Ivan Rosa</li>
+                            <li>João Cusco</li>
+                            <li>Jé Mané</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+            <section id="gerenciar-evento-anexos" class="col col-10">
+                <div class="col col-10">
+                    <h3 class="title">adicione arquivos</h3>
+                    <div class="col col-10">
+                        <input type="text" class="field ff-small small-radius"
+                               placeholder="digite um título para o anexo">
+                        <input type="file" class="field ff-small">
+
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-blue">adicionar</a>
+
+                    <div class="col col-10">
+                        <small class="red">remova os anexos clicando sobre seus nomes</small>
+                        <ul class="list-btn">
+                            <li onclick="mainLib.confirma('deseja remover este anexo?')">anexo 1</li>
+                            <li>anexo 2</li>
+                            <li>anexo 3</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+            <section id="gerenciar-evento-videos" class="col col-10">
+                <div class="col col-10">
+                    <h3 class="title">adicione vídeos</h3>
+                    <div class="col col-10">
+                        <div class="col col-10">
+                            <input type="text" class="field ff-small small-radius"
+                                   placeholder="digite um título para o vídeo">
+                            <input type="url" class="field ff-small small-radius"
+                                   placeholder="digite a url do vídeo que quer incorporar">
+                        </div>
+                        <div>
+                            <a href="javascript:void(0)" class="btn btn-blue">adicionar</a>
+                        </div>
+                    </div>
+
+                    <div class="col col-10">
+                        <small class="red">remova os vídeos clicando sobre seus nomes</small>
+                        <ul class="list-btn">
+                            <li onclick="mainLib.confirma('deseja remover este vídeo?')">anexo 1</li>
+                            <li>anexo 2</li>
+                            <li>anexo 3</li>
+
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section id="gerenciar-eventos-tarefas" class="col col-10">
+                <div class="card c-card cur-pointer text-center bigger-on-hover"
+                     onclick="evento.ir_pagina('gerenciar-eventos-participantes', 'gerenciar-eventos-tarefas')">
+                    <img src="{% static 'images/list3.png' %}">
+                    <div class="green small-font">gerenciar participantes</div>
+                </div>
+                <div class="card c-card cur-pointer text-center bigger-on-hover"
+                     onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
+                    <img src=" {% static 'images/graph.png' %}">
+                    <div class="green small-font">dados gerenciais</div>
+                </div>
+
+                <section id="gerenciar-eventos-participantes" class="col col-10 hidde page">
+                    <div class="tabled col col-10">
+                        <div class="tabled-body col col-10">
+                            <div class="tabled-row col col-10">
+                                <div class="col col-3"><strong> Ivan </strong></div>
+                                <div class="col col-1">pago:<input type="checkbox"></div>
+                                <div class="col col-1">presente:<input type="checkbox"></div>
+                                <div class="col col-2"><a href="#" class="btn btn-blue full-width">imprimir crachá</a>
+                                </div>
+                                <div class="col col-2"><a href="#" class="btn btn-blue full-width">imprimir
+                                    certificado</a></div>
+                            </div>
+                            <div class="tabled-row col col-10">
+                                <div class="col col-3"><strong> rosa </strong></div>
+                                <div class="col col-1">pago:<input type="checkbox"></div>
+                                <div class="col col-1">presente<input type="checkbox"></div>
+                                <div class="col col-2"><a href="#" class="btn btn-blue full-width">imprimir crachá</a>
+                                </div>
+                                <div class="col col-2"><a href="#" class="btn btn-blue full-width">imprimir
+                                    certificado</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="gerenciar-eventos-relatorios" class="page hidde col col-10">
+                    <a href="javascript:void(0)" class="btn btn-blue">gráfico por localidade</a>
+                    <a href="javascript:void(0)" class="btn btn-blue">gráfico por gênero</a>
+
+                </section>
+
+            </section>
+        </div>
+
+    </section>
+
+    <section id="detalhe_evento" class="popup full">
+        <div class="popup-body">
+            <div data-model="evento_detalhe">
+                <div class="fixed flo-right">
+                    <a href="javascript:void(0)" class="circle circle-small-small cancel"
+                       onclick="evento.fechar_detalhe_evento()"></a>
+                </div>
+                <div class="col col-2"></div>
+                <div class="event col col-6">
+                    <div data-model="evento">
+                        <h3 class="title"><a href="#">[{titulo}]</a></h3>
+                        <div class="col col-10">
+                            <a href="#" class="flo-left img-event"><img
+                                    data-src="/static/uploads/[{imagem_divulgacao}]"/></a>
+
+                            <p class="text-justify des-event">
+                                [{descricao}]
+                            </p>
+                        </div>
+                        <div class="col col-5">
+                            <a href="javascript:void(0)" class="btn btn-blue full-width" id="btn-inscrever-evento"
+                               onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
+                        </div>
+                        <div class="col col-5"><a id="btn-cancelar-inscricao" class="btn btn-red full-width">cancelar
+                            inscrição</a>
+                        </div>
+                    </div>
+
+
+                    <section id="evento-periodo" class="col col-5">
+                        <h3 class="title">período</h3>
+                        <div data-model="periodos">
+                            <ul>
+                                <li>data: [{data}]</li>
+                                <li>inicio: [{hora_inicio}]</li>
+                                <li>fim: [{hora_fim}]</li>
+                                <li>vagas disponibilizadas: [{quantidade_vagas}]</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="evento-localidade" class="col col-5">
+                        <h3 class="title">local</h3>
+                        <div data-model="local">
+                            <ul>
+                                <li>estado - [{estado}]</li>
+                                <li>cidade - [{cidade_nome}]</li>
+                                <li>logradouro - [{endereco}]</li>
+                                <li>bairro - [{bairro}]</li>
+                                <li>número - [{numero_endereco}]</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="evento-palestrantes" class="col col-10">
+                        <h3 class="title">palestrantes</h3>
+                        <div data-model="palestrantes">
+                            <div class="col col-4 palestrante">
+                                <h5 class="title">[{nome}]</h5>
+
+                                <p class="text-justify">
+                                    [{descricao}]
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="evento-videos" class="col col-10">
+                        <h3 class="title">Vídeos</h3>
+                        <div data-model="videos">
+                            <div class="col col-10 text-center">
+                                <h5>[{titulo_video}]</h5>
+                                <iframe width="420" height="315"
+                                        data-src="[{url}]"
+                                        webkitallowfullscreen mozallowfullscreen allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                        <!--<div class="col col-10 text-center">
+                            <h5 class="">Vídeo do youtube 2</h5>
+                            <iframe width="420" height="315"
+                                    src="http://www.youtube.com/embed/e77tLfkiVn8?autoplay=0"
+                                    http://www.youtube.com/embed/FRSH-egVyzk?autoplay=0
+                                    webkitallowfullscreen mozallowfullscreen allowfullscreen>
+                            </iframe>
+
+                        </div>
+
+                        <div class="col col-10 text-center">
+                            <h5 class="">Vídeo do vimeo 1</h5>
+                            <iframe src="https://player.vimeo.com/video/91007134" - width="420" height="315"
+                                    frameborder="0"
+                                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                        </div> -->
+
+                    </section>
+
+                    <section id="evento-anexos" class="col col-10">
+                        <h3 class="title">anexos</h3>
+                        <ul>
+                            <span data-model="anexos">
+
+                                <li>
+                                    <a data-href="/uploads/[{caminho_arquivo}]" target="_blank">[{titulo_anexo}]</a>
+                                </li>
+
+                            </span>
+                        </ul>
+                    </section>
+
+                    <section id="evento-comentario" class="col col-10">
+                        <div class="col col-10">
+                            <h3 class="title">adicionar comentário</h3>
+                            <div class="col col-10">
+                                <textarea id="comentario" class="field"></textarea>
+                                <a class="btn btn-blue" href="javascript:void(0)">adicionar</a>
+                            </div>
+                        </div>
+
+                        <div class="col col-10">
+                            <h3 class="title">comentários</h3>
+                            <div data-model="avaliacoes">
+                                <h4>[{usuario_nome}]</h4>
+                                <p>
+                                    [{comentario}]
+                                </p>
+                                <p>nota do usuario: [{nota}]</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
 
-    </div>
-    <div class="event col col-10">
-        <h3 class="title"><a href="#">Evento teste</a></h3>
-        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
-        <p class="text-justify des-event">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
-            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
-            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
-            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
-            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
-            nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut cursus
-            accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum bibendum.
-            Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu nisi.
-            Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
+    </section>
 
-            Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
-            Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis erat
-            finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum commodo
-            sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque habitant
-            morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin lacus
-            convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem pharetra
-            dui, ut condimentum velit elit in urna.
+    <section id="inscricao_evento" class="popup">
+        <div class="popup-body popup-dlg small-radius" id="inscricao-evento-periodo">
 
-        </p>
-        <div class="col col-10  small-radius event-pan-det">
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width">detalhes</a>
-            </div>
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width">participar</a>
-            </div>
+            <h3 class="title">período</h3>
+            <ul>
+                <li> data - 01/07/2016 <input type="checkbox" value="1"></li>
+            </ul>
+
+            <ul>
+                <li>data - 02/07/2016 <input type="checkbox" value="1"></li>
+            </ul>
+            <a href="javascript:void(0)" class="btn btn-orange">confirmar</a>
+            <a href="javascript:void(0)" class="btn btn-red"
+               onclick="mainLib.popup.closePopup('inscricao_evento')">cancelar</a>
+
         </div>
+    </section>
 
-    </div>
+    <section id="dados_usuario_logado" class="page hidde col col-7 ">
+        <form id="form_signin" method="post">
+            <section id="cadastro_base" class="col col-10">
+                <h4 class="title">Identificação</h4>
+                <div class="form-field ff-small">
+                    <label for="email">e-mail</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="first_name">primeiro nome:</label>
+                    <input type="text" id="first_name" name="first_name">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="last_name">sobrenome:</label>
+                    <input type="text" id="last_name" name="last_name">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="telefone">telefone:</label>
+                    <input type="text" id="telefone" name="telefone">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="sexo">sexo:</label>
+                    <select name="sexo" id="sexo">
+                        <option value=""></option>
+                        <option value="F">Feminino</option>
+                        <option value="M">Masculino</option>
+                        <option value="O">Outros</option>
+                    </select>
+                </div>
 
-    <div class="event col col-10">
-        <h3 class="title"><a href="#">Evento teste</a></h3>
-        <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
-        <p class="text-justify des-event">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
-            lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
-            malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla condimentum
-            risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
-            turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas.
-        <div class="col col-10 small-radius event-pan-det">
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width">detalhes</a>
-            </div>
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width">participar</a>
-            </div>
-        </div>
+                <div class="form-field text-center ff-small">
+                    <label for="tipo_usuario">desejo organizar eventos</label>
+                    <input type="checkbox" id="tipo_usuario" name="last_name">
+                </div>
 
-    </div>
 
-</section>
+            </section>
 
-<section id="gerenciar_eventos" class="after-header after-menu page hidde col col-5">
-    <div class="col col-10 title">
-        <div class="card cur-pointer text-center bigger-on-hover">
-            <img src="{% static 'images/add32.png' %}">
-            <div class="green small-font">adicionar evento</div>
-        </div>
-        <div class="card cur-pointer text-center bigger-on-hover">
-            <img src="{% static 'images/list32_1.png' %}">
-            <div class="green small-font ">meus eventos</div>
-        </div>
-    </div>
-    <section id="criar_editar_evento" class="col col-10 ">
-        <h3 class="title orange">adicionar evento</h3>
+            <section id="cadastro_localidade" class="col col-10">
+                <h4 class="title">Localização</h4>
+                <div class="form-field ff-small">
+                    <label for="pais">país:</label>
+                    <select name="pais" id="pais">
+                        <option value="1">Brasil</option>
+                    </select>
+                </div>
+                <div class="form-field ff-small">
+                    <label for="estado">estado:</label>
+                    <select name="estado" id="estado">
+                        <option value="1">Minas gerais</option>
+                    </select>
+                </div>
 
-        <form id="form-criar-evento">
-            <div class="form-field">
-                <label for="titulo">título</label>
-                <input type="text" id="titulo" name="titulo">
-            </div>
-            <div class="form-field">
-                <label for="descricao">descrição dealhada</label>
-                <textarea id="descricao" name="descricao">
-                </textarea>
-            </div>
-            <div class="form-field">
-                <label for="palavras_chave">palavras chaves</label>
-                <input type="text" id="palavras_chave" name="palavras_chave">
-            </div>
-            <div class="form-field">
-                <label for="tipo_cobranca">tipo da cobrança</label>
-                <select>
-                    <option value=""></option>
-                    <option value="G">Gratuíto</option>
-                    <option value="P">Pago</option>
-                </select>
-            </div>
+                <div class="form-field ff-small">
+                    <label for="cidade">cidade:</label>
+                    <select name="cidade" id="cidade">
+                        <option value="1">Belo Horizonte</option>
+                    </select>
+                </div>
+                <div class="form-field ff-small">
+                    <label for="cep">cep/zip-code:</label>
+                    <input name="cep" id="cep" type="text">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="bairro">bairro:</label>
+                    <input name="bairro" id="bairro" type="text">
+                </div>
+                <div class="form-field ff-small">
+                    <label for=endereci">logradouro:</label>
+                    <input name="endereco" id="endereco" type="text">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="numero_endereco">número:</label>
+                    <input name="numero_endereco" id="numero_endereco" type="number">
+                </div>
 
-            <div class="form-field">
-                <label for="pais">país:</label>
-                <select name="pais" id="pais">
-                    <option value="1">Brasil</option>
-                </select>
-            </div>
+            </section>
 
-            <div class="form-field">
-                <label for="estado">estado:</label>
-                <select name="estado" id="estado">
-                    <option value="1">Minas gerais</option>
-                </select>
-            </div>
+            <section id="cpf_rg" class="col col-10">
+                <h4 class="title">Indentificação oficial</h4>
+                <div class="form-field ff-small">
+                    <label for="cpf">cpf:</label>
+                    <input name="cpf" id=cpf" type="text">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="numero_identidade">registro geral (RG) :</label>
+                    <input name="numero_identidade" id="numero_identidade" type="text">
+                </div>
 
-            <div class="form-field">
-                <label for="cidade">cidade:</label>
-                <select name="cidade" id="cidade">
-                    <option value="1">Belo Horizonte</option>
-                </select>
-            </div>
-            <div class="form-field">
-                <label for="cep">cep/zip-code:</label>
-                <input name="cep" id="cep" type="text">
-            </div>
-            <div class="form-field">
-                <label for="bairro">bairro:</label>
-                <input name="bairro" id="bairro" type="text">
-            </div>
-            <div class="form-field">
-                <label for="endereco">logradouro:</label>
-                <input name="endereco" id="endereco" type="text">
-            </div>
-            <div class="form-field">
-                <label for="numero_endereco">número:</label>
-                <input name="numero_endereco" id="numero_endereco" type="number">
-            </div>
-            <label for="evento_privado" class="bold">evento privado(não mostrar na timeline)</label>
-            <input type="checkbox" id="evento_privado" name="evento_privado">
+            </section>
 
-            <div class="form-field">
-                <label for="imagem_divulgacao">imagem para timeline:</label>
-                <input name=imagem_divulgacao" id="imagem_divulgacao" type="file" accept="image/*">
-            </div>
+            <section id="cadastro_pagseguro" class="col col-10">
+                <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
+                <div class="form-field ff-small">
+                    <label for="email_pagseguro">email pagseguro:</label>
+                    <input name="email_pagseguro" id="email_pagseguro" type="email">
+                </div>
+                <div class="form-field ff-small">
+                    <label for="token_pagseguro">token único pagseguro :</label>
+                    <input name="token_pagseguro" id="token_pagseguro" type="text">
+                </div>
 
-            <a href="javascript:void(0)" class="btn btn-blue">salvar e gerenciar</a>
+            </section>
 
         </form>
     </section>
-    <section id="lista_eventos_gerenciar" class="col col-10 hidde">
-       <div class="col col-3 card text-center v-center orange small-font ">
-           evento teste
-       </div>
-    </section>
-</section>
-
-<section id="detalhe_evento" class="popup full">
-    <div class="popup-body">
-        <a href="javascript:void(0)" class="btn red big-radius fixed"
-           onclick="mainLib.popup.closePopup('detalhe_evento')">X</a>
-
-        <div class="event col col-9">
-            <h3 class="title"><a href="#">Evento teste</a></h3>
-            <a href="#" class="flo-left img-event"><img src="{% static 'images/palestra.jpg' %}"/></a>
-            <p class="text-justify des-event">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas odio ipsum, laoreet eu metus sit amet,
-                lobortis pharetra purus. Sed tempus a neque nec sollicitudin. Proin gravida metus ipsum, ac mattis erat
-                malesuada vitae. Nam varius felis vitae libero dignissim, non blandit lectus facilisis. Nulla
-                condimentum
-                risus nibh, ut sagittis ligula lacinia eu. Sed lorem libero, fermentum nec lacus ut, aliquam pharetra
-                turpis. Proin ut malesuada leo, ac rutrum ex. Morbi consectetur sapien quis urna malesuada, quis egestas
-                nunc consequat. Nam nisi purus, ultrices et arcu non, feugiat posuere risus. Donec ornare nulla ut
-                cursus
-                accumsan. Etiam vulputate ex eget augue auctor, vel gravida leo vulputate. Donec facilisis rutrum
-                bibendum.
-                Ut venenatis, erat malesuada feugiat placerat, orci dui consequat libero, sed ultricies velit urna eu
-                nisi.
-                Morbi fringilla tempus justo, nec facilisis lacus suscipit et. Proin ac tristique ligula.
-
-                Fusce accumsan, nisl et dictum bibendum, mi elit auctor mauris, et consequat tortor lacus eget lacus.
-                Maecenas viverra orci eu dui pellentesque finibus sed quis mi. Sed hendrerit ex purus, vitae facilisis
-                erat
-                finibus quis. Vestibulum vulputate ante ac ornare luctus. Nam erat enim, iaculis in arcu non, rutrum
-                commodo
-                sem. Nulla ac ligula in odio mattis convallis quis id enim. Nam nec sodales ligula. Pellentesque
-                habitant
-                morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque eu risus sollicitudin
-                lacus
-                convallis lacinia in in nisi. Vestibulum malesuada, augue tincidunt eleifend euismod, velit lorem
-                pharetra
-                dui, ut condimentum velit elit in urna.
-
-                Curabitur quis libero ac urna mattis vestibulum at sit amet mauris. Morbi sed dolor urna. Duis congue
-                fringilla placerat. Fusce ultrices ullamcorper facilisis. Lorem ipsum dolor sit amet, consectetur
-                adipiscing
-                elit. Sed a ipsum dui. Fusce dignissim vitae tellus quis pulvinar. Maecenas tristique nisl id nulla
-                accumsan
-                vehicula. Aliquam ac eros sed nunc blandit dignissim eu sit amet turpis. Etiam vestibulum odio at ornare
-                dapibus. Curabitur pulvinar eleifend ipsum, at iaculis urna tempus fermentum. Maecenas quam urna,
-                porttitor
-                eu laoreet et, malesuada nec arcu. Maecenas vitae cursus elit, quis ornare odio.
-
-                Aliquam euismod convallis tellus, ac rutrum est. Suspendisse lobortis mauris elit, eu scelerisque nisi
-                auctor in. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-                Morbi
-                ultrices velit et ipsum rhoncus, id placerat mi dignissim. Aliquam luctus pharetra ligula quis varius.
-                Ut eu
-                ante a ante luctus tincidunt. Quisque porttitor mattis blandit. In viverra, turpis a vehicula malesuada,
-                velit libero faucibus magna, et tristique arcu augue vel leo. Donec elementum lectus augue, eu tincidunt
-                eros semper ac. Nullam tristique tellus at varius volutpat. Maecenas id enim ultrices, interdum leo nec,
-                bibendum nulla. Suspendisse massa leo, condimentum et placerat id, sagittis sed est. Nulla nec est vel
-                nunc
-                rhoncus varius. Nullam tempus scelerisque est quis condimentum.
-
-                Suspendisse potenti. Curabitur mollis et quam quis consequat. Pellentesque habitant morbi tristique
-                senectus
-                et netus et malesuada fames ac turpis egestas. Integer bibendum faucibus felis. Quisque dictum tortor in
-                odio viverra, eget posuere magna hendrerit. Sed consectetur, turpis a sodales semper, purus mauris
-                vulputate
-                velit, in dignissim odio felis vitae erat. Donec id pharetra ipsum, sed porta est. Fusce enim nibh,
-                bibendum
-                vitae arcu nec, suscipit accumsan turpis. Sed convallis egestas velit, et sodales elit maximus non
-
-            </p>
-            <div class="col col-5">
-                <a href="javascript:void(0)" class="btn btn-blue full-width" id="btn-inscrever-evento"
-                   onclick="mainLib.popup.openPopup('inscricao_evento')">participar</a>
-            </div>
-            <div class="col col-5"><a id="btn-cancelar-inscricao" class="btn btn-red full-width">cancelar inscrição</a></div>
-
-
-            <section id="evento-periodo" class="col col-5">
-                <h3 class="title">período</h3>
-                <ul>
-                    <li>data - 01/07/2016</li>
-                    <li>inicio - 13:00</li>
-                    <li>fim - 18:00</li>
-                </ul>
-
-                <ul>
-                    <li>data - 02/07/2016</li>
-                    <li>inicio - 13:00</li>
-                    <li>fim - 18:00</li>
-                </ul>
-
-            </section>
-
-            <section id="evento-localidade" class="col col-5">
-                <h3 class="title">local</h3>
-                <ul>
-                    <li>estado - Minas Gerais</li>
-                    <li>cidade - Belo Horizonte</li>
-                    <li>logradouro - Av. teste 1 teste 3</li>
-                    <li>bairro - Copa cabana</li>
-                    <li>número - 2569</li>
-                </ul>
-
-            </section>
-
-            <section id="evento-palestrantes" class="col col-10">
-                <h3 class="title">palestrantes</h3>
-                <div class="col col-4 palestrante">
-                    <h5 class="title">Blenet Ferreira</h5>
-
-                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
-                        que frango
-                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
-                        aidid lddi
-                        didi
-                    </p>
-
-                </div>
-                <div class="col col-4 palestrante">
-                    <h5 class="title">Blenet Ferreira</h5>
-
-                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
-                        que frango
-                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
-                        aidid lddi
-                        didi
-                    </p>
-
-                </div>
-                <div class="col col-4 palestrante">
-                    <h5 class="title">Rsooo</h5>
-
-                    <p class="text-justify"> Este é o frango master do master do master master e participa do master
-                        que frango
-                        do master loigm lor aa cif alla fi lo lorim lorius al alkd aldo dkk dlaoi dkkd alao dkdkdl
-                        aidid lddi
-                        didi
-                    </p>
-
-                </div>
-            </section>
-
-            <section id="evento-videos" class="col col-10">
-                <h3 class="title">Vídeos</h3>
-
-                <div class="col col-4">
-                    <h5 class="">Vídeo do youtube 1</h5>
-                    <iframe width="420" height="315"
-                            src="http://www.youtube.com/embed/FRSH-egVyzk?autoplay=0">
-                    </iframe>
-
-                </div>
-                <div class="col col-4">
-                    <h5 class="">Vídeo do youtube 2</h5>
-                    <iframe width="420" height="315"
-                            src="http://www.youtube.com/embed/e77tLfkiVn8?autoplay=0">
-                    </iframe>
-
-                </div>
-
-                <div class="col col-40">
-                    <h5 class="">Vídeo do vimeo 1</h5>
-                    <iframe src="https://player.vimeo.com/video/91007134" width="420" height="315" frameborder="0"
-                            webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                </div>
-
-            </section>
-
-            <section id="evento-anexos" class="col col-10">
-                <h3 class="title">anexos</h3>
-                <ul>
-                    <li><a href="{% static 'uploads/anexos/Atores e casos de uso.docx'%}">Titulo anexo</a></li>
-
-                </ul>
-            </section>
-
-            <section id="evento-comentario" class="col col-10">
-                <h3 class="title">adicionar comentário</h3>
-
-                <textarea id="comentario">
-                </textarea>
-
-                <a class="btn btn-blue" href="javascript:void(0)">adicionar</a>
-
-                <h3 class="title">comentários</h3>
-                <div class="comentario">
-                    <h4 class="title">Nome usuário</h4>
-                    <p>
-                        tesate aafsasd sdfdas dstea dsfdas fastea sfas teasdfasd teasfa
-                    </p>
-                </div>
-                <div class="comentario">
-                    <h4 class="title">Nome usuário 2</h4>
-                    <p>
-                        tesate aafsasd sdfdas dstea dsfdas fastea sfas teasdfasd teasfa
-                        asdfads asdfkasdlfj asdl asd lkjdasl fasdl dfasjflasdkç jfas f aslf
-                        asdfkjasdl falsj fdlas
-                    </p>
-                </div>
-            </section>
-
-        </div>
-
-    </div>
-
-</section>
-
-<section id="inscricao_evento" class="popup">
-    <div class="popup-body popup-dlg small-radius" id="inscricao-evento-periodo">
-
-        <h3 class="title">período</h3>
-        <ul>
-            <li> data - 01/07/2016 <input type="checkbox" value="1"></li>
-        </ul>
-
-        <ul>
-            <li>data - 02/07/2016 <input type="checkbox" value="1"></li>
-        </ul>
-        <a href="javascript:void(0)" class="btn btn-orange">confirmar</a>
-        <a href="javascript:void(0)" class="btn btn-red"
-           onclick="mainLib.popup.closePopup('inscricao_evento')">cancelar</a>
-
-    </div>
-</section>
+</div>
 
 {% endblock %}
 
@@ -501,6 +634,63 @@
 <script>
       mainLib.loadMenu();
       evento.ir_pagina('lista_eventos');
+      evento.pgc_gerenciar_evento();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

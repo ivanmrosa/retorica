@@ -23,7 +23,7 @@ class EventoTipo(models.Model):
     nome = models.CharField(max_length=100)
 
     class Meta:
-        db_table = 'EventoTitulo'
+        db_table = 'EventoTipo'
 
     def __str__(self):
         return self.nome
@@ -35,8 +35,6 @@ class Evento(models.Model):
     palavras_chave = models.CharField(verbose_name='Palavras chave', max_length=100)
     tipo_cobranca = models.CharField(verbose_name="Tipo de combrança", choices=TIPOS_COBRANCA, max_length=1)
     evento_privado = models.BooleanField(verbose_name="Evento privado ?")
-    pais = models.ForeignKey(verbose_name="País", to=Pais)
-    estado = models.ForeignKey(verbose_name="Estado", to=Estado)
     cidade = models.ForeignKey(verbose_name="Cidade", to=Cidade)
     cep = models.CharField(verbose_name="CEP/ZIP-Code", max_length=10)
     endereco = models.CharField(verbose_name="Endereço", max_length=100)
