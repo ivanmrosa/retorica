@@ -24,6 +24,11 @@ evento = {
        parent.removeChild(this);
      });
      mainLib.popup.closePopup('detalhe_evento');
+   },
+   abrir_edicao_usuario: function(){
+     evento.ir_pagina('dados_usuario_logado','evento_conteudo');
+     mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
+     mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'edicao_usuario');
    }
 }
 

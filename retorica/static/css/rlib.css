@@ -6,6 +6,11 @@ html, body{
   font-family: sans-serif;
 }
 
+.errorlist{
+  color:red;
+}
+
+
 .hidde{
   display:none !important;
 }

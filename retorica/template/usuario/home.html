@@ -52,9 +52,9 @@
 <section class="col col-4 after-header" id="cadastro">
     <div class="title">faça o seu cadastro abaixo \0/ ou recupere sunha senha
         <a href="javascript:void(0)" class=""
-               onclick="mainLib.popup.openPopup('recuperar_senha')"> aqui</a>
-</div>
-    <form id="form_signup" method="post">
+           onclick="mainLib.popup.openPopup('recuperar_senha')"> aqui</a>
+    </div>
+    <form id="form_signup" method="post">{% csrf_token %}
         <section id="cadastro_base">
             <h4 class="title">Identificação</h4>
             <div class="form-field ff-small">
@@ -84,11 +84,15 @@
             </div>
 
             <div class="form-field text-center ff-small">
-                <label for="tipo_usuario" >desejo organizar eventos</label>
-                <input type="checkbox"  name="tipo_usuario">
+                <label for="tipo_usuario">desejo organizar eventos</label>
+                <input type="checkbox" name="tipo_usuario">
             </div>
             <a href="javascript:void(0)" class="btn full-width bold btn-orange small"
-               onclick="usuario.ir_cadastro('cadastro_localidade')">prosseguir</a>
+               onclick="mainLib.dataBinder.bindServerDataOnTemplate('/localidade/obter_paises',
+                          'paises', document, '', mainLib.find('#pais > option').elements.length <= 2 );
+                          usuario.ir_cadastro('cadastro_localidade')">prosseguir
+
+            </a>
 
         </section>
 
@@ -96,21 +100,28 @@
             <h4 class="title">Localização</h4>
             <div class="form-field ff-small">
                 <label for="pais">país:</label>
-                <select name="pais" id="pais">
-                    <option value="1">Brasil</option>
+                <select name="pais_id" id="pais" onblur="mainLib.dataBinder.fillLookup('[data-lookup-url]')">
+                    <option value=""></option>
+                    <option data-model="paises" data-self data-value="[{id}]">[{nome}]</option>
                 </select>
             </div>
             <div class="form-field ff-small">
                 <label for="estado">estado:</label>
-                <select name="estado" id="estado">
-                    <option value="1">Minas gerais</option>
+                <select name="estado_id" id="estado"
+                        data-lookup-url="/localidade/obter_estados"
+                        data-lookup-field="id" data-lookup-field2="nome"
+                        data-lookup-master="#pais"
+                        data-lookup-master-field="pais_id">
                 </select>
             </div>
 
             <div class="form-field ff-small">
                 <label for="cidade">cidade:</label>
-                <select name="cidade" id="cidade">
-                    <option value="1">Belo Horizonte</option>
+                <select name="cidade_id" id="cidade"
+                        data-lookup-url="/localidade/obter_cidades"
+                        data-lookup-field="id" data-lookup-field2="nome"
+                        data-lookup-master="#estado"
+                        data-lookup-master-field="estado_id">
                 </select>
             </div>
             <div class="form-field ff-small">
@@ -122,7 +133,7 @@
                 <input name="bairro" id="bairro" type="text">
             </div>
             <div class="form-field ff-small">
-                <label for=endereci">logradouro:</label>
+                <label for=endereco">logradouro:</label>
                 <input name="endereco" id="endereco" type="text">
             </div>
             <div class="form-field ff-small">
@@ -183,11 +194,11 @@
                 <input name="password" id="password" type="password">
             </div>
             <div class="form-field ff-small">
-                <label for="password">confirmação da senha:</label>
-                <input name="confirmacao_senha" id="confirmacao_senha" type="password">
+                <label for="confirmacao_senha">confirmação da senha:</label>
+                <input name="confirm_password" id="confirmacao_senha" type="password">
             </div>
             <a href="javascript:void(0)" class="btn full-width bold btn-orange  small"
-               onclick="mainLib.aviso('Cadastro realizado! Agora realize o login!')">prosseguir</a>
+               onclick="usuario.cadastrar_usuario('/cadastrar_usuario', '#form_signup', 'cadastro_base', true)">cadastrar</a>
             <a href="javascript:void(0)" class="btn full-width bold btn-red small"
                onclick="usuario.ir_cadastro('cadastro_pagseguro')">retornar</a>
 
@@ -200,5 +211,5 @@
     {% endblock %}
 
     {% block 'js' %}
-    <script type="text/javascript" src="{% static 'js/usuario/usuario.js' %}"></script>
+    <script type="text/javascript" src="static/js/usuario/usuario.js"></script>
     {% endblock %}

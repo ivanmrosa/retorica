@@ -1057,7 +1057,10 @@ mainLib.storage.get = function(name) {
 
 mainLib.server = {}
 
-mainLib.server.post = function(url, data, routineOk, routineNotOk){
+
+mainLib.server.post = function(url, data, routineOk, routineNotOk, async){
+  if(async === undefined || async === null || async === '')
+    async = true;
   var xhttp = new XMLHttpRequest();
   var csrftoken = getCookie('csrftoken');
 
@@ -1071,7 +1074,7 @@ mainLib.server.post = function(url, data, routineOk, routineNotOk){
     };
   };
 
-  xhttp.open("POST", url + "?" + data, true);
+  xhttp.open("POST", url, async);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   if(!csrfSafeMethod('POST') && !this.crossDomain){
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
@@ -1079,20 +1082,53 @@ mainLib.server.post = function(url, data, routineOk, routineNotOk){
   xhttp.send(data);
 };
 
+mainLib.server.get = function(url, data, routineOk, routineNotOk, async){
+  if(async === undefined || async === null || async === '')
+    async = true;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 ) {
+      if(xhttp.status == 200){
+        routineOk(xhttp.responseText);
+      }else{
+        routineNotOk(xhttp.responseText);
+      };
+    };
+  };
+
+  xhttp.open("GET", url + '?' + data, async);
+  //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send();
+};
+
+
 
 /*data binder*/
 mainLib.dataBinder = {}
 
 mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
   mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
+     if(!data){
+       return
+     }
      if(typeof data != 'object'){
        data = JSON.parse(data);
      }
-     var template = this.innerHTML;
+     var template = "";
+     var isSelfContainer = this.hasAttribute('data-self');
+     if(isSelfContainer){
+       var parentEle = document.createElement('div');
+       var thisClone = this.cloneNode(true);
+       parentEle.appendChild(thisClone);
+       template = parentEle.innerHTML;
+     }else{
+       template = this.innerHTML;
+     }
 
      var parser = new DOMParser();
      var details = []
-     this.find('[data-model]').loop(function(){
+     this.find('html:not([data-not-sub]) [data-model]').loop(function(){
        details.push(this.getAttribute('data-model'));
      });
 
@@ -1110,24 +1146,47 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
        while(chElements.length > 0){
          var ele = this.parentNode.insertBefore(chElements[0], this);
          ele.removeAttribute("data-model");
+         ele.setAttribute("data-replicated-model", model)
          for(var i = 0; i < details.length; i++){
            mainLib.dataBinder.bindOnTemplate(details[i], columns[details[i]], ele);
          };
        };
-
      };
-
   });
 
-  mainLib.find('html:not([data-model]) [data-src]', parent).loop(function(){
+  mainLib.find('[data-replicated-model] [data-src]', parent).loop(function(){
     this.setAttribute('src', this.getAttribute('data-src'));
   });
-  mainLib.find('html:not([data-model]) [data-href]', parent).loop(function(){
+  mainLib.find('[data-replicated-model] [data-href]', parent).loop(function(){
     this.setAttribute('href', this.getAttribute('data-href'));
   });
+  mainLib.find('[data-replicated-model] [data-value] ', parent).loop(function(){
+    //this.setAttribute('value', this.getAttribute('data-value'));
+    this.value = this.getAttribute('data-value');
+  });
+  mainLib.find('[data-replicated-model] [data-id]', parent).loop(function(){
+    this.setAttribute('id', this.getAttribute('data-id'));
+  });
+  mainLib.find('[data-replicated-model]').loop(function(){
+    if(this.getAttribute('data-src'))
+      this.setAttribute('src', this.getAttribute('data-src'));
 
+    if(this.getAttribute('data-href'))
+      this.setAttribute('href', this.getAttribute('data-href'));
+
+    if(this.getAttribute('data-value'))
+      this.value = this.getAttribute('data-value');
+
+    if(this.getAttribute('data-id'))
+      this.setAttribute('id', this.getAttribute('data-id'));
+  });
 }
 
+mainLib.dataBinder.removeReplicatedModel = function(model, parent){
+  mainLib.find('[data-replicated-model="' + model +'"]', parent).loop(function(){
+    this.parentNode.removeChild(this);
+  });
+}
 
 mainLib.dataBinder.formParser = function(selector){
   var frm = mainLib.find(selector).elements[0];
@@ -1136,7 +1195,7 @@ mainLib.dataBinder.formParser = function(selector){
     var ele = frm[i];
 
     if(ele.type === "checkbox"){
-      data += ele.getAttribute("name").toString() + "=" + ele.checked.toString() + "&";
+      data += ele.getAttribute("name").toString() + "=" + ele.checked + "&";
     }else{
       data += ele.getAttribute("name").toString() + "=" + ele.value.toString() + "&";
     }
@@ -1145,15 +1204,140 @@ mainLib.dataBinder.formParser = function(selector){
   return data.substr(0, data.length-1);
 }
 
-mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent){
+mainLib.dataBinder.formParserJson = function(selector){
+  var frm = mainLib.find(selector).elements[0];
+  var data = "{";
+  for(var i = 0; i < frm.length; i++){
+    var ele = frm[i];
+
+    if(ele.type === "checkbox"){
+      data += '"' + ele.getAttribute("name").toString() + '":"' + ele.checked.toString() + '",';
+    }else{
+      data += '"' + ele.getAttribute("name").toString() + '":"' + ele.value.toString() + '",';
+    }
+  }
+
+  return JSON.parse(data.substr(0, data.length-1) + "}");
+}
+
+
+mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, request_params, execute){
   var received = {};
-  mainLib.server.post(url, "",
+  request_params = request_params||"";
+  if(execute === false){
+    return
+  }
+
+  mainLib.server.post(url, request_params,
     function(data){
       received = JSON.parse(data);
         mainLib.dataBinder.bindOnTemplate(model, received, parent);
+        mainLib.dataBinder.fillLookup('[data-replicated-model="'+model+'"] [data-lookup-url]')
       },
       function(data){
         mainLib.aviso('Ocorreu um erro ao obter os dados necessários.' + data);
       }
   )
+}
+
+
+mainLib.fillLookupWaitting = false;
+
+
+function lookup(selector){
+  mainLib.find(selector).loop(function(){
+    mainLib.fillLookupWaitting = true;
+    this.removeAttribute('data-filled');
+    var url = this.getAttribute('data-lookup-url');
+    if(url){
+      var master_val;
+      var master_field_name;
+      var data = "";
+      var field_name_value = this.getAttribute('data-lookup-field');
+      var field_name_text = this.getAttribute('data-lookup-field2');
+
+      if(this.getAttribute('data-lookup-master')){
+        var parent = mainLib.find(this.getAttribute('data-lookup-master')).elements[0];
+        master_val = parent.value;
+        master_field_name = this.getAttribute('data-lookup-master-field');
+        data = master_field_name + '=' + master_val;
+        if(!parent.getAttribute('data-lookup-event-setted')){
+          parent.addEventListener('blur', function(){
+            this.setAttribute('data-lookup-event-setted', true);
+            this.setAttribute('data-value', this.value);
+            lookup(selector);
+
+          }, true)
+        };
+      };
+      var element = this;
+      mainLib.server.get(url, data,
+        function(data){
+          dataJS = JSON.parse(data);
+          var html = "<option value=''></option>";
+          element.innerHTML = "";
+          for(var row in dataJS){
+            html += '<option value="' + dataJS[row][field_name_value] + '">' + dataJS[row][field_name_text] + '</option>';
+          };
+          element.innerHTML += html;
+          if(element.getAttribute('data-value')){
+            element.value = element.getAttribute('data-value');
+          };
+          element.setAttribute('data-filled', 'true');
+          mainLib.fillLookupWaitting = false;
+        },
+        function(data){
+          mainLib.fillLookupWaitting = false;
+          document.write(data);
+          document.close();
+        },
+        false
+      );
+    };
+  });
+}
+
+mainLib.dataBinder.fillLookup = function(selector){
+   lookup(selector);
+}
+
+
+mainLib.dataBinder.parseFormElements = function(parentSelector, listElements){
+  var frm = mainLib.find(parentSelector).elements[0];
+  var data = "";
+  for(var i = 0; i < frm.length; i++){
+    var ele = frm[i];
+    if(listElements.includes(ele.getAttribute('name'))){
+      if(ele.type === "checkbox"){
+        data += ele.getAttribute("name").toString() + "=" + ele.checked + "&";
+      }else{
+        data += ele.getAttribute("name").toString() + "=" + ele.value.toString() + "&";
+      }
+    }
+  }
+  return data.substr(0, data.length-1);
+}
+
+mainLib.dataBinder.bindValidations = function(selector, object_erros){
+   mainLib.find(selector).loop(function(){
+      var ele = undefined;
+      this.find('.errorlist').loop(function(){
+        this.parentNode.removeChild(this);
+      });
+
+      for(key in object_erros){
+         error_ele = document.createElement('div');
+         error_ele.setAttribute('class', 'errorlist');
+
+         for(var i = 0; i < object_erros[key].length; i++){
+           error_ele.innerHTML += '<p>'+object_erros[key][i]+'</p>'
+         };
+         ele = mainLib.find('[name="'+key+'"', this).elements[0];
+         if(!ele){
+           ele = mainLib.find('[name="'+key+'_id"', this).elements[0];
+         }
+         ele.parentNode.insertBefore(error_ele, ele);
+      }
+   });
+
 }

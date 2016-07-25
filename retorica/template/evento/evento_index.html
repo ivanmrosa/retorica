@@ -44,11 +44,10 @@
                 <a href="javascript:void(0)" onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo')">
                     inscrições </a>
             </li>
-            <li>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('dados_usuario_logado','evento_conteudo')"><img
-                        src="{% static 'images/Folder-Profiles-icon32.png'%}"></a>
-                <a href="javascript:void(0)" onclick="evento.ir_pagina('dados_usuario_logado','evento_conteudo')"> meus
-                    dados </a>
+            <li onclick="evento.abrir_edicao_usuario()">
+
+                <img src="/static/images/Folder-Profiles-icon32.png">
+                <a href="javascript:void(0)">meus dados</a>
             </li>
 
             <li>
@@ -115,25 +114,25 @@
     <section id="gerenciar_eventos" class=" page hidde col col-7">
         <div class="col col-10 title" id="gerenciar-evento-cards">
             <div class="card c-small cur-pointer text-center bigger-on-hover"
-                 onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos')">
-                <img src="{% static 'images/list32_1.png' %}">
+                 onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
+                 mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
+                 mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
+                  'eventos_organizador')">
+                <img src="/static/images/list32_1.png">
                 <div class="green small-font">meus eventos</div>
             </div>
 
             <div class="card c-small cur-pointer text-center bigger-on-hover"
                  onclick="evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
-                <img src="{% static 'images/add32.png' %}">
+                <img src="/static/images/add32.png">
                 <div class="green small-font">adicionar evento</div>
             </div>
         </div>
         <section id="lista_eventos_gerenciar" class="col col-10  page">
             <h3 class="title orange">meus eventos</h3>
-            <ul class="list-btn ">
-                <li>eventods asdfasd fas fasasdsds sdfasd sd sdfs</li>
-                <li>eventodsafdsaf asdf asd fsadfsdfsdfs sd fsd fsdfsdfsdf sfdsdfsd</li>
-                <li>evento sadfasdfasdfsdfasdfasdfsfsdfsdfasdfasdfsdfasdfasdfasdfsdfasdfdsfas</li>
-                <li>eventodsafadsfsdfsdfsdfskaldjflsdçjfklsdjflkjasdlfjsldjflsazlkfjasldjflçsajçljfd
-                    sdalfsadççãsdkfkasdçfkçsdkçfksçdfkaçsdkfçaksdçfksçdkf fdsçlfkasç ak
+            <ul class="list-btn">
+                <li data-model="eventos_organizador" onclick="evento.carregar_evento_edicao([{evento_id}])" data-self>
+                    [{titulo}]
                 </li>
             </ul>
         </section>
@@ -167,21 +166,21 @@
 
                     <div class="form-field">
                         <label for="pais">país:</label>
-                        <select name="pais" id="pais">
+                        <select name="pais" id="pais_evento">
                             <option value="1">Brasil</option>
                         </select>
                     </div>
 
                     <div class="form-field">
                         <label for="estado">estado:</label>
-                        <select name="estado" id="estado">
+                        <select name="estado" id="estado_evento">
                             <option value="1">Minas gerais</option>
                         </select>
                     </div>
 
                     <div class="form-field">
                         <label for="cidade">cidade:</label>
-                        <select name="cidade" id="cidade">
+                        <select name="cidade" id="cidade_evento">
                             <option value="1">Belo Horizonte</option>
                         </select>
                     </div>
@@ -520,110 +519,149 @@
     </section>
 
     <section id="dados_usuario_logado" class="page hidde col col-7 ">
-        <form id="form_signin" method="post">
-            <section id="cadastro_base" class="col col-10">
-                <h4 class="title">Identificação</h4>
-                <div class="form-field ff-small">
-                    <label for="email">e-mail</label>
-                    <input type="email" name="email" id="email">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="first_name">primeiro nome:</label>
-                    <input type="text" id="first_name" name="first_name">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="last_name">sobrenome:</label>
-                    <input type="text" id="last_name" name="last_name">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="telefone">telefone:</label>
-                    <input type="text" id="telefone" name="telefone">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="sexo">sexo:</label>
-                    <select name="sexo" id="sexo">
-                        <option value=""></option>
-                        <option value="F">Feminino</option>
-                        <option value="M">Masculino</option>
-                        <option value="O">Outros</option>
-                    </select>
-                </div>
+        <div data-model="edicao_usuario">
+            <div class="col col-10">
+                <form data-id="form_edicao_usuario" method="post">
+                    <section data-id="cadastro_base" class="col col-10">
+                        <h4 class="title">Identificação</h4>
+                        <div class="form-field ff-small">
+                            <label for="email">e-mail</label>
+                            <input type="email" name="email" data-id="email" data-value="[{email}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="first_name">primeiro nome:</label>
+                            <input type="text" data-id="first_name" name="first_name" data-value="[{first_name}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="last_name">sobrenome:</label>
+                            <input type="text" data-id="last_name" name="last_name" data-value="[{last_name}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="telefone">telefone:</label>
+                            <input type="text" data-id="telefone" name="telefone" data-value="[{telefone}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="sexo">sexo:</label>
+                            <select name="sexo" data-id="sexo" data-value="[{sexo}]">
+                                <option value=""></option>
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                                <option value="O">Outros</option>
+                            </select>
+                        </div>
 
-                <div class="form-field text-center ff-small">
-                    <label for="tipo_usuario">desejo organizar eventos</label>
-                    <input type="checkbox" id="tipo_usuario" name="last_name">
-                </div>
+                        <div class="form-field text-center ff-small">
+                            <label for="tipo_usuario">desejo organizar eventos</label>
+                            <input type="checkbox" data-id="tipo_usuario" name="tipo_usuario"
+                                   checked="('[{tipo_usuario}]' ==='O')">
+                        </div>
 
 
-            </section>
+                    </section>
 
-            <section id="cadastro_localidade" class="col col-10">
-                <h4 class="title">Localização</h4>
-                <div class="form-field ff-small">
-                    <label for="pais">país:</label>
-                    <select name="pais" id="pais">
-                        <option value="1">Brasil</option>
-                    </select>
-                </div>
-                <div class="form-field ff-small">
-                    <label for="estado">estado:</label>
-                    <select name="estado" id="estado">
-                        <option value="1">Minas gerais</option>
-                    </select>
-                </div>
+                    <section id="cadastro_localidade" class="col col-10">
+                        <h4 class="title">Localização</h4>
+                        <div class="form-field ff-small">
+                            <label for="pais">país:</label>
+                            <select name="pais_id" data-id="pais" data-value="[{pais_id}]"
+                                    data-lookup-url="/localidade/obter_paises" data-lookup-field="id"
+                                    data-lookup-field2="nome">
 
-                <div class="form-field ff-small">
-                    <label for="cidade">cidade:</label>
-                    <select name="cidade" id="cidade">
-                        <option value="1">Belo Horizonte</option>
-                    </select>
-                </div>
-                <div class="form-field ff-small">
-                    <label for="cep">cep/zip-code:</label>
-                    <input name="cep" id="cep" type="text">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="bairro">bairro:</label>
-                    <input name="bairro" id="bairro" type="text">
-                </div>
-                <div class="form-field ff-small">
-                    <label for=endereci">logradouro:</label>
-                    <input name="endereco" id="endereco" type="text">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="numero_endereco">número:</label>
-                    <input name="numero_endereco" id="numero_endereco" type="number">
-                </div>
+                            </select>
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="estado">estado:</label>
 
-            </section>
+                            <select name="estado_id" data-id="estado" data-value="[{estado_id}]"
+                                    data-lookup-url="/localidade/obter_estados" data-lookup-field="id"
+                                    data-lookup-field2="nome"
+                                    data-lookup-master="#pais"
+                                    data-lookup-master-field="pais_id">
+                            </select>
+                        </div>
 
-            <section id="cpf_rg" class="col col-10">
-                <h4 class="title">Indentificação oficial</h4>
-                <div class="form-field ff-small">
-                    <label for="cpf">cpf:</label>
-                    <input name="cpf" id=cpf" type="text">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="numero_identidade">registro geral (RG) :</label>
-                    <input name="numero_identidade" id="numero_identidade" type="text">
-                </div>
+                        <div class="form-field ff-small">
+                            <label for="cidade">cidade:</label>
+                            <select name="cidade_id" data-id="cidade" data-value="[{cidade_id}]"
+                                    data-lookup-url="/localidade/obter_cidades" data-lookup-field="id"
+                                    data-lookup-field2="nome"
+                                    data-lookup-master="#estado"
+                                    data-lookup-master-field="estado_id">
+                            </select>
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="cep">cep/zip-code:</label>
+                            <input name="cep" data-id="cep" type="text" data-value="[{cep}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="bairro">bairro:</label>
+                            <input name="bairro" data-id="bairro" type="text" data-value="[{bairro}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for=endereci">logradouro:</label>
+                            <input name="endereco" data-id="endereco" type="text" data-value="endereco">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="numero_endereco">número:</label>
+                            <input name="numero_endereco" data-id="numero_endereco" type="number"
+                                   data-value="[{numero_endereco}]">
+                        </div>
 
-            </section>
+                    </section>
 
-            <section id="cadastro_pagseguro" class="col col-10">
-                <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
-                <div class="form-field ff-small">
-                    <label for="email_pagseguro">email pagseguro:</label>
-                    <input name="email_pagseguro" id="email_pagseguro" type="email">
-                </div>
-                <div class="form-field ff-small">
-                    <label for="token_pagseguro">token único pagseguro :</label>
-                    <input name="token_pagseguro" id="token_pagseguro" type="text">
-                </div>
+                    <section id="cpf_rg" class="col col-10">
+                        <h4 class="title">Indentificação oficial</h4>
+                        <div class="form-field ff-small">
+                            <label for="cpf">cpf:</label>
+                            <input name="cpf" data-id=cpf" type="text" data-value="[{cpf}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="numero_identidade">registro geral (RG) :</label>
+                            <input name="numero_identidade" data-id="numero_identidade"
+                                   data-value="[{numero_identidade}]"
+                                   type="text">
+                        </div>
 
-            </section>
+                    </section>
 
-        </form>
+                    <section id="cadastro_pagseguro" class="col col-10">
+                        <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
+                        <div class="form-field ff-small">
+                            <label for="email_pagseguro">email pagseguro:</label>
+                            <input name="email_pagseguro" data-id="email_pagseguro" type="email"
+                                   data-value="[{email_pagseguro}]">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="token_pagseguro">token único pagseguro :</label>
+                            <input name="token_pagseguro" data-id="token_pagseguro" type="text"
+                                   data-value="[{token_pagseguro}]">
+                        </div>
+
+                    </section>
+                    <a href="javascript:void(0)"
+                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
+                       class="btn btn-blue">salvar</a>
+                </form>
+            </div>
+            <div class="col col-10">
+                <h3 class="title">alteração de senha</h3>
+                <form data-id="form_edicao_usuario_senha">
+                    <div class="form-field ff-small">
+                        <label for="password">nova senha:</label>
+                        <input type="password" data-id="password" name="password">
+                    </div>
+                    <div class="form-field ff-small">
+                        <label for="old_password">repita a senha:</label>
+                        <input type="password" data-id="confirm_password" name="confirm_password">
+                    </div>
+                    <a href="javascript:void(0)"
+                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
+                       class="btn btn-blue">alterar senha</a>
+
+                </form>
+            </div>
+        </div>
+
     </section>
 </div>
 
@@ -631,10 +669,22 @@
 
 {% block 'js' %}
 <script type="text/javascript" src="{% static 'js/evento/evento_index.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/usuario/usuario.js' %}"></script>
 <script>
       mainLib.loadMenu();
       evento.ir_pagina('lista_eventos');
       evento.pgc_gerenciar_evento();
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from localidade.models import Pais, Estado, Cidade
+from django.core.exceptions import ValidationError
+from django.core.context_processors import i18n as _
+from django.contrib.auth.hashers import *
 
 
 ORGANIZADOR_EVENTOS = 'O'
@@ -38,6 +41,34 @@ class UsuarioDetalhe(User):
     sexo = models.CharField(verbose_name="Sexo", choices=TIPOS_GENERO, max_length=1)
     cpf = models.CharField(verbose_name="CPF", max_length=11)
     numero_identidade = models.CharField(verbose_name="Identidade", max_length=20)
+
+    def save(self, *args, **kwargs):
+
+        if 'set_password' in kwargs:
+            if kwargs['set_password'] == True:
+                self.password = make_password(self.password)
+                kwargs.pop('set_password')
+
+        super(UsuarioDetalhe, self).save(args, kwargs)
+
+    def clean(self):
+        validacao = {}
+        if not self.email:
+            validacao.update({'email': 'This field cannot be blank.'})
+
+        if not self.first_name:
+            validacao.update({'first_name': 'This field cannot be blank.'})
+
+        if not self.last_name:
+            validacao.update({'last_name': 'This field cannot be blank.'})
+
+        if hasattr(self, 'confirm_password'):
+            if self.confirm_password != self.password:
+                validacao.update({'confirm_password': "This password doesn't match."})
+
+        if validacao:
+            raise ValidationError(message=validacao)
+
 
     class Meta:
         db_table = "UsuarioDetalhe"

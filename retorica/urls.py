@@ -17,16 +17,47 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from usuario import views as viewsusuario
 from evento import views as viewsevento
+from localidade import views as viewslocalidade
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
                   url(r'^$', viewsusuario.home, name='home'),
-                  url(r'^login', viewsusuario.logar, name="logar"),
+                  url(r'^login', viewsusuario.UsuarioController.Logar, name="logar"),
                   url(r'^evento/$', viewsevento.evento_index, name='evento_index'),
-                  url(r'^evento/lista_eventos/$', viewsevento.EventoController.ListaEventos, name='lista_eventos'),
+                  url(r'^evento/lista_eventos/$', viewsevento.EventoController.to_view(method_name='ListaEventos',
+                                                                                       login_required=True,
+                                                                                       method_type='POST'),
+                      name='lista_eventos'),
                   url(r'^evento/detalhe_evento',
                       viewsevento.EventoController.to_view(method_name='ObterDetalhesEvento', login_required=True,
                                                            method_type='GET'), name='detalhe_evento'),
-                  url(r'^admin/', admin.site.urls),
+                  url(r'^evento/lista_eventos_organizador',
+                      viewsevento.EventoController.to_view(method_name='ObtemEventosDoOrganizador', login_required=True,
+                                                           method_type='GET'), name='lista_eventos_organizador'),
+
+                  url(r'^cadastrar_usuario',
+                      viewsusuario.UsuarioController.to_view(method_name='AdicionarUsuario', login_required=False,
+                                                             method_type='POST'), name='cadastrar_usuario'),
+                  url(r'^editar_usuario',
+                      viewsusuario.UsuarioController.to_view(method_name='EditarUsuario', login_required=True,
+                                                             method_type='POST'), name='editar_usuario'),
+
+                  url(r'^obter_usuario', viewsusuario.UsuarioController.to_view(method_name='ObterUsuario',
+                                                                                login_required=True,
+                                                                                method_type='POST'),
+                      name='obter_usuario'),
+
+                  url(r'localidade/obter_paises',
+                      viewslocalidade.LocalidadeController.to_view(method_name='ObterPaises', login_required=False,
+                                                                   method_type='GET'), name='obter_paises'),
+                  url(r'localidade/obter_estados',
+                      viewslocalidade.LocalidadeController.to_view(method_name='ObterEstados', login_required=False,
+                                                                   method_type='GET'), name='obter_estados'),
+                  url(r'localidade/obter_cidades',
+                      viewslocalidade.LocalidadeController.to_view(method_name='ObterCidades', login_required=False,
+                                                                   method_type='GET'), name='obter_cidades'),
+
+                  url(r'^admin/', admin.site.urls)
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -17,9 +17,10 @@ def evento_index(request):
 
 
 class EventoController(RenderView):
-
-    def __init__(self, evento_pk):
-        self.__evento_pk = evento_pk
+    request = None
+    def __init__(self, *args, **kwargs):
+        if 'evento_pk' in kwargs:
+            self.__evento_pk = kwargs['evento_pk']
 
     @property
     def evento_pk(self):
@@ -48,12 +49,15 @@ class EventoController(RenderView):
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao')
         return json.dumps(list(evento), cls=DjangoJSONEncoder)
 
-    @staticmethod
-    def ListaEventos(request):
+    def ListaEventos(self):
         eventos = Evento.objects.all().annotate(estado=F('cidade__estado__nome'), cidade_nome=F('cidade__nome')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao')
-        return HttpResponse(json.dumps(list(eventos), cls=DjangoJSONEncoder))
+        return json.dumps(list(eventos), cls=DjangoJSONEncoder)
+
+    def ObtemEventosDoOrganizador(self):
+         return json.dumps(list(EventoOrganizador.objects.filter(organizador_id=self.request.user.id).annotate(titulo=F('evento__titulo')).\
+            values('titulo', 'evento_id')))
 
     def ObtemAvalicoes(self):
         avaliacoes = EventoAvaliacao.objects.filter(evento_id=self.evento_pk).annotate(

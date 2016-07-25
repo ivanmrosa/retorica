@@ -18,5 +18,31 @@ usuario = {
            return false;
         }
      )
+   },
+   cadastrar_usuario: function(url, selector, ir_cadastro, resetar){
+       url = url||'/cadastrar_usuario';
+       selector = selector||'#form_signup';
+       var params = mainLib.dataBinder.formParser(selector);
+       mainLib.server.post(url, params,
+          function(response){
+            var data = JSON.parse(response);
+            if(data["ok"] == false){
+               if(ir_cadastro){
+                 usuario.ir_cadastro(ir_cadastro);
+               };
+               mainLib.aviso('Existem campos preenchidos incorretamente. Verifique as mensagens e corrija');
+               mainLib.dataBinder.bindValidations(selector, JSON.parse(data["msg"]))
+            }else if(data["ok"] == true){
+              mainLib.aviso(data["msg"]);
+              if(resetar){
+                mainLib.find(selector).elements[0].reset();
+              }
+            }
+          },
+          function(data){
+            document.write(data);
+            document.close();
+          }
+       );
    }
 }
