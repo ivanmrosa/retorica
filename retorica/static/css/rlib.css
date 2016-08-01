@@ -135,6 +135,7 @@ html, body{
    box-shadow: #f2f2f2 0px 2px 2px;
    min-height:5%;
    padding: 15px 0px 25px 0px;
+   cursor: pointer;
 }
 
 .menu-content > ul li:hover{
@@ -824,6 +825,9 @@ a.btn.full-width{
 .hidden {
     display: none;
 }
+
+
+
 .tabs-group,
 .body-group {
     float: left;
@@ -837,8 +841,8 @@ a.btn.full-width{
     margin-left: 5px;
     display: inline;
     float: left;
-    padding: 3px;
-    margin-top: 15px;
+    /*padding: 3px;
+    margin-top: 15px;*/
     min-width: 15%;
     min-height: 35px;
     text-align: center;
@@ -868,6 +872,7 @@ a.btn.full-width{
     float:left;
     height: 90%;
     width: 98%;
+    margin-top: 5px;
 }
 .tab-body {
     display: none;
@@ -886,6 +891,7 @@ a.btn.full-width{
     padding: 0px;
     background-color: ghostwhite; /*#f8f8f8;*/
 }
+
 .tab:first-of-type {
     margin-left: 15px;
 }

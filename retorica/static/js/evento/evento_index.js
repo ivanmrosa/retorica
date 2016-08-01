@@ -4,12 +4,13 @@ evento = {
       mainLib.find('#' + id_page).rmCl('hidde');
    },
    pgc_gerenciar_evento: function(){
-      pgc = new mainLib.pageControl(mainLib.find('#gerenciar-evento-tabs').elements[0]);
-      pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').elements[0]);
-      pgc.addTab('tbs_evento-organizadores', 'organizadores', mainLib.find('#gerenciar-evento-organizadores').elements[0]);
-      pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').elements[0]);
-      pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').elements[0]);
-      pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').elements[0]);
+      pgc = new mainLib.pageControl(mainLib.find('#gerenciar-evento-tabs').first());
+      pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
+      pgc.addTab('tbs_gerenciar-periodo-evento', 'períodos do evento', mainLib.find('#gerenciar-periodo-evento').first());
+      pgc.addTab('tbs_evento-organizadores', 'organizadores', mainLib.find('#gerenciar-evento-organizadores').first());
+      pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').first());
+      pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').first());
+      pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
       pgc.draw();
    },
    abrir_detalhe_evento: function(id_evento){
@@ -29,6 +30,47 @@ evento = {
      evento.ir_pagina('dados_usuario_logado','evento_conteudo');
      mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
      mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'edicao_usuario');
+   },
+   carregar_evento_edicao: function(id_evento){
+
+     mainLib.server.get('/evento/detalhe_evento','evento_pk='+id_evento, function(data){
+       var row = JSON.parse(data);
+
+       for(var a in row[0]){
+         if(row[0].hasOwnProperty(a)){
+           mainLib.dataBinder.removeReplicatedModel(a, mainLib.find('#gerenciar-evento-tabs').elements[0]);
+           mainLib.dataBinder.bindOnTemplate(a, row[0][a], mainLib.find('#gerenciar-evento-tabs').elements[0]);
+           mainLib.dataBinder.fillLookup('[data-replicated-model="'+a+'"] [data-lookup-url]');
+
+         }
+       };
+       evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos');
+
+     });
+   },
+   carregar_participantes_evento: function(){
+     mainLib.dataBinder.removeReplicatedModel('participantes_evento', mainLib.find('#gerenciar-evento-tabs').first());
+     var id = mainLib.find("#form-criar-editar-evento input[name='id']").elements[0].value;
+     mainLib.dataBinder.bindServerDataOnTemplate('evento/lista_participantes/', 'participantes_evento',
+       mainLib.find('#gerenciar-evento-tabs').first(), 'evento_pk=' + id);
+     evento.ir_pagina('gerenciar-eventos-participantes', 'gerenciar-eventos-tarefas');
+   },
+   salvar_evento: function(){
+      var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
+      mainLib.server.post('/evento/criar_editar_evento', frm,
+      function(data){
+        data = JSON.parse(data);
+        if(data["ok"] == true){
+          mainLib.aviso(data["msg"]);
+        }else{
+          mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
+        }
+      },
+      function(data){
+        document.write(data);
+        document.close;
+      }
+      )
    }
 }
 

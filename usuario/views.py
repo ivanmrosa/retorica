@@ -18,6 +18,7 @@ def home(request):
 
 class UsuarioController(RenderView):
     request = None
+
     def __init__(self, **kwargs):
         self.propriedades_requisicao = kwargs
 
@@ -37,56 +38,36 @@ class UsuarioController(RenderView):
             return HttpResponse('{"logged": "false", \
                                  "msg": "A combinação entre usuário e senha não pôde ser confirmada. Informe dados válidos."}')
 
+    def SetValue(self, obj, key, value):
+        if key == 'tipo_usuario':
+            setattr(obj, key, 'O' if value == True else 'P')
+        else:
+            super(UsuarioController, self).SetValue(obj, key, value)
+
+    def SaveObject(self, obj):
+        if 'password' in self.propriedades_requisicao:
+            obj.save(set_password=True)
+        else:
+            obj.save()
+
     def AdicionarUsuario(self):
-        usr = UsuarioDetalhe()
-        for key in self.propriedades_requisicao:
-            if key == 'tipo_usuario':
-                setattr(usr, key, 'O' if self.propriedades_requisicao[key] == 'true' else 'P')
-            else:
-                setattr(usr, key, self.propriedades_requisicao[key])
-
-        try:
-            usr.full_clean()
-        except ValidationError as e:
-            return json.dumps({"msg": json.dumps(e.message_dict), "ok": False})
-
-        try:
-            usr.save(set_password=True)
-            return json.dumps(
-                {"msg": "Usuário cadastrado com sucesso! Agora você está apto a fazer login.", "ok": True})
-        except Exception as e:
-            return json.dumps({"msg": str(e), "ok": False})
+        print(self.propriedades_requisicao)
+        print(self.request.GET)
+        return self.SaveModel(model=UsuarioDetalhe, parametros=self.propriedades_requisicao,
+                              msg="Usuário cadastrado com sucesso! Agora você está apto a fazer login")
 
     def EditarUsuario(self):
-        usr = UsuarioDetalhe.objects.get(pk=self.request.user.id)
-        for key in self.propriedades_requisicao:
-            if key == 'tipo_usuario':
-                setattr(usr, key, 'O' if self.propriedades_requisicao[key] == 'true' else 'P')
-            else:
-                setattr(usr, key, self.propriedades_requisicao[key])
+        self.propriedades_requisicao.update({"id": self.request.user.id})
 
-        try:
-            usr.full_clean()
-        except ValidationError as e:
-            return json.dumps({"msg": json.dumps(e.message_dict), "ok": False})
-
-        try:
-            if 'password' in self.propriedades_requisicao:
-                usr.save(set_password=True)
-            else:
-                usr.save()
-
-            return json.dumps(
-                {"msg": "Usuário alterado com sucesso!", "ok": True})
-        except Exception as e:
-            return str(e)
+        return self.SaveModel(model=UsuarioDetalhe, parametros=self.propriedades_requisicao,
+                              msg="Usuário alterado com sucesso!", files=self.request.FILES)
 
     def ObterUsuario(self):
         return json.dumps(list(UsuarioDetalhe.objects.filter(id=self.request.user.id).annotate(
-                pais_id=F('cidade__pais__id'),
-                estado_id=F('cidade__estado__id')
-            ).values(
-                'username', 'telefone', 'numero_identidade', 'sexo', 'numero_endereco', 'last_login',
-                'email_pagseguro', 'endereco', 'last_name', 'foto_usuario', 'id', 'pais_id', 'estado_id',
-                'email', 'first_name', 'cep', 'bairro', 'cpf', 'token_pagseguro', 'email_pagseguro', 'cidade_id'
-            )), cls=DjangoJSONEncoder)
+            pais_id=F('cidade__pais__id'),
+            estado_id=F('cidade__estado__id')
+        ).values(
+            'username', 'telefone', 'numero_identidade', 'sexo', 'numero_endereco', 'last_login',
+            'email_pagseguro', 'endereco', 'last_name', 'foto_usuario', 'id', 'pais_id', 'estado_id',
+            'email', 'first_name', 'cep', 'bairro', 'cpf', 'token_pagseguro', 'email_pagseguro', 'cidade_id'
+        )), cls=DjangoJSONEncoder)

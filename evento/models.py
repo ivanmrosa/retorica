@@ -78,10 +78,12 @@ class EventoPeriodo(models.Model):
         return self.evento.titulo
 
 
+
 class EventoParticipante(models.Model):
     evento_periodo = models.ForeignKey(EventoPeriodo)
     usuario = models.ForeignKey(UsuarioDetalhe)
-    confirmado = models.BooleanField(editable=False, default=False)
+    confirmado = models.BooleanField(default=False)
+    presente = models.BooleanField(verbose_name="presença", default=False)
 
 
     class Meta:

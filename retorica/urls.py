@@ -35,6 +35,19 @@ urlpatterns = [
                   url(r'^evento/lista_eventos_organizador',
                       viewsevento.EventoController.to_view(method_name='ObtemEventosDoOrganizador', login_required=True,
                                                            method_type='GET'), name='lista_eventos_organizador'),
+                  url(r'evento/lista_participantes',
+                      viewsevento.EventoController.to_view(method_name='ObtemParticipantesEvento',
+                                                           login_required=True, method_type='POST'),
+                      name='lista_participantes'),
+
+                  url(r'evento/lista_tipo_evento',
+                      viewsevento.EventoController.to_view(method_name='ObtemTiposEveto',
+                                                           login_required=True, method_type='GET'),
+                      name='lista_participantes'),
+
+                  url(r'^evento/criar_editar_evento',
+                      viewsevento.EventoController.to_view(method_name='InserirEditarEvento', login_required=True,
+                                                           method_type='POST'), name='criar_editar_evento'),
 
                   url(r'^cadastrar_usuario',
                       viewsusuario.UsuarioController.to_view(method_name='AdicionarUsuario', login_required=False,

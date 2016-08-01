@@ -393,6 +393,14 @@ mainLib.find = function(selector, parent) {
         }
     };
 
+    result.first = function(){
+       return this.elements[0];
+    };
+
+    result.last = function(){
+       return this.elements[this.elements.length - 1];
+    };
+
     result.elements = this.foundElements;
 
     return result;
@@ -938,6 +946,15 @@ mainLib.loadMenu = function(){
 	};
 }
 
+mainLib.showLocalImage = function(input, img){
+  if(input.files && input.files[0]){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      img.setAttribute('src', e.target.result)
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
+}
 
 /*LOCAL STORAGE DATA*/
 
@@ -1075,10 +1092,16 @@ mainLib.server.post = function(url, data, routineOk, routineNotOk, async){
   };
 
   xhttp.open("POST", url, async);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  if(typeof data != "object"){
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  };/*else{
+    xhttp.setRequestHeader("Content-type", "multipart/form-data")
+  };*/
+
   if(!csrfSafeMethod('POST') && !this.crossDomain){
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
   };
+
   xhttp.send(data);
 };
 
@@ -1161,11 +1184,23 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
     this.setAttribute('href', this.getAttribute('data-href'));
   });
   mainLib.find('[data-replicated-model] [data-value] ', parent).loop(function(){
-    //this.setAttribute('value', this.getAttribute('data-value'));
-    this.value = this.getAttribute('data-value');
+    if(this.getAttribute('data-value')){
+      if(this.type == "checkbox" || this.type == "radio"){
+        if(this.getAttribute('data-value') == "true"){
+          this.checked = true;
+        }else{
+          this.checked = false;
+        }
+      }else{
+        this.value = this.getAttribute('data-value');
+      };
+    };
   });
   mainLib.find('[data-replicated-model] [data-id]', parent).loop(function(){
     this.setAttribute('id', this.getAttribute('data-id'));
+  });
+  mainLib.find('[data-replicated-model] [data-name]', parent).loop(function(){
+    this.setAttribute('name', this.getAttribute('data-name'));
   });
   mainLib.find('[data-replicated-model]').loop(function(){
     if(this.getAttribute('data-src'))
@@ -1174,11 +1209,19 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
     if(this.getAttribute('data-href'))
       this.setAttribute('href', this.getAttribute('data-href'));
 
-    if(this.getAttribute('data-value'))
-      this.value = this.getAttribute('data-value');
-
+    if(this.getAttribute('data-value')){
+      if(this.type == "checkbox" || this.type == "radio"){
+        this.checked = this.getAttribute('data-value');
+      }else{
+        this.value = this.getAttribute('data-value');
+      };
+    };
     if(this.getAttribute('data-id'))
       this.setAttribute('id', this.getAttribute('data-id'));
+
+    if(this.getAttribute('data-name'))
+      this.setAttribute('name', this.getAttribute('data-name'));
+
   });
 }
 
@@ -1193,6 +1236,9 @@ mainLib.dataBinder.formParser = function(selector){
   var data = "";
   for(var i = 0; i < frm.length; i++){
     var ele = frm[i];
+
+    if(!ele.hasAttribute("name"))
+      continue;
 
     if(ele.type === "checkbox"){
       data += ele.getAttribute("name").toString() + "=" + ele.checked + "&";
@@ -1320,6 +1366,9 @@ mainLib.dataBinder.parseFormElements = function(parentSelector, listElements){
 
 mainLib.dataBinder.bindValidations = function(selector, object_erros){
    mainLib.find(selector).loop(function(){
+      if(typeof object_erros != 'object'){
+         object_erros = JSON.parse(object_erros);
+      };
       var ele = undefined;
       this.find('.errorlist').loop(function(){
         this.parentNode.removeChild(this);
@@ -1335,8 +1384,9 @@ mainLib.dataBinder.bindValidations = function(selector, object_erros){
          ele = mainLib.find('[name="'+key+'"', this).elements[0];
          if(!ele){
            ele = mainLib.find('[name="'+key+'_id"', this).elements[0];
-         }
-         ele.parentNode.insertBefore(error_ele, ele);
+         };
+         if(ele)
+           ele.parentNode.insertBefore(error_ele, ele);
       }
    });
 

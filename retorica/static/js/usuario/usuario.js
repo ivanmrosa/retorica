@@ -22,7 +22,8 @@ usuario = {
    cadastrar_usuario: function(url, selector, ir_cadastro, resetar){
        url = url||'/cadastrar_usuario';
        selector = selector||'#form_signup';
-       var params = mainLib.dataBinder.formParser(selector);
+       //var params = mainLib.dataBinder.formParser(selector);
+       var params = new FormData(mainLib.find(selector).first())
        mainLib.server.post(url, params,
           function(response){
             var data = JSON.parse(response);
