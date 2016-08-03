@@ -1385,8 +1385,11 @@ mainLib.dataBinder.bindValidations = function(selector, object_erros){
          if(!ele){
            ele = mainLib.find('[name="'+key+'_id"', this).elements[0];
          };
-         if(ele)
+         if(ele){
            ele.parentNode.insertBefore(error_ele, ele);
+         }else{
+           this.appendChild(error_ele);
+         }
       }
    });
 

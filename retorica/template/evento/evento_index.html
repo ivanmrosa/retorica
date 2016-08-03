@@ -40,7 +40,7 @@
 
         <ul>
             <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo')">
-                <a href="javascript:void(0)" ><img
+                <a href="javascript:void(0)"><img
                         src="/static/images/event.png"></a>
                 <a href="javascript:void(0)">
                     inscrições </a>
@@ -60,9 +60,9 @@
             <li onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo');
                    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador', null, null, mainLib.find('#lista_eventos_gerenciar .list-btn li').elements.length <= 1)">
-                <a href="javascript:void(0)" ><img
+                <a href="javascript:void(0)"><img
                         src="/static/images/manage.png"></a>
-                <a href="javascript:void(0)" >
+                <a href="javascript:void(0)">
                     gerenciar eventos </a>
             </li>
             <li>
@@ -257,24 +257,27 @@
 
                 <h3 class="title">adicione as datas em que o evento ocorrerá</h3>
                 <div class="col col-10">
-                    <div class="form-field ff-small">
-                        <label for="data-evento">data do fim</label>
-                        <input type="date" id="data-evento">
-                    </div>
-                    <div class="form-field ff-small">
-                        <label for="hora-inicio-evento">hora do início</label>
-                        <input type="time" id="hora-inicio-evento">
-                    </div>
-                    <div class="form-field ff-small">
-                        <label for="hora-fim-evento">hora do fim</label>
-                        <input type="time" id="hora-fim-evento">
-                    </div>
-                    <div class="form-field ff-small">
-                        <label for="quantidade-vagas-evento">quantidade de vagas</label>
-                        <input type="number" id="quantidade-vagas-evento">
-                    </div>
+                    <form>
+                        <div class="form-field ff-small">
+                            <label for="data-evento">data do fim</label>
+                            <input type="date" id="data-evento" name="data">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="hora-inicio-evento">hora do início</label>
+                            <input type="time" id="hora-inicio-evento" name="hora_inicio">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="hora-fim-evento">hora do fim</label>
+                            <input type="time" id="hora-fim-evento" name="hora_fim">
+                        </div>
+                        <div class="form-field ff-small">
+                            <label for="quantidade-vagas-evento">quantidade de vagas</label>
+                            <input type="number" id="quantidade-vagas-evento" name="quantidade_vagas">
+                        </div>
+                    </form>
                     <div class="col col-10">
-                        <a href="javascript:void(0)" class="btn btn-blue">adicionar período</a>
+                        <a href="javascript:void(0)" onclick="evento.inserir_periodo();"
+                           class="btn btn-blue">adicionar período</a>
                     </div>
 
                     <div class="col col-10">
@@ -725,6 +728,7 @@
       mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'dados_perfil_usuario');
       evento.ir_pagina('lista_eventos');
       evento.pgc_gerenciar_evento();
+
 
 </script>
 

@@ -58,18 +58,44 @@ evento = {
    salvar_evento: function(){
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       mainLib.server.post('/evento/criar_editar_evento', frm,
-      function(data){
-        data = JSON.parse(data);
-        if(data["ok"] == true){
-          mainLib.aviso(data["msg"]);
-        }else{
-          mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
+        function(data){
+          data = JSON.parse(data);
+          if(data["ok"] == true){
+            mainLib.aviso(data["msg"]);
+          }else{
+            mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
+          }
+        },
+        function(data){
+          document.write(data);
+          document.close;
         }
-      },
-      function(data){
-        document.write(data);
-        document.close;
-      }
+      )
+   },
+   inserir_periodo: function(){
+      var id = mainLib.find("#form-criar-editar-evento input[name='id']").first().value;
+      if(!id){
+        mainLib.aviso('É preciso adicionar um evento antes de adicionar um período');
+        return False;
+      };
+      periodo = mainLib.dataBinder.formParser('#gerenciar-periodo-evento form');
+      periodo += '&evento_id=' + id;
+      mainLib.server.post('/evento/inserir_periodo', periodo,
+        function(data){
+          data = JSON.parse(data);
+          if(data["ok"] == true){
+            var frmjs = mainLib.dataBinder.formParserJson('#gerenciar-periodo-evento form');
+            frmjs["id"] = data["key"];
+            mainLib.dataBinder.bindOnTemplate([frmjs], 'periodos',
+              mainLib.find('#gerenciar-periodo-evento form').first());
+          }else{
+            mainLib.dataBinder.bindValidations('#gerenciar-periodo-evento form', data["msg"]);
+          };
+        },
+        function(data){
+          document.write(data);
+          document.close;
+        }
       )
    }
 }

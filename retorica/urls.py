@@ -49,6 +49,10 @@ urlpatterns = [
                       viewsevento.EventoController.to_view(method_name='InserirEditarEvento', login_required=True,
                                                            method_type='POST'), name='criar_editar_evento'),
 
+                  url(r'^evento/inserir_periodo',
+                      viewsevento.EventoController.to_view(method_name='InserirPeriodoEvento', login_required=True,
+                                                           method_type='POST'), name='inserir_periodo'),
+
                   url(r'^cadastrar_usuario',
                       viewsusuario.UsuarioController.to_view(method_name='AdicionarUsuario', login_required=False,
                                                              method_type='POST'), name='cadastrar_usuario'),

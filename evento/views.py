@@ -122,3 +122,6 @@ class EventoController(RenderView):
             mensagem = "Evento modificado com sucesso!"
 
         return self.SaveModel(model=Evento, parametros=self.attributes, msg=mensagem, files=self.request.FILES)
+
+    def InserirPeriodoEvento(self):
+        return self.SaveModel(model=EventoPeriodo, parametros=self.attributes, msg="")
