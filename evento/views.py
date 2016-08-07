@@ -124,4 +124,12 @@ class EventoController(RenderView):
         return self.SaveModel(model=Evento, parametros=self.attributes, msg=mensagem, files=self.request.FILES)
 
     def InserirPeriodoEvento(self):
-        return self.SaveModel(model=EventoPeriodo, parametros=self.attributes, msg="")
+        return self.SaveModel(model=EventoPeriodo, parametros=self.attributes, msg="Evento inserido com sucesso")
+
+    def DeletarPeriodoEvento(self):
+        try:
+            EventoPeriodo.objects.get(pk=self.attributes["id"]).delete()
+            return json.dumps(
+                {"msg": "Período removido com sucesso!", "ok": True})
+        except Exception as e:
+            return str(e)

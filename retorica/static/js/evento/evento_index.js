@@ -86,8 +86,9 @@ evento = {
           if(data["ok"] == true){
             var frmjs = mainLib.dataBinder.formParserJson('#gerenciar-periodo-evento form');
             frmjs["id"] = data["key"];
-            mainLib.dataBinder.bindOnTemplate([frmjs], 'periodos',
-              mainLib.find('#gerenciar-periodo-evento form').first());
+            mainLib.dataBinder.bindOnTemplate('periodos', [frmjs],
+              mainLib.find('#gerenciar-periodo-evento').first());
+            mainLib.aviso(data["msg"]);
           }else{
             mainLib.dataBinder.bindValidations('#gerenciar-periodo-evento form', data["msg"]);
           };
@@ -97,6 +98,25 @@ evento = {
           document.close;
         }
       )
+   },
+   remover_periodo: function(id, ele){
+     mainLib.confirma('Deseja realmente excluir este período?',
+       function(){
+         mainLib.server.post('/evento/deletar_periodo', 'id='+id,
+           function(data){
+             data = JSON.parse(data);
+             if(data["ok"] == true){
+               ele.parentElement.removeChild(ele);
+               mainLib.aviso(data["msg"]);
+             };
+           },
+           function(data){
+             document.write(data);
+             document.close;
+           }
+         );
+       },
+     );
    }
 }
 

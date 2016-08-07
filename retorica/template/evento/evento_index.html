@@ -259,7 +259,7 @@
                 <div class="col col-10">
                     <form>
                         <div class="form-field ff-small">
-                            <label for="data-evento">data do fim</label>
+                            <label for="data-evento">data</label>
                             <input type="date" id="data-evento" name="data">
                         </div>
                         <div class="form-field ff-small">
@@ -283,7 +283,7 @@
                     <div class="col col-10">
                         <small class="red">remova os períodos clicando sobre as datas</small>
                         <ul class="list-btn">
-                            <li data-model="periodos" data-self="" onclick="evento.remover_periodo([{id}])">[{data}] -
+                            <li data-model="periodos" data-self="" onclick="evento.remover_periodo([{id}], this);">[{data}] -
                                 de [{hora_inicio}] à [{hora_fim}] -
                                 [{quantidade_vagas}] vagas
                             </li>
