@@ -1,11 +1,13 @@
+# coding: utf-8
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
+from django.db.models import F, Count
 
 from django.core.serializers.json import DjangoJSONEncoder, json
 from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, EventoAnexo, EventoAvaliacao, \
     EventoOrganizador, EventoPalestrante, EventoVideo
 from lib.main_lib import RenderView
+from django.db import connection
 
 
 # Create your views here.
@@ -30,7 +32,11 @@ class EventoController(RenderView):
         return self.__evento_pk
 
     def ObtemPeriodos(self):
-        periodos = EventoPeriodo.objects.filter(evento_id=self.evento_pk).values()
+        periodos = EventoPeriodo.objects.filter(evento_id=self.evento_pk).select_related(
+            'evento_participante').annotate(
+            vagas_disponiveis=F('quantidade_vagas') - Count('eventoparticipante')
+        ).values('evento_id', 'data', 'hora_inicio',
+                 'hora_fim', 'quantidade_vagas', 'vagas_disponiveis', 'id')
         return json.dumps(list(periodos), cls=DjangoJSONEncoder)
 
     def ObtemPalestrantes(self):
@@ -56,10 +62,37 @@ class EventoController(RenderView):
         return json.dumps(list(evento), cls=DjangoJSONEncoder)
 
     def ListaEventos(self):
-        eventos = Evento.objects.all().annotate(estado=F('cidade__estado__nome'), cidade_nome=F('cidade__nome')). \
+        eventos = Evento.objects.filter(**self.attributes).annotate(estado=F('cidade__estado__nome'),
+                                                                    cidade_nome=F('cidade__nome')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao')
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
+
+    def ObtemInscricoesUsuario(self):
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                '''
+                    SELECT Evento.id, Evento.titulo, Evento.descricao, Evento.endereco,
+                           Evento.numero_endereco, Cidade.nome as cidade_nome,
+                           Estado.Nome as estado, Evento.bairro, Evento.imagem_divulgacao
+                      FROM Evento
+                      JOIN Cidade
+                        ON Evento.cidade_id = Cidade.id
+                      JOIN Estado
+                        ON Cidade.estado_id = Estado.id
+                     WHERE Exists(
+                      SELECT 1
+                        FROM EventoParticipante as epa
+                        JOIN EventoPeriodo  epe
+                          ON epa.evento_periodo_id = epe.id
+                         AND epa.usuario_id = %s
+                       WHERE epe.evento_id = Evento.id
+                    )
+                ''', [self.request.user.id]
+            )
+            columns = [col[0] for col in cursor.description]
+            return json.dumps([dict(zip(columns, row)) for row in cursor.fetchall   ()], cls=DjangoJSONEncoder)
 
     def ObtemEventosDoOrganizador(self):
         return json.dumps(list(
@@ -78,7 +111,7 @@ class EventoController(RenderView):
                                                                    nome=F('usuario__first_name'),
                                                                    sobrenome=F('usuario__last_name')
                                                                    ).filter(evento_id=self.evento_pk). \
-                               order_by('nome', 'data').\
+                               order_by('nome', 'data'). \
                                values('evento_id', 'data', 'hora_inicio', 'nome', 'sobrenome', 'confirmado', 'presente',
                                       'usuario_id')), cls=DjangoJSONEncoder)
 
@@ -117,14 +150,14 @@ class EventoController(RenderView):
     def InserirEditarEvento(self):
         if not self.attributes['id']:
             self.attributes.update({"usuario_cadastro_id": self.request.user.id})
-            mensagem= "Evento criado com sucesso! Agora é necessário completar as informações."
+            mensagem = "Evento criado com sucesso! Agora é necessário completar as informações."
         else:
             mensagem = "Evento modificado com sucesso!"
 
         return self.SaveModel(model=Evento, parametros=self.attributes, msg=mensagem, files=self.request.FILES)
 
     def InserirPeriodoEvento(self):
-        return self.SaveModel(model=EventoPeriodo, parametros=self.attributes, msg="Evento inserido com sucesso")
+        return self.SaveModel(model=EventoPeriodo, parametros=self.attributes, msg="Evento inserido com sucesso.")
 
     def DeletarPeriodoEvento(self):
         try:
@@ -133,3 +166,56 @@ class EventoController(RenderView):
                 {"msg": "Período removido com sucesso!", "ok": True})
         except Exception as e:
             return str(e)
+
+    def InserirOrganizadorEvento(self):
+        return self.SaveModel(model=EventoOrganizador, parametros=self.attributes,
+                              msg="Organizador inserido com suesso.")
+
+    def DeletarOrganizadorEvento(self):
+        try:
+            EventoOrganizador.objects.get(pk=self.attributes["id"]).delete()
+            return json.dumps({"msg": "Organizador removido com sucesso!", "ok": True})
+        except Exception as e:
+            return str(e)
+
+    def InserirAnexoEvento(self):
+        return self.SaveModel(model=EventoAnexo, parametros=self.attributes, files=self.request.FILES,
+                              msg="Upload realizado com sucesso.")
+
+    def DeletarAnexoEvento(self):
+        try:
+            anexo = EventoAnexo.objects.get(pk=self.attributes["id"])
+            anexo.caminho_arquivo.delete(False)
+            anexo.delete()
+            return json.dumps({"msg": "Anexo removido com sucesso!", "ok": True})
+        except Exception as e:
+            return str(e)
+
+    def InserirVideoEvento(self):
+        return self.SaveModel(model=EventoVideo, parametros=self.attributes, msg="Video inserido com sucesso.")
+
+    def DeletarVideoEvento(self):
+        try:
+            EventoVideo.objects.get(pk=self.attributes["id"]).delete()
+            return json.dumps({"msg": "Vídeo removido com sucesso!", "ok": True})
+        except Exception as e:
+            return str(e)
+
+    def InserirParticipante(self):
+        retorno = []
+        periodos = json.loads(next(iter(self.attributes.values())))
+
+        for participante in periodos:
+            participante.update({"usuario_id": self.request.user.id})
+            retorno.append(self.SaveModel(model=EventoParticipante, parametros=participante,
+                                          msg="Sua solicitação para participar foi efetivada. Aguarde a confirmação por e-mail."))
+        return retorno
+
+    def DeletarParticipante(self):
+        periodos = json.loads(next(iter(self.attributes.values())))
+
+        for participante in periodos:
+            EventoParticipante.objects.select_related('EventoPeriodo').filter(
+                evento_periodo_id=participante["evento_periodo_id"], usuario_id=self.request.user.id).delete()
+
+        return json.dumps({"msg": "Inscrição cancelada."})

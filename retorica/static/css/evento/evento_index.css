@@ -1,3 +1,7 @@
+body{
+  background-color: white;
+}
+
 .br-right{
   border-right: 1px solid white;
 }
@@ -15,9 +19,16 @@
 
 
 .event{
-   background-color: ghostwhite;
+   background-color: white;/*ghostwhite;*/
    padding: 20px;
+   font-size: 14px;
+   color: gray;
 }
+
+.event ul{
+  list-style: none;
+}
+
 
 .event-pan-det .btn{
    margin-left: 5px;
@@ -56,9 +67,11 @@
 
 @media screen and (max-width: 800px) {
 .br-right, .br-left{
+    border: none;
     border-bottom: 1px solid white;
     margin-top: 5px;
     text-align: center;
+
 }
 
 .hide-mobile{

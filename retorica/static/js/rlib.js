@@ -403,6 +403,7 @@ mainLib.find = function(selector, parent) {
 
     result.elements = this.foundElements;
 
+
     return result;
 
 }
@@ -944,6 +945,14 @@ mainLib.loadMenu = function(){
 		window.addEventListener('resize', resize, true);
 		window.addEventListener('load', resize, true);
 	};
+
+    menu.addEventListener('mouseenter', function(){
+      this.style.overflow = "auto";
+    });
+    menu.addEventListener('mouseleave', function(){
+      this.style.overflow = "hidden";
+    });
+
 }
 
 mainLib.showLocalImage = function(input, img){
@@ -1075,7 +1084,7 @@ mainLib.storage.get = function(name) {
 mainLib.server = {}
 
 
-mainLib.server.post = function(url, data, routineOk, routineNotOk, async){
+mainLib.server.post = function(url, data, routineOk, routineNotOk, async, contentType){
   if(async === undefined || async === null || async === '')
     async = true;
   var xhttp = new XMLHttpRequest();
@@ -1092,9 +1101,15 @@ mainLib.server.post = function(url, data, routineOk, routineNotOk, async){
   };
 
   xhttp.open("POST", url, async);
-  if(typeof data != "object"){
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  };/*else{
+  if(!contentType){
+    if(typeof data != "object"){
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    };
+  }else{
+    xhttp.setRequestHeader("Content-type", contentType);
+  };
+
+  /*else{
     xhttp.setRequestHeader("Content-type", "multipart/form-data")
   };*/
 
@@ -1130,8 +1145,11 @@ mainLib.server.get = function(url, data, routineOk, routineNotOk, async){
 /*data binder*/
 mainLib.dataBinder = {}
 
-mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
+mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
   mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
+     if(empty === true)
+       data = [{}]
+
      if(!data){
        return
      }
@@ -1158,10 +1176,14 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
      for(var row = 0; row < data.length; row ++){
        var columns = data[row];
        var rowTemplate = template;
-       for(col in columns){
-         if(columns.hasOwnProperty(col)){
-           if(!(col in details)){
-             rowTemplate = mainLib.replace(rowTemplate, "\\[{" + col + "}\\]", columns[col]);
+       if(empty === true){
+         rowTemplate = mainLib.replace(rowTemplate, "\\[{.*}\\]", '');
+       }else{
+         for(col in columns){
+           if(columns.hasOwnProperty(col)){
+             if(!(col in details)){
+               rowTemplate = mainLib.replace(rowTemplate, "\\[{" + col + "}\\]", columns[col]);
+             };
            };
          };
        };
@@ -1184,12 +1206,13 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
     this.setAttribute('href', this.getAttribute('data-href'));
   });
   mainLib.find('[data-replicated-model] [data-value] ', parent).loop(function(){
-    if(this.getAttribute('data-value')){
+    if(this.getAttribute('data-value') != null &&  this.getAttribute('data-value') != undefined){
       if(this.type == "checkbox" || this.type == "radio"){
         if(this.getAttribute('data-value') == "true"){
           this.checked = true;
         }else{
           this.checked = false;
+          this.setAttribute('data-value', false)
         }
       }else{
         this.value = this.getAttribute('data-value');
@@ -1211,7 +1234,12 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
 
     if(this.getAttribute('data-value')){
       if(this.type == "checkbox" || this.type == "radio"){
-        this.checked = this.getAttribute('data-value');
+        if(this.getAttribute('data-value') == true){
+           this.checked = true;
+        }else{
+          this.checked = false;
+          this.setAttribute('data-value', false)
+        }
       }else{
         this.value = this.getAttribute('data-value');
       };
@@ -1223,6 +1251,11 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent){
       this.setAttribute('name', this.getAttribute('data-name'));
 
   });
+}
+
+mainLib.dataBinder.bindEmptyTemplate = function(model, parent){
+  mainLib.dataBinder.bindOnTemplate(model, null, parent, true);
+  mainLib.dataBinder.fillLookup('[data-replicated-model="'+model+'"] [data-lookup-url]')
 }
 
 mainLib.dataBinder.removeReplicatedModel = function(model, parent){
@@ -1274,7 +1307,7 @@ mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, reque
     return
   }
 
-  mainLib.server.post(url, request_params,
+  mainLib.server.get(url, request_params,
     function(data){
       received = JSON.parse(data);
         mainLib.dataBinder.bindOnTemplate(model, received, parent);
@@ -1347,9 +1380,66 @@ mainLib.dataBinder.fillLookup = function(selector){
    lookup(selector);
 }
 
+mainLib.dataBinder.autoComplete = function(){
+  mainLib.find('.autocomplete input[data-autocomplete-url].search').loop(function(){
+    var field = this.getAttribute('data-field');
+    var img_field = this.getAttribute('data-field-img');
+    var img_relative_url = this.getAttribute('data-relative-img-url') || "";
+    var text_field = this.getAttribute('data-field-text');
+    var url = this.getAttribute('data-autocomplete-url');
+    var parent = this.parentElement;
+    var search = this;
+
+    if(url && field && text_field){
+
+      var container = document.createElement('div');
+      container.setAttribute('class', 'autocomplete-container stay-on-top suspend hidde');
+      container = parent.appendChild(container);
+
+      this.addEventListener('keyup', function(e){
+        this.setAttribute('data-value', "");
+        this.setAttribute('data-text', "");
+        if(this.value==""){
+          container.innerHTML = "";
+          return;
+        };
+        mainLib.server.get(url, text_field  + '=' + this.value, function(data){
+          data = JSON.parse(data);
+          var html = '<ul>';
+          for(row in data){
+            if(data.hasOwnProperty(row)){
+              if(img_field){
+                html += mainLib.format('<li data-value="%s" data-text="%s"> <img src="%s%s" /> %s </li>',
+                   [data[row][field], data[row][text_field],  img_relative_url, data[row][img_field], data[row][text_field] ]);
+              }else{
+                html += mainLib.format('<li data-value="%s" data-text="%s"> %s </li>', [ data[row][text_field],
+                  data[row][field], data[row][text_field] ]);
+              };
+            };
+          };
+          html += '</ul>';
+          if(data.length > 0){
+            mainLib.removeClass('hidde', container)
+          }else{
+            mainLib.addClass('hidde', container);
+          };
+          container.innerHTML = html;
+          mainLib.find('ul li', container).loop(function(){
+            this.addEventListener('click', function(){
+              search.setAttribute('data-value', this.getAttribute('data-value'));
+              search.value = this.getAttribute('data-text');
+              container.innerHTML = "";
+            });
+          });
+        });
+      });
+    };
+
+  });
+}
 
 mainLib.dataBinder.parseFormElements = function(parentSelector, listElements){
-  var frm = mainLib.find(parentSelector).elements[0];
+  var frm = mainLib.find(parentSelector).first();
   var data = "";
   for(var i = 0; i < frm.length; i++){
     var ele = frm[i];

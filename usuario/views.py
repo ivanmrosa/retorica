@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate, login
 from lib.main_lib import RenderView
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
-from django.db.models import F
+from django.db.models import F, Value as V, CharField, Q
+from django.db.models.functions import Concat
 
 
 # Create your views here.
@@ -65,9 +66,21 @@ class UsuarioController(RenderView):
     def ObterUsuario(self):
         return json.dumps(list(UsuarioDetalhe.objects.filter(id=self.request.user.id).annotate(
             pais_id=F('cidade__pais__id'),
-            estado_id=F('cidade__estado__id')
+            estado_id=F('cidade__estado__id'),
+            nome_completo=Concat('first_name', V(' '), 'last_name', output_field=CharField())
         ).values(
             'username', 'telefone', 'numero_identidade', 'sexo', 'numero_endereco', 'last_login',
             'email_pagseguro', 'endereco', 'last_name', 'foto_usuario', 'id', 'pais_id', 'estado_id',
-            'email', 'first_name', 'cep', 'bairro', 'cpf', 'token_pagseguro', 'email_pagseguro', 'cidade_id'
+            'email', 'first_name', 'cep', 'bairro', 'cpf', 'token_pagseguro', 'email_pagseguro', 'cidade_id',
+            'nome_completo'
+        )), cls=DjangoJSONEncoder)
+
+    def PesquisarUsuario(self):
+        return json.dumps(list(UsuarioDetalhe.objects.annotate(
+            pais_id=F('cidade__pais__id'),
+            estado_id=F('cidade__estado__id'),
+            nome_completo=Concat('first_name', V(' '), 'last_name', output_field=CharField())
+        ).filter(Q(nome_completo__icontains=self.propriedades_requisicao["nome_completo"]) | Q(
+            email=self.propriedades_requisicao['nome_completo'])).values(
+            'username', 'telefone', 'foto_usuario', 'id', 'email', 'nome_completo'
         )), cls=DjangoJSONEncoder)

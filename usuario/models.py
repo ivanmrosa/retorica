@@ -64,7 +64,7 @@ class UsuarioDetalhe(User):
 
         if hasattr(self, 'confirm_password'):
             if self.confirm_password != self.password:
-                validacao.update({'confirm_password': "This password doesn't match."})
+                validacao.update({'confirm_password': "The passwords doesn't match."})
 
         if validacao:
             raise ValidationError(message=validacao)

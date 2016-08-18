@@ -10,6 +10,11 @@ html, body{
   color:red;
 }
 
+.errorlist p{
+  float:left;
+  width: 100%;
+}
+
 
 .hidde{
   display:none !important;
@@ -86,16 +91,17 @@ html, body{
 
 .menu, .menu-content{
   width: 15%;
-  height:100%;
+  max-height:100%;
+  min-height:100%;
   float:left;
-
-  
 }
 
 .menu{
   border-right: 1px solid #ebebe0;
   background-color:ghostwhite;
   position: fixed;
+  box-sizing: border-box;
+  /*overflow:auto;*/
 }
 
 .after-menu{
@@ -376,6 +382,46 @@ a{
 }
 
 
+.autocomplete{
+  position: relative;
+}
+
+.autocomplete-container{
+  width: inherit;
+  background-color:white;
+  position:absolute;
+  margin-top: 40px;
+
+}
+
+.autocomplete-container img{
+  width: 32px;
+  height: 32px;
+}
+
+.autocomplete-container ul{
+   box-sizing: borde-box;
+   width : 100%;
+   margin : 0px;
+   padding : 3px;
+   max-height : 450px;
+   overflow : auto;
+
+}
+
+.autocomplete-container ul li{
+   box-sizing: borde-box;
+   list-style: none;
+   cursor:pointer;
+   height: 30px;
+   padding: 3px;
+}
+
+.autocomplete-container ul li:hover{
+  background-color: #66a2ff;
+}
+
+
 .contextmenu{
    background-color: white;
    border: 1px solid #F3F3ED;
@@ -470,7 +516,7 @@ a{
 
 .suspend{
     float: left;
- 	background-color: ghostwhite;
+ 	/*background-color: ghostwhite;*/
 	height:auto;
 	box-shadow: gray 0px 10px 10px 0px ;
 	/*width:auto;*/
@@ -528,6 +574,14 @@ a{
   background-color: red !important;
 }
 
+.bck-white{
+  background-color: white !important;
+}
+
+.bck-ghost{
+  background-color: ghostwhite;
+}
+
 .green{
  color:#00b300 !important;
 }
@@ -551,8 +605,13 @@ a{
 .red{
   color: red !important;
 }
+
 .black{
   color:black;
+}
+
+.gray{
+  color:gray;
 }
 
 .hover-red:hover{
@@ -1019,6 +1078,12 @@ a.btn.full-width{
     padding-left: 33px;
     box-sizing: border-box;
     transition: width .4s ease-in-out;
+    width: 98%;
+    float: left;
+    display: inline;
+    margin: 4px 1px;
+    font-size: 18px;
+    height: 35px;
 }
 
 .search.small{
@@ -1049,14 +1114,6 @@ a.btn.full-width{
   display:none;
 }
 
-
-@media screen and (min-width: 800px){
-
-  .menu-full{
-     display:none;
-  }
-
-}
 
 @media screen and (max-width: 800px) {
 	.col{
@@ -1091,19 +1148,32 @@ a.btn.full-width{
     }
 
 	.menu{
+	    width: 32px;
+	    max-width: 32px;
+	    min-width: 32px;
+        height: 32px;
+        min-height: 32px;
+        max-height: 32px;
 	    float:left;
-		width:16px;
-		height:16px;
-	    /*padding-left: 10px;*/
 	    padding-top: 5px;	
         background-color:inherit;
         border-right: none;
-        min-width: 30%;
-		/*background-color:ghostwhite;
-	    box-shadow: gray 5px 5px 10px 0px;*/
+		background-color:transparent;
 		z-index:3001;
 		position:fixed;
 	}
+
+	.menu.menu-full{
+	  min-height: 100% !important;
+	  max-height: 100% !important;
+	  height: 100% !important;
+	  width: 30% !important;
+	  min-width: 30% !important;
+      max-width: 30% !important;
+
+
+	}
+
 	.menu  ul{
 	   display:none;
 	   height:auto;
@@ -1114,9 +1184,11 @@ a.btn.full-width{
 	   display: inline;
 	   content:url(../images/menu.png);
 	   height:16px;
+	   min-width: 16px;
+	   max-width: 16px;
 	   width: 16px;
-	   padding-left: 10px;
-	   padding-top: 5px;	
+	   padding-left: 3px;
+	   /*padding-top: 5px;*/
 	   cursor:pointer;
 	}
 		
@@ -1128,9 +1200,19 @@ a.btn.full-width{
 
 	.menu-full .menu-content > ul li{
 	   min-height: 40px;
+	   width: 100%;
 	}
 
-	.container, .menu-content{
+    /*.menu-content{
+	    float:left;
+	    margin-left:0px;
+	    height:16px;
+	    min-width: 16px;
+	    max-width: 16px;
+	    width: 16px;
+    }*/
+
+	.container{
 	    float:left;
 	    margin-left:0px;		
 		width:100%;

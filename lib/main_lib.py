@@ -33,7 +33,6 @@ class RenderView(object):
                     if parametros[key] in ('true', 'false', 'TRUE', 'FALSE', 'True', 'False'):
                         parametros[key] = eval(parametros[key].lower().capitalize())
 
-                #setattr(obj, key, parametros[key])
                 self.SetValue(obj=obj, key=key, value=parametros[key])
 
         if files:
@@ -52,6 +51,7 @@ class RenderView(object):
                 {"msg": msg, "ok": True, "key": getattr(obj, 'id')})
         except Exception as e:
             return str(e)
+
 
     @staticmethod
     def parameters_to_dict(params):

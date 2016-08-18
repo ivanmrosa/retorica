@@ -14,13 +14,13 @@ evento = {
       pgc.draw();
    },
    abrir_detalhe_evento: function(id_evento){
-     mainLib.dataBinder.bindServerDataOnTemplate('/evento/detalhe_evento?evento_pk='+id_evento, 'evento_detalhe',
-       mainLib.find('#detalhe_evento').elements[0]);
+     mainLib.dataBinder.bindServerDataOnTemplate('/evento/detalhe_evento', 'evento_detalhe',
+       mainLib.find('#detalhe_evento').first(), 'evento_pk='+id_evento);
      mainLib.popup.openPopup('detalhe_evento');
    },
    fechar_detalhe_evento: function(){
 
-     var parent = mainLib.find('#detalhe_evento .popup-body').elements[0];
+     var parent = mainLib.find('#detalhe_evento .popup-body').first();
      mainLib.find('#detalhe_evento .popup-body > div:not([data-model])').loop(function(){
        parent.removeChild(this);
      });
@@ -57,10 +57,13 @@ evento = {
    },
    salvar_evento: function(){
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
+      frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
+
       mainLib.server.post('/evento/criar_editar_evento', frm,
         function(data){
           data = JSON.parse(data);
           if(data["ok"] == true){
+            mainLib.find('#form-criar-editar-evento [name="id"]').first().value = data["key"];
             mainLib.aviso(data["msg"]);
           }else{
             mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
@@ -72,12 +75,19 @@ evento = {
         }
       )
    },
+   get_evento_id: function(valida){
+     var id = mainLib.find("#form-criar-editar-evento input[name='id']").first().value;
+     if(!id && valida){
+       mainLib.aviso('É preciso adicionar ou selecionar um evento antes de realizar esta operaçao');
+       return null;
+     };
+     return id;
+   },
    inserir_periodo: function(){
-      var id = mainLib.find("#form-criar-editar-evento input[name='id']").first().value;
-      if(!id){
-        mainLib.aviso('É preciso adicionar um evento antes de adicionar um período');
-        return False;
-      };
+      var id = evento.get_evento_id(true);
+      if(!id)
+        return false;
+
       periodo = mainLib.dataBinder.formParser('#gerenciar-periodo-evento form');
       periodo += '&evento_id=' + id;
       mainLib.server.post('/evento/inserir_periodo', periodo,
@@ -99,10 +109,10 @@ evento = {
         }
       )
    },
-   remover_periodo: function(id, ele){
-     mainLib.confirma('Deseja realmente excluir este período?',
+   remover_item: function(url, id, ele){
+     mainLib.confirma('Deseja realmente excluir este registro?',
        function(){
-         mainLib.server.post('/evento/deletar_periodo', 'id='+id,
+          mainLib.server.post(url, 'id='+id,
            function(data){
              data = JSON.parse(data);
              if(data["ok"] == true){
@@ -115,7 +125,177 @@ evento = {
              document.close;
            }
          );
+       }
+     );
+   },
+   inserir_organizador:  function(){
+      var search = mainLib.find('#busca_adicionar_organizador').first();
+      var id_organizador = search.getAttribute('data-value');
+      var text_search = search.value;
+      if(!id_organizador){
+        mainLib.aviso('Usuário não encontrado nos nossos cadastros. Informe um usuário válido.');
+      };
+      var id_evento = evento.get_evento_id(true);
+
+      if(!id_evento)
+        return false;
+
+      mainLib.server.post('/evento/inserir_organizador',
+        mainLib.format('organizador_id=%s&evento_id=%s', [id_organizador, id_evento]),
+        function(data){
+          data = JSON.parse(data);
+          if(data["ok"] == true){
+            mainLib.dataBinder.bindOnTemplate('organizadores', [{"id":data["key"], "nome":text_search}],
+              mainLib.find('#gerenciar-evento-organizadores').first());
+            mainLib.aviso(data["msg"]);
+          }else{
+            mainLib.aviso(data["msg"]);
+          };
+
+        },
+        function(data){
+          document.write(data);
+          document.close;
+        }
+      );
+   },
+   inserir_anexo: function(){
+     var evento_id = evento.get_evento_id(true);
+
+     if(!evento_id)
+       return false;
+
+     frm = new FormData(mainLib.find('#gerenciar-evento-anexos form').first());
+
+     frm.append("evento_id", evento_id);
+
+     var titulo_anexo = frm.get("titulo_anexo");
+
+     mainLib.server.post('/evento/inserir_anexo', frm,
+         function(data){
+           data = JSON.parse(data);
+           if(data["ok"] == true){
+             mainLib.dataBinder.bindOnTemplate('anexos', [{"id":data["key"], "titulo_anexo":titulo_anexo}],
+               mainLib.find('#gerenciar-evento-anexos').first());
+             mainLib.find('#gerenciar-evento-anexos form').first().reset();
+             mainLib.aviso(data["msg"]);
+           }else{
+             mainLib.dataBinder.bindValidations('#gerenciar-evento-anexos form', data["msg"]);
+           };
+         },
+         function(data){
+           document.write(data);
+           document.close;
+         }
+     );
+   },
+   inserir_video: function(){
+     var evento_id = evento.get_evento_id(true);
+
+     if(!evento_id)
+       return false;
+
+     frm = new FormData(mainLib.find('#gerenciar-evento-videos form').first());
+
+     frm.append("evento_id", evento_id);
+
+     var titulo_video = frm.get("titulo_video");
+
+     mainLib.server.post('/evento/inserir_video', frm,
+         function(data){
+           data = JSON.parse(data);
+           if(data["ok"] == true){
+             mainLib.dataBinder.bindOnTemplate('videos', [{"id":data["key"], "titulo_video":titulo_video}],
+               mainLib.find('#gerenciar-evento-videos').first());
+             mainLib.find('#gerenciar-evento-videos form').first().reset();
+             mainLib.aviso(data["msg"]);
+           }else{
+             mainLib.dataBinder.bindValidations('#gerenciar-evento-videos form', data["msg"]);
+           };
+         },
+         function(data){
+           document.write(data);
+           document.close;
+         }
+     );
+   },
+
+   limpar_template: function(){
+      var parent = mainLib.find('#gerenciar-evento-tabs').first();
+      mainLib.dataBinder.removeReplicatedModel('evento', parent);
+      mainLib.dataBinder.removeReplicatedModel('local', parent);
+      mainLib.dataBinder.removeReplicatedModel('periodos', parent);
+      mainLib.dataBinder.removeReplicatedModel('organizadores', parent);
+      mainLib.dataBinder.removeReplicatedModel('anexos', parent);
+      mainLib.dataBinder.removeReplicatedModel('videos', parent);
+      mainLib.dataBinder.removeReplicatedModel('participantes_evento', parent);
+      mainLib.dataBinder.bindEmptyTemplate('evento', parent);
+      mainLib.dataBinder.bindEmptyTemplate('local', parent);
+   },
+
+   abrir_periodos: function(evento_id, exclusao){
+     var popup = mainLib.find('#inscricao_evento').first();
+     mainLib.dataBinder.removeReplicatedModel('periodos_evento', popup);
+     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_periodos', 'periodos_evento', popup,
+       'evento_pk='+evento_id);
+
+     if(exclusao === true){
+       mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
+       mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
+       mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "false");
+       url = '/evento/deletar_participante';
+     }else{
+       mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
+       mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
+       mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "true");
+     }
+
+     mainLib.popup.openPopup('inscricao_evento');
+   },
+
+   verificar_vagas: function(element){
+     if(element.getAttribute('data-verificar') === "true" && element.getAttribute('data-vagas') <= 0){
+       return false;
+     }
+   },
+
+   inserir_deletar_participante: function(exclusao){
+     var data = [];
+     var periodo;
+     var url = '/evento/inserir_participante';
+
+     if(exclusao === true){
+       url = '/evento/deletar_participante';
+     };
+
+     mainLib.find('#inscricao_evento [data-replicated-model="periodos_evento"]').loop(function(){
+        periodo = this.find('[name="periodo"]').first();
+        if(periodo.checked === true){
+          data.push({"evento_id":this.find('[name="evento"]').first().value, "evento_periodo_id":periodo.value});
+        }
+     });
+
+     if(data.length === 0){
+       mainLib.aviso('Pelo menos uma data deve ser selecionada.');
+       return false;
+     };
+
+     mainLib.server.post(url, "periodos="+JSON.stringify(data),
+       function(data){
+         data = JSON.parse(data);
+         mainLib.dataBinder.removeReplicatedModel('periodos_evento', mainLib.find('#inscricao_evento').first());
+         mainLib.popup.closePopup('inscricao_evento')
+         try{
+           mainLib.aviso(JSON.parse(data["msg"])['__all__'][0]);
+         }catch(e){
+           mainLib.aviso(data["msg"]);
+         }
+
        },
+       function(data){
+         document.write(data);
+         document.close;
+       }
      );
    }
 }

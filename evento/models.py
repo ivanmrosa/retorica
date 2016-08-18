@@ -1,6 +1,8 @@
+# coding: utf-8
 from django.db import models
 from usuario.models import UsuarioDetalhe
-from localidade.models import Pais, Estado, Cidade
+from localidade.models import Cidade
+from django.core.exceptions import ValidationError
 
 GRATUITO = 'G'
 PAGO = 'P'
@@ -18,6 +20,7 @@ PLATAFORMAS_VIDEOS = (
     (VIMEO, 'VIMEO')
 )
 
+
 # Create your models here.
 class EventoTipo(models.Model):
     nome = models.CharField(max_length=100)
@@ -27,6 +30,7 @@ class EventoTipo(models.Model):
 
     def __str__(self):
         return self.nome
+
 
 class Evento(models.Model):
     titulo = models.CharField(verbose_name='Título', max_length=50)
@@ -49,13 +53,24 @@ class Evento(models.Model):
     def __str__(self):
         return self.titulo
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        insere_organizador = (self.id == None)
+
+        super(Evento, self).save(force_insert=force_insert, force_update=force_update, using=using,
+                                 update_fields=update_fields)
+
+        if insere_organizador:
+            EventoOrganizador(evento=self,
+                              organizador=UsuarioDetalhe.objects.get(pk=self.usuario_cadastro)).save()
+
+
 class EventoPalestrante(models.Model):
     nome = models.CharField(verbose_name="Nome", max_length=100)
     cpf = models.CharField(verbose_name="CPF", max_length=11)
     Descricao = models.TextField(verbose_name="Descrição do palestrante")
     email = models.EmailField(verbose_name="E-mail")
     evento = models.ForeignKey(verbose_name="Evento", to=Evento)
-
 
     class Meta:
         db_table = 'EventoPalestrante'
@@ -78,19 +93,34 @@ class EventoPeriodo(models.Model):
         return self.evento.titulo
 
 
-
 class EventoParticipante(models.Model):
     evento_periodo = models.ForeignKey(EventoPeriodo)
     usuario = models.ForeignKey(UsuarioDetalhe)
     confirmado = models.BooleanField(default=False)
     presente = models.BooleanField(verbose_name="presença", default=False)
 
-
     class Meta:
         db_table = 'EventoParticipante'
 
     def __str__(self):
         return self.usuario.first_name
+
+    def clean(self):
+        if EventoParticipante.objects.filter(usuario_id=self.usuario_id, evento_periodo_id=self.evento_periodo_id).count() > 0:
+            raise ValidationError(message="A inscrição já foi realizada anteriormente. É possível inscrever-se apenas uma vez.")
+
+        periodo = EventoPeriodo.objects.filter(id=self.evento_periodo_id).values('quantidade_vagas', 'data')[0]
+        participantes = EventoParticipante.objects.filter(evento_periodo_id=self.evento_periodo_id).count()
+
+        if participantes >= periodo['quantidade_vagas']:
+            raise ValidationError(message="Não há mais vagas disponíveis para o dia %s." % (periodo['data']))
+
+        tipo_cobranca = \
+            Evento.objects.select_related('EventoParticipante').filter(eventoperiodo=self.evento_periodo).values(
+                'tipo_cobranca')[0]['tipo_cobranca']
+
+        if tipo_cobranca == GRATUITO:
+            self.confirmado = True
 
 
 class EventoOrganizador(models.Model):
@@ -116,10 +146,10 @@ class EventoAvaliacao(models.Model):
     def __str__(self):
         return self.comentario
 
+
 class EventoAnexo(models.Model):
     evento = models.ForeignKey(to=Evento)
     caminho_arquivo = models.FileField(verbose_name="Arquivo")
-    nome_arquivo = models.CharField(verbose_name="Nome do anexo", max_length=50)
     titulo_anexo = models.CharField(verbose_name="Título do anexo", max_length=50)
 
     class Meta:
@@ -130,7 +160,7 @@ class EventoAnexo(models.Model):
 
 
 class EventoVideo(models.Model):
-    evento = models.ForeignKey(to = Evento)
+    evento = models.ForeignKey(to=Evento)
     plataforma = models.CharField(verbose_name="Plataforma", choices=PLATAFORMAS_VIDEOS, max_length=3)
     url = models.URLField(verbose_name="Link para o vídeo")
     titulo_video = models.CharField(verbose_name="Título", max_length=50)
@@ -141,3 +171,35 @@ class EventoVideo(models.Model):
     def __str__(self):
         return self.url
 
+    def clean_fields(self, exclude=None):
+        super(EventoVideo, self).clean_fields(exclude='plataforma')
+
+    def clean(self):
+        validacao = {}
+        url = self.url.lower()
+        youtube_url = 'http://www.youtube.com/embed/%s?autoplay=0'
+        vimeo_url = 'https://player.vimeo.com/video/%s'
+        id_video = None
+
+        if 'youtu.be/' in url:
+            id_video = self.url[self.url.rfind('/') + 1:]
+            self.url = youtube_url % (id_video)
+            self.plataforma = YOUTUBE
+        elif 'www.youtube.com/watch' in url:
+            id_video = self.url[self.url.find('v=') + 2:]
+            self.url = youtube_url % (id_video)
+            self.plataforma = YOUTUBE
+        elif 'vimeo.com' in url:
+            id_video = self.url[self.url.rfind('/') + 1:]
+            self.url = vimeo_url % (id_video)
+            self.plataforma = VIMEO
+        else:
+            validacao.update({"url": "This url isn't accept."})
+
+        if not id_video:
+            validacao.update({"url": "This url isn't accept."})
+
+        if validacao:
+            raise ValidationError(message=validacao)
+
+        super(EventoVideo, self).clean()
