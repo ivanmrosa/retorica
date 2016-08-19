@@ -86,7 +86,7 @@ html, body{
 
 .menu.menu-full{
   background-color: white;
-  box-shadow: gray 5px 5px 10px 0px;    
+  box-shadow: gray 5px 5px 10px 0px;
 }
 
 .menu, .menu-content{
@@ -161,9 +161,9 @@ html, body{
 
 
 .container{
-  
+
     float: left;
-    list-style: none;        
+    list-style: none;
 	height: 100%;
 	min-height: 100%;
     padding: 0px;
@@ -174,27 +174,27 @@ html, body{
 }
 
 .col .container{
-	width: 100% !important;  
+	width: 100% !important;
 }
 
 
 
 .container{
-   
+
    float: left;
    width: 80%;
    box-shadow: gray 0px 5px 10px 0px;
-   height:100%;  
+   height:100%;
    z-index: 101;
-   overflow-x:hidden;      
-   overflow-y:auto; 
+   overflow-x:hidden;
+   overflow-y:auto;
    height:auto;
-   min-height: 100%;   
+   min-height: 100%;
 }
 
 .container .header {
-   display:inline;      
-   float:left;   
+   display:inline;
+   float:left;
    width:100%;
    box-shadow: gray 0px 5px 5px 0px ;
    z-index: 100;
@@ -213,9 +213,9 @@ html, body{
    position: relative;
    float:left;
    width:100%;
-   height: 88%;   
-   min-height: 88%; 
-   overflow-y:auto;   
+   height: 88%;
+   min-height: 88%;
+   overflow-y:auto;
    padding-left : 3px;
    padding-top: 10px;
 }
@@ -320,7 +320,7 @@ a{
 }
 
 .dis-inline{
-   display: inline;  
+   display: inline;
 }
 
 .flo-left{
@@ -344,8 +344,8 @@ a{
 
 .vmsis-list-box{
   max-height: 450px;
-  background-color : white;    
-  
+  background-color : white;
+
 }
 
 .vmsis-list-box input{
@@ -355,12 +355,12 @@ a{
 .vmsis-list-box ul{
    width : 100%;
    margin : 0px;
-   padding : 3px;   
+   padding : 3px;
    max-height : 450px;
    overflow : auto;
    border-radius : 4px;
    border : 1px solid darkgray;
-   box-shadow: darkgray 4px 4px;   
+   box-shadow: darkgray 4px 4px;
 }
 
 .vmsis-list-box li {
@@ -370,7 +370,7 @@ a{
 }
 
 .vmsis-list-box ul li:hover{
-    
+
     background-color : #3399FF;
     color : white;
     cursor : pointer;
@@ -429,9 +429,9 @@ a{
    position:absolute;
    border-radius: 2px;
    z-index: 10000;
-   box-shadow: 5px 5px 5px #888888; 
+   box-shadow: 5px 5px 5px #888888;
    display: none;
-   
+
 }
 .contextmenu div{
   /*background-color: #F3F3ED;*/
@@ -460,7 +460,7 @@ a{
    height: 100%;
    width: 100%;
    display:none;
-   position:fixed;   
+   position:fixed;
    z-index: 10000;
    bottom: 0;
    left: 0;
@@ -485,7 +485,7 @@ a{
 .popup.full > .popup-body{
 	height:99% !important;
 	width:99% !important;
-	margin: 3px auto !important;    
+	margin: 3px auto !important;
 }
 
 .popup.full > .popup-body.white{
@@ -586,7 +586,7 @@ a{
  color:#00b300 !important;
 }
 
-.light-olive{   
+.light-olive{
    color:#a3a376 !important;
 }
 
@@ -659,7 +659,7 @@ a{
    border-radius: 0px !important;
 }
 
-.btn{  
+.btn{
   float:left;
   text-align:center;
   margin:4px 1px;
@@ -677,10 +677,10 @@ a{
 
 .btn:hover{
    background-color:ghostwhite;
-   color:#66a2ff;  
+   color:#66a2ff;
 }
 
-a.btn{   
+a.btn{
    padding-left: 5px;
    padding-right: 5px;
    padding-top: 11px;
@@ -722,22 +722,22 @@ a.btn.full-width{
 
 .btn.btn-blue{
     background-color:#66a2ff;
-    color:white;  
+    color:white;
 }
 .btn.btn-blue:hover{
     color:#66a2ff;
-	background-color:white;   
+	background-color:white;
 	border: 1px solid ghostwhite;
 }
 
 .btn.btn-red{
     background-color:#990000;
-	color:white;	
+	color:white;
 }
 
 .btn.btn-red:hover{
     color:#990000;
-	background-color:white;   
+	background-color:white;
 	border: 1px solid ghostwhite;
 }
 
@@ -749,9 +749,9 @@ a.btn.full-width{
 
 .btn.btn-green:hover{
     color:#004d00;
-	background-color:white;   
+	background-color:white;
 	border: 1px solid ghostwhite;
-   
+
 }
 
 .btn.btn-orange{
@@ -761,9 +761,9 @@ a.btn.full-width{
 
 .btn.btn-orange:hover{
   color: #ff9900;
-  background-color:white;   
+  background-color:white;
   border: 1px solid ghostwhite;
-  
+
 }
 
 .bor-orange{
@@ -797,12 +797,12 @@ a.btn.full-width{
 .tree-view ul{
    list-style:none;
    padding-left: 25px;
-   
+
  }
 
 .tree-view ul li{
-  cursor:pointer; 
-  padding: 2px; 
+  cursor:pointer;
+  padding: 2px;
 }
 
 .tree-view ul li ul{
@@ -825,10 +825,10 @@ a.btn.full-width{
 
 .tree-view .has-child.opened::before{
    content: "-" !important;
-   padding-right: 3px;   
+   padding-right: 3px;
    padding-left: 3px;
    margin-right: 5px;
-   
+
 }
 
 .has-no-child.selected, .has-no-child.selected *{
@@ -876,7 +876,7 @@ a.btn.full-width{
 }
 
 .bigger-on-hover:hover{
-  box-shadow: gray 0px 10px 10px 0px ;  
+  box-shadow: gray 0px 10px 10px 0px ;
 }
 
 /*aba*/
@@ -897,7 +897,7 @@ a.btn.full-width{
 }
 .tabs-group{
     background-color: ghostwhite;
-	width: 100%;	
+	width: 100%;
 	box-shadow: 0px 0px 2px 1px gray;
 	border-radius: 5px;
     margin-bottom: 6px;
@@ -909,13 +909,13 @@ a.btn.full-width{
     padding-top: 8.5px;
 	padding-left: 5px;
 	padding-right: 5px;
-	margin: 5px;	
+	margin: 5px;
 	box-sizing:border-box;
     min-height: 35px;
     text-align: center;
     background-color: ghostwhite;
     color: gray;
-    font-size: 14px;    	
+    font-size: 14px;
 }
 
 .close-tab{
@@ -924,10 +924,10 @@ a.btn.full-width{
 
 .tab:hover {
     cursor: pointer;
-    color:red;	
+    color:red;
 }
 .tab.active {
-	color:#66a2ff;	
+	color:#66a2ff;
 }
 .page-control {
     float:left;
@@ -949,9 +949,9 @@ a.btn.full-width{
 .tab-body.active {
     display: inline;
     float: left;
-    
+
     padding: 0px;
-    background-color: ghostwhite; 
+    background-color: ghostwhite;
 }
 
 /*.tab:first-of-type {
@@ -961,16 +961,16 @@ a.btn.full-width{
 
 .form-field.inside label, {
   position: absolute;
-  color: GrayText;    
+  color: GrayText;
 }
 
-.form-field{   
+.form-field{
    float:left;
    display:inline;
-   width: 99%; 
+   width: 99%;
    margin-top: 6px;
    margin-bottom: 6px;
-            
+
 }
 
 .form-field label{
@@ -982,13 +982,13 @@ a.btn.full-width{
 .form-field input, .form-field  select, .form-field  textarea{
    width: 98%;
    float:left;
-   display: inline;      
+   display: inline;
    margin:4px 1px;
-   font-size: 18px; 
+   font-size: 18px;
 }
 
 .form-field input, .form-field  select{
-   height: 35px;   
+   height: 35px;
 }
 
 .field{
@@ -1133,7 +1133,7 @@ a.btn.full-width{
     .col.full-height{
        height:auto;
     }
-	
+
 	.col-wrapper{
 	   display:none;
 	}
@@ -1155,7 +1155,7 @@ a.btn.full-width{
         min-height: 32px;
         max-height: 32px;
 	    float:left;
-	    padding-top: 5px;	
+	    padding-top: 5px;
         background-color:inherit;
         border-right: none;
 		background-color:transparent;
@@ -1177,7 +1177,7 @@ a.btn.full-width{
 	.menu  ul{
 	   display:none;
 	   height:auto;
-	   
+
 	}
 
 	.menu .menu-content::before{
@@ -1191,7 +1191,7 @@ a.btn.full-width{
 	   /*padding-top: 5px;*/
 	   cursor:pointer;
 	}
-		
+
     .menu-content > ul {
 	    float:left;
 	    margin-left:0px;
@@ -1214,15 +1214,15 @@ a.btn.full-width{
 
 	.container{
 	    float:left;
-	    margin-left:0px;		
+	    margin-left:0px;
 		width:100%;
-		
+
 	}
-	
+
     .menu-full .menu-suspended li{
 	   height: 40px;
 	}
-	
+
 	.header{
 	   display:none !important;
 	}
@@ -1280,7 +1280,7 @@ a.btn.full-width{
      border-top-right-radius: 0px;
   	 padding-left: 0px;
 	 padding-right: 0px;
-	 margin: 0px;	 
+	 margin: 0px;
 	 box-shadow: gray 0px 0px 2px;
    }
 

@@ -135,8 +135,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "../uploads")
 #LOGIN_REDIRECT_URL = '/evento/'
 LOGIN_URL = '/'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'ivanmrosa@gmail.com'
-EMAIL_HOST_PASSWORD = 'Tereza2309'
