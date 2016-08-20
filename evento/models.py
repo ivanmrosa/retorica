@@ -68,7 +68,7 @@ class Evento(models.Model):
 class EventoPalestrante(models.Model):
     nome = models.CharField(verbose_name="Nome", max_length=100)
     cpf = models.CharField(verbose_name="CPF", max_length=11)
-    Descricao = models.TextField(verbose_name="Descrição do palestrante")
+    descricao = models.TextField(verbose_name="Descrição do palestrante")
     email = models.EmailField(verbose_name="E-mail")
     evento = models.ForeignKey(verbose_name="Evento", to=Evento)
 

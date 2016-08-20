@@ -35,8 +35,11 @@ html, body{
    float:left;
    display:inline;
    min-height:2%;
-   margin: 0.2%;
-   /*padding: 2px;*/
+   /*margin: 0.2%;*/
+   margin-bottom: 1.5px;
+   margin-top: 1.5px;
+   padding-left: 3px;
+   padding-right: 3px;
    box-sizing:border-box;
    word-wrap: break-word;
 }
@@ -675,6 +678,16 @@ a{
 
 }
 
+.btn-search{
+  height: 35px;
+  min-width: 50px;
+  background-image: url(../images/finder16.png);
+  background-repeat: no-repeat;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  border-radius: 5px;
+}
+
 .btn:hover{
    background-color:ghostwhite;
    color:#66a2ff;
@@ -705,7 +718,7 @@ a.btn{
 }
 
 .btn.full-width{
-   width: 98%;
+   width: 100%;
    padding-left: 0px;
    padding-right: 0px;
 
@@ -980,7 +993,7 @@ a.btn.full-width{
 }
 
 .form-field input, .form-field  select, .form-field  textarea{
-   width: 98%;
+   width: 100%;
    float:left;
    display: inline;
    margin:4px 1px;
@@ -992,7 +1005,7 @@ a.btn.full-width{
 }
 
 .field{
-   width: 98%;
+   width: 100%;
    float:left;
    display: inline;
    margin:4px 1px;
@@ -1078,12 +1091,13 @@ a.btn.full-width{
     padding-left: 33px;
     box-sizing: border-box;
     transition: width .4s ease-in-out;
-    width: 98%;
+    width: 100%;
     float: left;
     display: inline;
     margin: 4px 1px;
     font-size: 18px;
     height: 35px;
+    border-radius: 5px
 }
 
 .search.small{
@@ -1091,7 +1105,7 @@ a.btn.full-width{
 }
 
 .search.small:focus{
-   width:98%;
+   width:100%;
 }
 
 
@@ -1117,8 +1131,12 @@ a.btn.full-width{
 
 @media screen and (max-width: 800px) {
 	.col{
-	   margin:0px;
-	   margin-left:0px;
+	  /* margin:0px;
+	   margin-left:0px;*/
+	   margin-bottom: 1.5px;
+       margin-top: 1.5px;
+       padding-left: 3px;
+       padding-right: 3px;
 	   float:left;
 	   display:inline;
 	}
@@ -1187,9 +1205,10 @@ a.btn.full-width{
 	   min-width: 16px;
 	   max-width: 16px;
 	   width: 16px;
-	   padding-left: 3px;
+	   padding-left: 7px;
 	   /*padding-top: 5px;*/
 	   cursor:pointer;
+	   box-sizing: border-box;
 	}
 
     .menu-content > ul {
@@ -1202,15 +1221,6 @@ a.btn.full-width{
 	   min-height: 40px;
 	   width: 100%;
 	}
-
-    /*.menu-content{
-	    float:left;
-	    margin-left:0px;
-	    height:16px;
-	    min-width: 16px;
-	    max-width: 16px;
-	    width: 16px;
-    }*/
 
 	.container{
 	    float:left;
@@ -1228,13 +1238,13 @@ a.btn.full-width{
 	}
 
     .form-field.ff-small, .field.ff-small{
-       width: 98% !important;
+       width: 100% !important;
        float:left;
        display: inline;
     }
 
     .search.small{
-      width:98%;
+      width:100%;
     }
     a.btn{
        padding-left: 1px !important;
@@ -1246,10 +1256,10 @@ a.btn.full-width{
 
    }
    .btn.full-width.small{
-      width: 98%;
+      width: 100%;
    }
    .message, .errorlist{
-	    width: 97%;
+	    width: 100%;
    }
 
 

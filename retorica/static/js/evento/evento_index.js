@@ -8,6 +8,7 @@ evento = {
       pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
       pgc.addTab('tbs_gerenciar-periodo-evento', 'períodos do evento', mainLib.find('#gerenciar-periodo-evento').first());
       pgc.addTab('tbs_evento-organizadores', 'organizadores', mainLib.find('#gerenciar-evento-organizadores').first());
+      pgc.addTab('tbs_gerenciar-evento-palestrante', 'atrações', mainLib.find('#gerenciar-evento-palestrante').first());
       pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').first());
       pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').first());
       pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
@@ -297,7 +298,37 @@ evento = {
          document.close;
        }
      );
-   }
+   },
+   inserir_palestrante:  function(){
+
+      var id_evento = evento.get_evento_id(true);
+      var nome = mainLib.find('#palestrante_nome').first().value;
+      if(!id_evento)
+        return false;
+
+      var frm = new FormData(mainLib.find('#gerenciar-evento-palestrante form').first());
+      frm.append('evento_id', id_evento);
+
+      mainLib.server.post('/evento/inserir_palestrante', frm,
+        function(data){
+          data = JSON.parse(data);
+          if(data["ok"] == true){
+            mainLib.dataBinder.bindOnTemplate('palestrantes', [{"id":data["key"], "nome":nome}],
+              mainLib.find('#gerenciar-evento-palestrante').first());
+            mainLib.aviso(data["msg"]);
+            mainLib.find('#gerenciar-evento-palestrante form').first().reset();
+          }else{
+            mainLib.dataBinder.bindValidations('#gerenciar-evento-palestrante form', data["msg"]);
+          };
+
+        },
+        function(data){
+          document.write(data);
+          document.close;
+        }
+      );
+   },
+
 }
 
 window.addEventListener('load', function(){

@@ -64,6 +64,13 @@ urlpatterns = [
                   url(r'^evento/deletar_periodo',
                       viewsevento.EventoController.to_view(method_name='DeletarPeriodoEvento', login_required=True,
                                                            method_type='POST'), name='deletar_periodo'),
+                  url(r'^evento/inserir_palestrante',
+                      viewsevento.EventoController.to_view(method_name='InserirPalestranteEvento', login_required=True,
+                                                           method_type='POST'), name='inserir_palestrante'),
+                  url(r'^evento/deletar_palesrante',
+                      viewsevento.EventoController.to_view(method_name='DeletarPalestranteEvento', login_required=True,
+                                                           method_type='POST'), name='deletar_palesrante'),
+
                   url(r'^evento/inserir_organizador',
                       viewsevento.EventoController.to_view(method_name='InserirOrganizadorEvento', login_required=True,
                                                            method_type='POST'), name='inserir_organizador'),

@@ -92,7 +92,7 @@ class EventoController(RenderView):
                 ''', [self.request.user.id]
             )
             columns = [col[0] for col in cursor.description]
-            return json.dumps([dict(zip(columns, row)) for row in cursor.fetchall   ()], cls=DjangoJSONEncoder)
+            return json.dumps([dict(zip(columns, row)) for row in cursor.fetchall()], cls=DjangoJSONEncoder)
 
     def ObtemEventosDoOrganizador(self):
         return json.dumps(list(
@@ -219,3 +219,14 @@ class EventoController(RenderView):
                 evento_periodo_id=participante["evento_periodo_id"], usuario_id=self.request.user.id).delete()
 
         return json.dumps({"msg": "Inscrição cancelada."})
+
+    def InserirPalestranteEvento(self):
+        return self.SaveModel(model=EventoPalestrante, parametros=self.attributes,
+                              msg="Palestrante inserido com sucesso.")
+
+    def DeletarPalestranteEvento(self):
+        try:
+            EventoPalestrante.objects.get(pk=self.attributes["id"]).delete()
+            return json.dumps({"msg": "Palestrante removido com sucesso!", "ok": True})
+        except Exception as e:
+            return str(e)
