@@ -3,6 +3,7 @@ evento = {
       mainLib.find('#' + id_container + ' > .page').adCl('hidde');
       mainLib.find('#' + id_page).rmCl('hidde');
    },
+
    pgc_gerenciar_evento: function(){
       pgc = new mainLib.pageControl(mainLib.find('#gerenciar-evento-tabs').first());
       pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
@@ -14,11 +15,13 @@ evento = {
       pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
       pgc.draw();
    },
+
    abrir_detalhe_evento: function(id_evento){
      mainLib.dataBinder.bindServerDataOnTemplate('/evento/detalhe_evento', 'evento_detalhe',
        mainLib.find('#detalhe_evento').first(), 'evento_pk='+id_evento);
      mainLib.popup.openPopup('detalhe_evento');
    },
+
    fechar_detalhe_evento: function(){
 
      var parent = mainLib.find('#detalhe_evento .popup-body').first();
@@ -27,11 +30,13 @@ evento = {
      });
      mainLib.popup.closePopup('detalhe_evento');
    },
+
    abrir_edicao_usuario: function(){
      evento.ir_pagina('dados_usuario_logado','evento_conteudo');
      mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
      mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'edicao_usuario');
    },
+
    carregar_evento_edicao: function(id_evento){
 
      mainLib.server.get('/evento/detalhe_evento','evento_pk='+id_evento, function(data){
@@ -49,6 +54,7 @@ evento = {
 
      });
    },
+
    carregar_participantes_evento: function(){
      mainLib.dataBinder.removeReplicatedModel('participantes_evento', mainLib.find('#gerenciar-evento-tabs').first());
      var id = mainLib.find("#form-criar-editar-evento input[name='id']").elements[0].value;
@@ -56,6 +62,7 @@ evento = {
        mainLib.find('#gerenciar-evento-tabs').first(), 'evento_pk=' + id);
      evento.ir_pagina('gerenciar-eventos-participantes', 'gerenciar-eventos-tarefas');
    },
+
    salvar_evento: function(){
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
@@ -76,6 +83,7 @@ evento = {
         }
       )
    },
+
    get_evento_id: function(valida){
      var id = mainLib.find("#form-criar-editar-evento input[name='id']").first().value;
      if(!id && valida){
@@ -84,6 +92,7 @@ evento = {
      };
      return id;
    },
+
    inserir_periodo: function(){
       var id = evento.get_evento_id(true);
       if(!id)
@@ -110,6 +119,7 @@ evento = {
         }
       )
    },
+
    remover_item: function(url, id, ele){
      mainLib.confirma('Deseja realmente excluir este registro?',
        function(){
@@ -129,6 +139,7 @@ evento = {
        }
      );
    },
+
    inserir_organizador:  function(){
       var search = mainLib.find('#busca_adicionar_organizador').first();
       var id_organizador = search.getAttribute('data-value');
@@ -160,6 +171,7 @@ evento = {
         }
       );
    },
+
    inserir_anexo: function(){
      var evento_id = evento.get_evento_id(true);
 
@@ -190,6 +202,7 @@ evento = {
          }
      );
    },
+
    inserir_video: function(){
      var evento_id = evento.get_evento_id(true);
 
@@ -284,13 +297,21 @@ evento = {
      mainLib.server.post(url, "periodos="+JSON.stringify(data),
        function(data){
          data = JSON.parse(data);
-         mainLib.dataBinder.removeReplicatedModel('periodos_evento', mainLib.find('#inscricao_evento').first());
-         mainLib.popup.closePopup('inscricao_evento')
+
          try{
+           //verifica se retornou erro
            mainLib.aviso(JSON.parse(data["msg"])['__all__'][0]);
          }catch(e){
+           if(exclusao != true ){
+             var evento_id = mainLib.find('#inscricao_evento [data-replicated-model="periodos_evento"]').first().
+               find('[name="evento"]').first().value;
+               evento.pagamento_pagseguro(evento_id);
+           };
            mainLib.aviso(data["msg"]);
+           mainLib.dataBinder.removeReplicatedModel('periodos_evento', mainLib.find('#inscricao_evento').first());
+           mainLib.popup.closePopup('inscricao_evento');
          }
+
 
        },
        function(data){
@@ -299,6 +320,7 @@ evento = {
        }
      );
    },
+
    inserir_palestrante:  function(){
 
       var id_evento = evento.get_evento_id(true);
@@ -329,9 +351,85 @@ evento = {
       );
    },
 
+   inserir_comentario: function(){
+     //
+     var evento_id = mainLib.find('#detalhe_evento_evento_id').first().value;
+     var comentario = mainLib.find('#comentario').first().value;
+     if(comentario == "" || !comentario){
+       mainLib.aviso('Um comentário deve ser fornecido.');
+       return false;
+     };
+
+     mainLib.server.post('/evento/inserir_comentario',
+       mainLib.format('comentario=%s&evento_id=%s', [comentario, evento_id]),
+       function(data){
+         data = JSON.parse(data);
+         if(data["ok"] == true){
+           mainLib.aviso(data["msg"]);
+           mainLib.dataBinder.removeReplicatedModel('comentarios', mainLib.find('#evento-comentario').first());
+
+           mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_comentarios', 'comentarios',
+             mainLib.find('#evento-comentario').first(),  'evento_pk='+evento_id);
+
+           mainLib.find('#comentario').first().value = "";
+         }else{
+           mainLib.aviso(data["msg"]);
+         }
+       },
+       function(data){
+         document.write(data);
+         document.close;
+       }
+     );
+   },
+
+   pagamento_pagseguro: function(evento_id){
+     mainLib.server.post('/evento/pagseguro', "evento_pk=" + evento_id,
+       function(data){
+         data = JSON.parse(data);
+         if(data["ok"] == true){
+           if(data["codigo"] != ""){
+             mainLib.aviso("Você será enviado para a página do Pagseguro para realização do pagamento");
+             window.open(
+               mainLib.format('https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=%s', [data["codigo"]]),
+               '_blank'
+              )
+           };
+         }else{
+           mainLib.aviso(data["erro"]);
+         }
+       },
+       function(data){
+         document.write(data);
+         document.close;
+       })
+   }
+
 }
 
 window.addEventListener('load', function(){
   mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
-    mainLib.find('#lista_eventos').elements[0]);
+    mainLib.find('#lista_eventos').first());
+
+  mainLib.find('#pesquisa_evento').first().addEventListener('choose', function(){
+    mainLib.dataBinder.removeReplicatedModel('evento_lista');
+    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
+      mainLib.find('#lista_eventos').first(), 'id='+this.getAttribute('data-value'));
+    evento.ir_pagina('lista_eventos', 'evento_conteudo');
+  });
+
+  mainLib.find('#btn-pesquisa_eventos').first().addEventListener('click', function(){
+    var pesquisa = mainLib.find('#pesquisa_evento').first().value;
+
+    if(!pesquisa || pesquisa.trim() == "")
+      return false
+
+    mainLib.dataBinder.removeReplicatedModel('evento_lista');
+    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_filtro', 'evento_lista',
+      mainLib.find('#lista_eventos').first(), 'titulo='+pesquisa);
+
+    evento.ir_pagina('lista_eventos', 'evento_conteudo');
+
+  });
+
 });

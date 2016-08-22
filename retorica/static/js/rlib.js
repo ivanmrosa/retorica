@@ -1170,7 +1170,8 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
      var parser = new DOMParser();
      var details = []
      this.find('html:not([data-not-sub]) [data-model]').loop(function(){
-       details.push(this.getAttribute('data-model'));
+       if(this.getAttribute('data-model') != model)
+         details.push(this.getAttribute('data-model'));
      });
 
      for(var row = 0; row < data.length; row ++){
@@ -1381,7 +1382,12 @@ mainLib.dataBinder.fillLookup = function(selector){
 }
 
 mainLib.dataBinder.autoComplete = function(){
-  mainLib.find('.autocomplete input[data-autocomplete-url].search').loop(function(){
+  mainLib.find('.autocomplete input[data-autocomplete-url]').loop(function(){
+    this.addEventListener('click', function(e){
+      e.stopPropagation();
+    });
+
+
     var field = this.getAttribute('data-field');
     var img_field = this.getAttribute('data-field-img');
     var img_relative_url = this.getAttribute('data-relative-img-url') || "";
@@ -1390,6 +1396,10 @@ mainLib.dataBinder.autoComplete = function(){
     var parent = this.parentElement;
     var search = this;
 
+    var event = document.createEvent('Event');
+    event.initEvent('choose', true, true);
+
+
     if(url && field && text_field){
 
       var container = document.createElement('div');
@@ -1397,6 +1407,13 @@ mainLib.dataBinder.autoComplete = function(){
       container = parent.appendChild(container);
 
       this.addEventListener('keyup', function(e){
+        var esc = 27;
+        if (e.keyCode === esc){
+          this.parentElement.querySelector('.autocomplete-container').innerHTML = "";
+          e.stopPropagation();
+          return false;
+        };
+
         this.setAttribute('data-value', "");
         this.setAttribute('data-text', "");
         if(this.value==""){
@@ -1428,6 +1445,7 @@ mainLib.dataBinder.autoComplete = function(){
             this.addEventListener('click', function(){
               search.setAttribute('data-value', this.getAttribute('data-value'));
               search.value = this.getAttribute('data-text');
+              search.dispatchEvent(event);
               container.innerHTML = "";
             });
           });
@@ -1436,6 +1454,15 @@ mainLib.dataBinder.autoComplete = function(){
     };
 
   });
+
+  window.addEventListener('load', function(){
+
+    document.addEventListener('click', function(){
+      mainLib.find('.autocomplete-container').loop(function(){
+        this.innerHTML = "";
+      });
+    })
+  })
 }
 
 mainLib.dataBinder.parseFormElements = function(parentSelector, listElements){

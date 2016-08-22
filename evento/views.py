@@ -1,17 +1,25 @@
 # coding: utf-8
 from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import F, Count
+from django.db.models import F, Count, Q, Value as V
 
 from django.core.serializers.json import DjangoJSONEncoder, json
-from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, EventoAnexo, EventoAvaliacao, \
+from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, EventoAnexo, EventoComentario, \
     EventoOrganizador, EventoPalestrante, EventoVideo
 from lib.main_lib import RenderView
 from django.db import connection
+from django.db.models.functions import Concat
+from django.core.exceptions import ValidationError
+import xml.etree.ElementTree as ET
 
+#import urllib.parse
+#import urllib.request
+#import ssl
+import requests
 
 # Create your views here.
 
+GRATUITO = 'G'
 
 @login_required
 def evento_index(request):
@@ -58,14 +66,31 @@ class EventoController(RenderView):
                                                                    pais_id=F('cidade__estado__pais__id')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao', 'tipo_cobranca', 'evento_privado',
-                   'tipo_evento', 'palavras_chave', 'cidade_id', 'estado_id', 'pais_id', 'cep')
+                   'tipo_evento', 'palavras_chave', 'cidade_id', 'estado_id', 'pais_id', 'cep', 'valor')
         return json.dumps(list(evento), cls=DjangoJSONEncoder)
 
-    def ListaEventos(self):
+    def ObtemEventos(self):
         eventos = Evento.objects.filter(**self.attributes).annotate(estado=F('cidade__estado__nome'),
                                                                     cidade_nome=F('cidade__nome')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao')
+        return json.dumps(list(eventos), cls=DjangoJSONEncoder)
+
+    def FiltroEventosResumo(self):
+        eventos = Evento.objects.filter(Q(titulo__icontains=self.attributes['titulo']) | Q(
+            palavras_chave__icontains=self.attributes['titulo'])). \
+            values('id', 'titulo', 'imagem_divulgacao')
+
+        return json.dumps(list(eventos), cls=DjangoJSONEncoder)
+
+    def FiltroEventos(self):
+        eventos = Evento.objects.filter(Q(titulo__icontains=self.attributes['titulo']) | Q(
+            palavras_chave__icontains=self.attributes['titulo'])). \
+            annotate(estado=F('cidade__estado__nome'),
+                     cidade_nome=F('cidade__nome')). \
+            values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
+                   'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao', 'valor')
+
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def ObtemInscricoesUsuario(self):
@@ -99,9 +124,10 @@ class EventoController(RenderView):
             EventoOrganizador.objects.filter(organizador_id=self.request.user.id).annotate(titulo=F('evento__titulo')). \
                 values('titulo', 'evento_id')))
 
-    def ObtemAvalicoes(self):
-        avaliacoes = EventoAvaliacao.objects.filter(evento_id=self.evento_pk).annotate(
-            usuario_nome=F('usuario__usuario__first_name')).values('usuario_nome', 'comentario', 'nota')
+    def ObtemComentarios(self):
+        avaliacoes = EventoComentario.objects.filter(evento_id=self.evento_pk).annotate(
+            usuario_nome=Concat('usuario__first_name', V(' '), 'usuario__last_name')).values(
+            'usuario_nome', 'comentario')
         return json.dumps(list(avaliacoes))
 
     def ObtemParticipantesEvento(self):
@@ -135,12 +161,13 @@ class EventoController(RenderView):
             [{"id": eventoDict["id"], "titulo": eventoDict["titulo"], "descricao": eventoDict["descricao"],
               "imagem_divulgacao": eventoDict["imagem_divulgacao"],
               "tipo_cobranca": eventoDict["tipo_cobranca"], "evento_privado": eventoDict["evento_privado"],
-              "tipo_evento": eventoDict["tipo_evento"], "palavras_chave": eventoDict["palavras_chave"]}
+              "tipo_evento": eventoDict["tipo_evento"], "palavras_chave": eventoDict["palavras_chave"],
+              "valor": eventoDict["valor"]}
              ])
 
         return HttpResponse(json.dumps([
             {"periodos": self.ObtemPeriodos(), "palestrantes": self.ObtemPalestrantes(), "videos": self.ObtemVideos(),
-             "anexos": self.ObtemAnexos(), "evento": evento, "local": local, "avaliacoes": self.ObtemAvalicoes(),
+             "anexos": self.ObtemAnexos(), "evento": evento, "local": local, "comentarios": self.ObtemComentarios(),
              "organizadores": self.ObtemOrganizadores()}
         ], cls=DjangoJSONEncoder))
 
@@ -148,6 +175,7 @@ class EventoController(RenderView):
         return json.dumps(list(EventoTipo.objects.all().values()))
 
     def InserirEditarEvento(self):
+
         if not self.attributes['id']:
             self.attributes.update({"usuario_cadastro_id": self.request.user.id})
             mensagem = "Evento criado com sucesso! Agora é necessário completar as informações."
@@ -230,3 +258,55 @@ class EventoController(RenderView):
             return json.dumps({"msg": "Palestrante removido com sucesso!", "ok": True})
         except Exception as e:
             return str(e)
+
+    def InserirComentarioEvento(self):
+        self.attributes.update({"usuario_id": self.request.user.id})
+        return self.SaveModel(model=EventoComentario, parametros=self.attributes,
+                              msg="Comentário adicionado com sucesso.")
+
+    def PagamentoPagSeguro(self):
+        try:
+            pag = PagSeguro(evento_id=self.evento_pk)
+            return json.dumps({"codigo": pag.RequisitarPagamento(), "ok":True})
+        except Exception as e:
+            return json.dumps({"ok":False, "erro": str(e)})
+
+
+class PagSeguro:
+    def __init__(self, evento_id):
+        self.evento_id = evento_id
+
+    def RequisitarPagamento(self):
+        evento = Evento.objects.annotate(
+            email_pagseguro=F('usuario_cadastro__email_pagseguro'),
+            token_pagseguro=F('usuario_cadastro__token_pagseguro')
+        ).filter(pk=self.evento_id).values('email_pagseguro', 'token_pagseguro', 'titulo', 'valor', 'tipo_cobranca')[0]
+
+        if not evento['email_pagseguro'] or not evento['token_pagseguro'] or evento['tipo_cobranca'] == GRATUITO:
+            return ""
+
+        url = 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout'
+        values = {'email': evento['email_pagseguro'],
+                  'token': evento['token_pagseguro'],
+                  'currency': 'BRL',
+                  'itemId1': self.evento_id,
+                  'itemDescription1': evento["titulo"],
+                  'itemAmount1': "{:10.2f}".format(evento["valor"]),
+                  'itemQuantity1': 1}
+        headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'charset':'ISO-8859-1'}
+        r = requests.post(url, params=values, verify=False, headers=headers)
+        xml = ET.fromstring(r.text)
+
+        erros = {}
+        for erro in xml.findall('error'):
+            erros.update({erro.find('code').text: erro.find('message').text})
+
+        if erros:
+            raise ValidationError(erros)
+        else:
+            code = xml.find('code').text
+            if code:
+                return code
+            else:
+                raise ValidationError(message="Ocorreu um erro ao realizar a integração com o pagseguro.")
+

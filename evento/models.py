@@ -46,6 +46,7 @@ class Evento(models.Model):
     numero_endereco = models.IntegerField(verbose_name="Número")
     usuario_cadastro = models.ForeignKey(to=UsuarioDetalhe)
     imagem_divulgacao = models.ImageField(verbose_name="Imagem de divulgação")
+    valor = models.FloatField(verbose_name="Preço", default=0)
 
     class Meta:
         db_table = 'Evento'
@@ -63,6 +64,25 @@ class Evento(models.Model):
         if insere_organizador:
             EventoOrganizador(evento=self,
                               organizador=UsuarioDetalhe.objects.get(pk=self.usuario_cadastro)).save()
+
+
+    def clean(self):
+        validacao = {}
+
+        if str(self.valor).strip() == '':
+            self.valor = 0
+
+        if self.valor < 0:
+            validacao.update({'valor': 'Este campo não pode conter um valor negativo.'})
+        elif self.tipo_cobranca == GRATUITO and self.valor > 0:
+            validacao.update({'valor': 'Para eventos gratuitos este campo deve ser 0.'})
+        elif self.tipo_cobranca == PAGO and self.valor <= 0:
+            validacao.update({'valor': 'Para eventos pagos este campo deve ser maior do que 0.'})
+
+        if validacao:
+            raise ValidationError(message=validacao)
+
+        super(Evento, self).clean()
 
 
 class EventoPalestrante(models.Model):
@@ -98,6 +118,7 @@ class EventoParticipante(models.Model):
     usuario = models.ForeignKey(UsuarioDetalhe)
     confirmado = models.BooleanField(default=False)
     presente = models.BooleanField(verbose_name="presença", default=False)
+    nota = models.IntegerField(verbose_name='Nota', blank=True, null=True)
 
     class Meta:
         db_table = 'EventoParticipante'
@@ -106,8 +127,10 @@ class EventoParticipante(models.Model):
         return self.usuario.first_name
 
     def clean(self):
-        if EventoParticipante.objects.filter(usuario_id=self.usuario_id, evento_periodo_id=self.evento_periodo_id).count() > 0:
-            raise ValidationError(message="A inscrição já foi realizada anteriormente. É possível inscrever-se apenas uma vez.")
+        if EventoParticipante.objects.filter(usuario_id=self.usuario_id,
+                                             evento_periodo_id=self.evento_periodo_id).count() > 0:
+            raise ValidationError(
+                message="A inscrição já foi realizada anteriormente. É possível inscrever-se apenas uma vez.")
 
         periodo = EventoPeriodo.objects.filter(id=self.evento_periodo_id).values('quantidade_vagas', 'data')[0]
         participantes = EventoParticipante.objects.filter(evento_periodo_id=self.evento_periodo_id).count()
@@ -134,14 +157,13 @@ class EventoOrganizador(models.Model):
         return self.organizador.first_name
 
 
-class EventoAvaliacao(models.Model):
+class EventoComentario(models.Model):
     evento = models.ForeignKey(to=Evento)
-    usuario = models.ForeignKey(to=EventoParticipante)
-    nota = models.IntegerField(verbose_name="Nota", null=True, blank=True)
+    usuario = models.ForeignKey(to=UsuarioDetalhe)
     comentario = models.TextField(verbose_name="Comentário")
 
     class Meta:
-        db_table = 'EventoAvaliacao'
+        db_table = 'EventoComentario'
 
     def __str__(self):
         return self.comentario

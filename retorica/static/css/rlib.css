@@ -390,7 +390,7 @@ a{
 }
 
 .autocomplete-container{
-  width: inherit;
+  width: 99%;
   background-color:white;
   position:absolute;
   margin-top: 40px;
@@ -861,9 +861,12 @@ a.btn.full-width{
   background-color: ghostwhite;
 }
 
-
 .fixed{
   position: fixed;
+}
+
+.relative{
+  position: relative;
 }
 
 .clean-margin{
@@ -1002,6 +1005,10 @@ a.btn.full-width{
 
 .form-field input, .form-field  select{
    height: 35px;
+}
+
+textarea.field, .form-field  textarea{
+  min-height: 100px;
 }
 
 .field{

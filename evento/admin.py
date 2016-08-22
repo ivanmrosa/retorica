@@ -2,7 +2,7 @@ from django.contrib import admin
 from localidade.models import Pais, Estado, Cidade
 from usuario.models import UsuarioDetalhe
 from evento.models import EventoTipo, Evento, EventoPalestrante, EventoPeriodo, EventoParticipante, EventoOrganizador, \
-    EventoAvaliacao, EventoAnexo, EventoVideo
+    EventoComentario, EventoAnexo, EventoVideo
 
 
 # Register your models here.
@@ -16,6 +16,6 @@ admin.site.register(EventoPalestrante)
 admin.site.register(EventoPeriodo)
 admin.site.register(EventoParticipante)
 admin.site.register(EventoOrganizador)
-admin.site.register(EventoAvaliacao)
+admin.site.register(EventoComentario)
 admin.site.register(EventoAnexo)
 admin.site.register(EventoVideo)
