@@ -683,8 +683,7 @@ a{
   min-width: 50px;
   background-image: url(../images/finder16.png);
   background-repeat: no-repeat;
-  background-position-x: 50%;
-  background-position-y: 50%;
+  background-position: 50%;
   border-radius: 5px;
 }
 
