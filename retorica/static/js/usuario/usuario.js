@@ -45,5 +45,26 @@ usuario = {
             document.close();
           }
        );
+   },
+   recuperar_senha: function(){
+      var usuario = mainLib.find('#usuario-recuperacao').first().value;
+      if(usuario.trim() == ""){
+        mainLib.aviso('Informe um usuário.');
+        return false;
+      }else{
+        mainLib.wait.start();
+        mainLib.server.post('recuperar_senha', 'usuario='+usuario, function(data){
+              mainLib.wait.stop();
+              data = JSON.parse(data);
+              mainLib.aviso(data["msg"]);
+              mainLib.find('#usuario-recuperacao').first().value = "";
+              mainLib.popup.closePopup('recuperar_senha');
+            },
+            function(data){
+              document.write(data);
+              document.close();
+            }
+        );
+      };
    }
 }

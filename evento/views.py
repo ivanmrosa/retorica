@@ -6,24 +6,25 @@ from django.db.models import F, Count, Q, Value as V
 from django.core.serializers.json import DjangoJSONEncoder, json
 from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, EventoAnexo, EventoComentario, \
     EventoOrganizador, EventoPalestrante, EventoVideo
+from usuario.models import UsuarioDetalhe
 from lib.main_lib import RenderView
 from django.db import connection
 from django.db.models.functions import Concat
 from django.core.exceptions import ValidationError
 import xml.etree.ElementTree as ET
+from datetime import datetime
 
-#import urllib.parse
-#import urllib.request
-#import ssl
 import requests
+from django.core.mail import send_mail
 
 # Create your views here.
 
 GRATUITO = 'G'
 
+
 @login_required
 def evento_index(request):
-    return render(request=request, template_name='evento/evento_index.html', context={"TITULO": "Retórica - Eventos"})
+    return render(request=request, template_name='evento/evento_index.html', context={"TITULO": "Auditório Eventos"})
 
 
 class EventoController(RenderView):
@@ -135,11 +136,12 @@ class EventoController(RenderView):
                                                                    data=F('evento_periodo__data'),
                                                                    hora_inicio=F('evento_periodo__hora_inicio'),
                                                                    nome=F('usuario__first_name'),
-                                                                   sobrenome=F('usuario__last_name')
+                                                                   sobrenome=F('usuario__last_name'),
+                                                                   email=F('usuario__email')
                                                                    ).filter(evento_id=self.evento_pk). \
                                order_by('nome', 'data'). \
                                values('evento_id', 'data', 'hora_inicio', 'nome', 'sobrenome', 'confirmado', 'presente',
-                                      'usuario_id')), cls=DjangoJSONEncoder)
+                                      'usuario_id', 'id', 'email')), cls=DjangoJSONEncoder)
 
     def ObtemOrganizadores(self):
         return json.dumps(
@@ -239,6 +241,10 @@ class EventoController(RenderView):
                                           msg="Sua solicitação para participar foi efetivada. Aguarde a confirmação por e-mail."))
         return retorno
 
+    def EditarParticipante(self):
+        print(self.attributes)
+        return self.SaveModel(model=EventoParticipante, parametros=self.attributes, msg="")
+
     def DeletarParticipante(self):
         periodos = json.loads(next(iter(self.attributes.values())))
 
@@ -267,10 +273,109 @@ class EventoController(RenderView):
     def PagamentoPagSeguro(self):
         try:
             pag = PagSeguro(evento_id=self.evento_pk)
-            return json.dumps({"codigo": pag.RequisitarPagamento(), "ok":True})
+            return json.dumps({"codigo": pag.RequisitarPagamento(), "ok": True})
         except Exception as e:
-            return json.dumps({"ok":False, "erro": str(e)})
+            return json.dumps({"ok": False, "erro": str(e)})
 
+    def ImprimirCracha(self):
+        usr_id = self.request.GET.get('usuario_id')
+        evento_id = self.request.GET.get('evento_id')
+
+        usr = UsuarioDetalhe.objects.filter(id=usr_id).values('first_name', 'last_name', 'foto_usuario')[0]
+        evento = Evento.objects.filter(id=evento_id).values('titulo')[0]
+
+        if usr["foto_usuario"] == "":
+            foto = "/static/images/Folder-Profiles-icon.png"
+        else:
+            foto = '/upload/' + usr["foto_usuario"]
+
+        return render(request=self.request, template_name='evento/cracha_template.html',
+                      context={"first_name": usr['first_name'], "last_name": usr['last_name'],
+                               "titulo": evento["titulo"],
+                               "foto_usuario": foto})
+
+    def ImprimirCertificado(self):
+        usr_id = self.request.GET.get('usuario_id')
+        evento_id = self.request.GET.get('evento_id')
+
+        usr = UsuarioDetalhe.objects.filter(id=usr_id).values('first_name', 'last_name', 'foto_usuario')[0]
+        evento = Evento.objects.filter(id=evento_id).values('titulo')[0]
+
+        if usr["foto_usuario"] == "":
+            foto = "/static/images/Folder-Profiles-icon.png"
+        else:
+            foto = '/upload/' + usr["foto_usuario"]
+
+        return render(request=self.request, template_name='evento/certificado_template.html',
+                      context={"first_name": usr['first_name'], "last_name": usr['last_name'],
+                               "titulo": evento["titulo"],
+                               "foto_usuario": foto, "data": datetime.now(),
+                               "organizador": self.request.user.first_name + " " + self.request.user.last_name})
+
+    def ImprimirGraficoGenero(self):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                '''
+                SELECT COUNT(1) AS Participantes,
+                       CASE u.sexo WHEN 'M'
+                                   THEN 'Masculino'
+                                   WHEN 'F'
+                                   THEN 'Feminino'
+                                   WHEN 'O'
+                                   THEN 'Outros'
+                       END AS Genero
+                  FROM EventoParticipante epa
+                  JOIN EventoPeriodo epe
+                    ON epa.evento_periodo_id = epe.id
+                  JOIN Evento e
+                    ON epe.evento_id = e.id
+                  JOIN UsuarioDetalhe u
+                    ON epa.usuario_id = u.user_ptr_id
+                WHERE e.id = %s
+                GROUP BY u.sexo
+                ''', [self.request.GET.get('evento_id')]
+            )
+
+            data = [[str(row[1]), row[0]] for row in cursor.fetchall()]
+
+        return render(request=self.request, template_name='evento/grafico_template.html',
+                      context={"titulo": "Auditório eventos - Participantes por gênero", "data": data})
+
+
+    def ImprimirGraficoRegiao(self):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                '''
+                SELECT count(1) AS Participantes,
+                       es.nome
+                 FROM EventoParticipante epa
+                  JOIN EventoPeriodo epe
+                    ON epa.evento_periodo_id = epe.id
+                  JOIN Evento e
+                    ON epe.evento_id = e.id
+                  JOIN UsuarioDetalhe u
+                    ON epa.usuario_id = u.user_ptr_id
+                  JOIN Cidade c
+                    ON u.cidade_id = c.id
+                  JOIN Estado es
+                    ON c.estado_id = es.id
+                  WHERE e.id = %s
+                GROUP BY es.nome
+                ''', [self.request.GET.get('evento_id')]
+            )
+
+            data = [[str(row[1]), row[0]] for row in cursor.fetchall()]
+
+        return render(request=self.request, template_name='evento/grafico_template.html',
+                      context={"titulo": "Auditório eventos - Participantes por região", "data": data})
+
+    def EnviarEmailParticipantes(self):
+        msg = self.attributes["mensagem"]
+        assunto = self.attributes["assunto"]
+        participantes = json.loads(self.ObtemParticipantesEvento())
+        emails = [participante["email"] for participante in participantes]
+        send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
+        return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
 
 class PagSeguro:
     def __init__(self, evento_id):
@@ -293,7 +398,7 @@ class PagSeguro:
                   'itemDescription1': evento["titulo"],
                   'itemAmount1': "{:10.2f}".format(evento["valor"]),
                   'itemQuantity1': 1}
-        headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'charset':'ISO-8859-1'}
+        headers = {'Content-Type': 'application/x-www-form-urlencoded', 'charset': 'ISO-8859-1'}
         r = requests.post(url, params=values, verify=False, headers=headers)
         xml = ET.fromstring(r.text)
 
@@ -309,4 +414,3 @@ class PagSeguro:
                 return code
             else:
                 raise ValidationError(message="Ocorreu um erro ao realizar a integração com o pagseguro.")
-

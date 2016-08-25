@@ -11,6 +11,16 @@ body{
   height:30px;
 }
 
+img[src='/upload/']{
+    display: none;
+}
+
+.img-logo{
+  width:15%;
+  height:15%;
+  margin-left:
+}
+
 
 .br-left{
   border-left: 1px solid white;
@@ -70,6 +80,29 @@ body{
  word-wrap: break-word;
 }
 
+@media print, screen{
+
+  .cracha{
+    width: 10cm;
+    height: 15cm;
+    background-image: url(/static/images/cracha.jpg);
+    background-repeat: no-repeat;
+    background-size: 10cm 15cm;
+  }
+
+  .img-cracha img{
+    width: 4cm;
+    height: 3cm;
+  }
+
+  .title-cracha{
+    border-bottom: 1px solid #ebebe0;
+    padding: 5px;
+	text-align: center;
+  }
+
+}
+
 
 @media screen and (max-width: 800px) {
 .br-right, .br-left{
@@ -80,9 +113,11 @@ body{
 
 }
 
-.hide-mobile{
-  display: none;
+.img-logo{
+  width:3%;
+  height:3%;
 }
+
 
 .palestrante{
   width: 85%;

@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from localidade.models import Pais, Estado, Cidade
 from django.core.exceptions import ValidationError
-from django.core.context_processors import i18n as _
+from django.utils.translation import ugettext as _
 from django.contrib.auth.hashers import *
 
 
@@ -54,17 +54,17 @@ class UsuarioDetalhe(User):
     def clean(self):
         validacao = {}
         if not self.email:
-            validacao.update({'email': 'This field cannot be blank.'})
+            validacao.update({'email': _('This field cannot be blank.')})
 
         if not self.first_name:
-            validacao.update({'first_name': 'This field cannot be blank.'})
+            validacao.update({'first_name': _('This field cannot be blank.')})
 
         if not self.last_name:
-            validacao.update({'last_name': 'This field cannot be blank.'})
+            validacao.update({'last_name': _('This field cannot be blank.')})
 
         if hasattr(self, 'confirm_password'):
             if self.confirm_password != self.password:
-                validacao.update({'confirm_password': "The passwords doesn't match."})
+                validacao.update({'confirm_password': _("The passwords doesn't match.")})
 
         if validacao:
             raise ValidationError(message=validacao)

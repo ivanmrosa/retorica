@@ -2,9 +2,29 @@
    /*border-radius: 4px !important;*/
 }
 
+.all_form{
+    float:left;
+    width: 100%;
+    min-height: 100%;
+    /*overflow:auto;*/
+    background-image: url(/static/images/auditorio3.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.img-logo{
+  width:45%;
+  height:45%;
+}
+
+.all_form .form-field label, .all_form .title{
+  color:white;
+  font-weight: bold;
+
+}
 
 .label-login{
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 #form_signin{

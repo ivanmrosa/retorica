@@ -4,17 +4,17 @@ from django.shortcuts import render, HttpResponse
 from .models import UsuarioDetalhe
 from django.contrib.auth import authenticate, login
 from lib.main_lib import RenderView
-from django.core.exceptions import ValidationError
-from django.contrib.auth.decorators import login_required
 from django.db.models import F, Value as V, CharField, Q
-from django.db.models.functions import Concat
-
+from django.db.models.functions import Concat, Coalesce
+from django.core.mail import send_mail
+import random
+from django.contrib.auth.hashers import *
 
 # Create your views here.
 
 
 def home(request):
-    return render(request=request, template_name='usuario/home.html', context={"TITULO": "Retórica - Home"})
+    return render(request=request, template_name='usuario/home.html', context={"TITULO": "Auditório - Home"})
 
 
 class UsuarioController(RenderView):
@@ -64,7 +64,12 @@ class UsuarioController(RenderView):
                               msg="Usuário alterado com sucesso!", files=self.request.FILES)
 
     def ObterUsuario(self):
-        return json.dumps(list(UsuarioDetalhe.objects.filter(id=self.request.user.id).annotate(
+        if 'usuario_id' in self.propriedades_requisicao:
+            usuario_id = self.propriedades_requisicao["usuario_id"]
+        else:
+            usuario_id = self.request.user.id
+
+        return json.dumps(list(UsuarioDetalhe.objects.filter(id=usuario_id).annotate(
             pais_id=F('cidade__pais__id'),
             estado_id=F('cidade__estado__id'),
             nome_completo=Concat('first_name', V(' '), 'last_name', output_field=CharField())
@@ -84,3 +89,44 @@ class UsuarioController(RenderView):
             email=self.propriedades_requisicao['nome_completo'])).values(
             'username', 'telefone', 'foto_usuario', 'id', 'email', 'nome_completo'
         )), cls=DjangoJSONEncoder)
+
+    def RecuperarSenha(self):
+        #try:
+        username = self.propriedades_requisicao["usuario"]
+        usuario = UsuarioDetalhe.objects.filter(username=username)
+
+        if not username:
+            return json.dumps({"ok": False, "msg": "O usuário informado não existe. Informe um usuário válido."})
+
+        controle = ControleSenha(usuario=usuario)
+        controle.RecuperarSenha()
+
+        return json.dumps({"ok": False, "msg": "Sua solicitação foi efetivada. Verifique seu email."})
+        #except Exception as e:
+        #    return json.dumps(
+        #        {"ok": False, "msg": "Ocorreu um erro e sua solicitação não pôde ser processada:" + str(e)})
+
+
+class ControleSenha:
+    def __init__(self, usuario):
+        self.__usuario = usuario
+
+    @property
+    def usuario(self):
+        return self.__usuario
+
+    def __GerarSenhaRecuperacao(self):
+        return str(random.randrange(1000, 1000000, 2))
+
+    def AlterarSenha(self, nova_senha):
+        self.usuario.update(password= make_password(nova_senha))
+
+    def RecuperarSenha(self):
+        senha = self.__GerarSenhaRecuperacao()
+        self.AlterarSenha(senha)
+
+        msg = 'Foi gerada uma nova senha conforme solicitado. Recomendamos fortemente que você altere sua senha '+ \
+              'o quanto antes. Senha:   ' + senha
+
+        send_mail(subject="recuperação de senha auditorio eventos", message=msg,
+                  from_email="auditorio@auditorioeventos.com.br", recipient_list=[self.usuario[0].email])

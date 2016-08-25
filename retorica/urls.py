@@ -61,6 +61,11 @@ urlpatterns = [
                                                            login_required=True, method_type='GET'),
                       name='lista_participantes'),
 
+                  url(r'evento/editar_participantes',
+                      viewsevento.EventoController.to_view(method_name='EditarParticipante',
+                                                           login_required=True, method_type='POST'),
+                      name='editar_participantes'),
+
                   url(r'evento/lista_periodos',
                       viewsevento.EventoController.to_view(method_name='ObtemPeriodos',
                                                            login_required=True, method_type='GET'),
@@ -116,6 +121,9 @@ urlpatterns = [
                   url(r'evento/pagseguro',
                       viewsevento.EventoController.to_view(method_name='PagamentoPagSeguro', login_required=True,
                                                            method_type='POST'), name='pagseguro'),
+                  url(r'evento/enviar_email_participantes',
+                      viewsevento.EventoController.to_view(method_name='EnviarEmailParticipantes', login_required=True,
+                                                           method_type='POST'), name='enviar_email_participantes'),
 
                   url(r'^cadastrar_usuario',
                       viewsusuario.UsuarioController.to_view(method_name='AdicionarUsuario', login_required=False,
@@ -133,6 +141,11 @@ urlpatterns = [
                                                                                     method_type='GET'),
                       name='pesquisar_usuario'),
 
+                  url(r'^recuperar_senha', viewsusuario.UsuarioController.to_view(method_name='RecuperarSenha',
+                                                                                    login_required=False,
+                                                                                    method_type='POST'),
+                      name='recuperar_senha'),
+
                   url(r'localidade/obter_paises',
                       viewslocalidade.LocalidadeController.to_view(method_name='ObterPaises', login_required=False,
                                                                    method_type='GET'), name='obter_paises'),
@@ -142,6 +155,19 @@ urlpatterns = [
                   url(r'localidade/obter_cidades',
                       viewslocalidade.LocalidadeController.to_view(method_name='ObterCidades', login_required=False,
                                                                    method_type='GET'), name='obter_cidades'),
+
+                  url(r'imprimir_cracha',
+                      viewsevento.EventoController.to_view(method_name='ImprimirCracha', login_required=True,
+                                                                   method_type='GET'), name='imprimir_cracha'),
+                  url(r'imprimir_certificado',
+                      viewsevento.EventoController.to_view(method_name='ImprimirCertificado', login_required=True,
+                                                           method_type='GET'), name='imprimir_certificado'),
+                  url(r'imprimir_grafico_genero',
+                      viewsevento.EventoController.to_view(method_name='ImprimirGraficoGenero', login_required=True,
+                                                           method_type='GET'), name='imprimir_grafico_genero'),
+                  url(r'imprimir_grafico_regiao',
+                      viewsevento.EventoController.to_view(method_name='ImprimirGraficoRegiao', login_required=True,
+                                                           method_type='GET'), name='imprimir_grafico_regiao'),
 
                   url(r'^admin/', admin.site.urls),
                   url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {'login_url': '/'}),

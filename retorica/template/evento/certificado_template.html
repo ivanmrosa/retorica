@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/rlib.css">
+    <link rel="stylesheet" href="/static/css/evento/evento_index.css">
+
+</head>
+<body>
+
+<div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+    <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+        <span style="font-size:50px; font-weight:bold">Certificado de participação</span>
+        <br><br>
+        <span style="font-size:25px"><i>Este certifica que</i></span>
+        <br><br>
+        <span style="font-size:30px"><b>{{first_name}} {{last_name}}</b></span><br/><br/>
+        <span style="font-size:25px"><i>completou o curso</i></span> <br/><br/>
+        <span style="font-size:30px">{{titulo}}</span> <br/><br/><br/>
+
+        <span style="font-size:25px"><i>data</i></span><br/>
+
+        <span style="font-size:30px">{{data}}</span><br/><br/>
+        <span class="text-center">______________________________________</span><br/>
+        <span class="text-center">{{organizador}}</span>
+    </div>
+</div>
+
+</body>
+</html>

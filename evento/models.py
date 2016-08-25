@@ -127,23 +127,24 @@ class EventoParticipante(models.Model):
         return self.usuario.first_name
 
     def clean(self):
-        if EventoParticipante.objects.filter(usuario_id=self.usuario_id,
-                                             evento_periodo_id=self.evento_periodo_id).count() > 0:
-            raise ValidationError(
-                message="A inscrição já foi realizada anteriormente. É possível inscrever-se apenas uma vez.")
+        if not self.id:
+            if EventoParticipante.objects.filter(usuario_id=self.usuario_id,
+                                                 evento_periodo_id=self.evento_periodo_id).count() > 0:
+                raise ValidationError(
+                    message="A inscrição já foi realizada anteriormente. É possível inscrever-se apenas uma vez.")
 
-        periodo = EventoPeriodo.objects.filter(id=self.evento_periodo_id).values('quantidade_vagas', 'data')[0]
-        participantes = EventoParticipante.objects.filter(evento_periodo_id=self.evento_periodo_id).count()
+            periodo = EventoPeriodo.objects.filter(id=self.evento_periodo_id).values('quantidade_vagas', 'data')[0]
+            participantes = EventoParticipante.objects.filter(evento_periodo_id=self.evento_periodo_id).count()
 
-        if participantes >= periodo['quantidade_vagas']:
-            raise ValidationError(message="Não há mais vagas disponíveis para o dia %s." % (periodo['data']))
+            if participantes >= periodo['quantidade_vagas']:
+                raise ValidationError(message="Não há mais vagas disponíveis para o dia %s." % (periodo['data']))
 
-        tipo_cobranca = \
-            Evento.objects.select_related('EventoParticipante').filter(eventoperiodo=self.evento_periodo).values(
-                'tipo_cobranca')[0]['tipo_cobranca']
+            tipo_cobranca = \
+                Evento.objects.select_related('EventoParticipante').filter(eventoperiodo=self.evento_periodo).values(
+                    'tipo_cobranca')[0]['tipo_cobranca']
 
-        if tipo_cobranca == GRATUITO:
-            self.confirmado = True
+            if tipo_cobranca == GRATUITO:
+                self.confirmado = True
 
 
 class EventoOrganizador(models.Model):

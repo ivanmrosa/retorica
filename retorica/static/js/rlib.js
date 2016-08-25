@@ -58,14 +58,16 @@ mainLib.popup.open = false;
 
 
 mainLib.popup.openPopup = function(select){
-   var ele = document.querySelector(select);
+   var ele = mainLib.find(select).first();
     
     if(!ele){
-    	ele = document.querySelector("#" + select);
+    	ele = mainLib.find("#" + select).first();
     };
     
     if(ele){
-    	ele.setAttribute('style', 'display:table');
+    	//ele.setAttribute('style', 'display:table');
+    	mainLib.removeClass('popup-hide', ele);
+    	mainLib.addClass('popup-show', ele)
     }
        mainLib.popup.open = true;
    
@@ -74,11 +76,17 @@ mainLib.popup.openPopup = function(select){
 mainLib.popup.closePopup = function(id_filter, fnToExecuteAfter){
    
 
-    var ele = document.querySelector("#" + id_filter);
-	
-	if(ele){
-		ele.setAttribute('style', 'display:none');
-	}
+   var ele = mainLib.find(id_filter).first();
+
+    if(!ele){
+    	ele = mainLib.find("#" + id_filter).first();
+    };
+
+    if(ele){
+    	//ele.setAttribute('style', 'display:none');
+    	mainLib.removeClass('popup-show', ele);
+    	mainLib.addClass('popup-hide', ele)
+    }
     
     mainLib.popup.open = false;
     
@@ -99,15 +107,12 @@ mainLib.popup.removePopup = function(id_filter, fnToExecuteAfter){
 
 mainLib.aviso = function(message, fnToExecuteAfter){
     var html =
-          '<div class="col col-1"></div>'+
-          '<div class="col col-8"> '+
-          '  <div class="popup-body popup-dlg small-radius col-10">	'+
- 	      '    <h2 class="yellow title">Aviso !</h2> '+
+          '  <div class="popup-body popup-dlg small-radius">	'+
+ 	      '    <h2 class="red title">Aviso !</h2> '+
           '    <p > <center>' + message + ' </center></p>'+          
  	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn full-width btn-orange small-radius">OK</a>'+
- 	      '  </div> '+
-          '</div> ';
- 
+ 	      '  </div> ';
+
     var popupE = document.createElement('div');
     popupE.setAttribute('class', 'popup');
     popupE.setAttribute('id', 'vmsisMsg');
@@ -123,13 +128,14 @@ mainLib.aviso = function(message, fnToExecuteAfter){
        mainLib.popup.removePopup("vmsisMsg", this.executeAfter);
     });
 
-    mainLib.popup.openPopup('vmsisMsg');    
+    mainLib.popup.openPopup('vmsisMsg');
+    mainLib.find('#vmsisMsgBtn').first().focus();
 }
 
 mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
     var html =
           '  <div class="popup-body popup-dlg small-radius">	'+
- 	      '    <h2 class="yellow title">Confirmação ! </h2> '+
+ 	      '    <h2 class="red title">Confirmação ! </h2> '+
           '    <p><center> ' + message + ' </center> </p>'+          
  	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn full-width btn-green small-radius">Sim</a> '+
           '    <a href="javascript:void()" id="vmsisMsgBtnNo" class="btn btn-red full-width small-radius">Não</a> </div>'+
@@ -156,7 +162,7 @@ mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
     });
 
     mainLib.popup.openPopup('vmsisMsg');
-        
+    mainLib.find('#vmsisMsgBtnNo').first().focus();
 }
 
 
@@ -327,7 +333,7 @@ mainLib.addClass = function(cl, element) {
 
     if (!mainLib.hasClass(cl, element)) {
 
-        element.setAttribute('class', cls + ' ' + cl);
+        element.setAttribute('class', cls.trim() + ' ' + cl.trim());
 
     }
 
@@ -793,7 +799,7 @@ mainLib.pageControl.prototype.draw = function() {
     groupBody.draw();
 
     var painelClose = new mainLib.panel(groupBody.htmlElement);
-    painelClose.htmlClass = 'flo-left fixed close-tab';
+    painelClose.htmlClass = 'flo-right fixed close-tab';
     painelClose.draw();
 
     var linkClose = new mainLib.link('javascript:void(0)', painelClose.htmlElement);
@@ -906,8 +912,30 @@ mainLib.contextMenu = function(fnExecuteOnItenClick, idContext){
     });
 };
 
+mainLib.controle_clicques = 0;
 
-function control_click(){
+function hideMenu(e){
+
+    var menuList = document.querySelector('.menu-content');
+    var menuShow = document.querySelector('.menu');
+    var content = document.querySelector('.menu-content > ul');
+    var visible = mainLib.hasClass("menu-full", menuList);
+    if(visible){
+        mainLib.controle_cliques = 1;
+        mainLib.removeClass("menu-full", menuList);
+        mainLib.removeClass("menu-full", menuShow);
+        menuList.setAttribute("style", "height:0%");
+        menuShow.setAttribute("style", "height:0%");
+        content.setAttribute("style", "");
+    }
+}
+
+function control_click(e){
+    if(mainLib.controle_cliques == 1){
+      mainLib.controle_cliques = 0;
+      return false;
+    };
+
     var menuList = document.querySelector('.menu-content');
     if(menuList){
       var menuShow = document.querySelector('.menu');
@@ -919,14 +947,17 @@ function control_click(){
         menuList.setAttribute("style", "display:table !important;");
         menuShow.setAttribute("style", "height:100%");
         content.setAttribute("style", "display:table");
+        mainLib.escodermenu = true;
       }else{
-        mainLib.removeClass("menu-full", menuList);
+        /*mainLib.removeClass("menu-full", menuList);
         mainLib.removeClass("menu-full", menuShow);
-        menuList.setAttribute("style", "");
-        menuShow.setAttribute("style", "");
-        content.setAttribute("style", "");
+        menuList.setAttribute("style", "height:0%");
+        menuShow.setAttribute("style", "height:0%");
+        content.setAttribute("style", "display:none");*/
+        //hideMenu();
       };
     };
+
 };
 
 
@@ -934,11 +965,14 @@ mainLib.loadMenu = function(){
 	var menu = document.querySelector('.menu');
 	if(menu){
        var resize = function(){
+            mainLib.controle_clicques = 0;
             var display = window.getComputedStyle(document.querySelector('.menu .menu-content'),
                 ':before').getPropertyValue('display');
             menu.removeEventListener('click', control_click, true);
+            document.removeEventListener('click', hideMenu);
             if(display === 'inline'){
                 menu.addEventListener('click',control_click, true);
+                document.addEventListener('click', hideMenu, true);
             };
 		};
 
@@ -953,6 +987,7 @@ mainLib.loadMenu = function(){
       this.style.overflow = "hidden";
     });
 
+
 }
 
 mainLib.showLocalImage = function(input, img){
@@ -963,6 +998,17 @@ mainLib.showLocalImage = function(input, img){
     };
     reader.readAsDataURL(input.files[0]);
   };
+}
+mainLib.wait = {}
+
+mainLib.wait.start = function(){
+  ele = document.createElement('div');
+  ele.setAttribute('class', 'wait');
+  mainLib.find('body').first().appendChild(ele);
+}
+
+mainLib.wait.stop = function(){
+  mainLib.find('body').first().removeChild(mainLib.find('.wait').first());
 }
 
 /*LOCAL STORAGE DATA*/
@@ -1302,6 +1348,7 @@ mainLib.dataBinder.formParserJson = function(selector){
 
 
 mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, request_params, execute){
+  mainLib.wait.start();
   var received = {};
   request_params = request_params||"";
   if(execute === false){
@@ -1313,8 +1360,10 @@ mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, reque
       received = JSON.parse(data);
         mainLib.dataBinder.bindOnTemplate(model, received, parent);
         mainLib.dataBinder.fillLookup('[data-replicated-model="'+model+'"] [data-lookup-url]')
+        mainLib.wait.stop();
       },
       function(data){
+        mainLib.wait.stop();
         mainLib.aviso('Ocorreu um erro ao obter os dados necessários.' + data);
       }
   )
@@ -1342,7 +1391,7 @@ function lookup(selector){
         master_field_name = this.getAttribute('data-lookup-master-field');
         data = master_field_name + '=' + master_val;
         if(!parent.getAttribute('data-lookup-event-setted')){
-          parent.addEventListener('blur', function(){
+          parent.addEventListener('change', function(){
             this.setAttribute('data-lookup-event-setted', true);
             this.setAttribute('data-value', this.value);
             lookup(selector);
@@ -1365,6 +1414,7 @@ function lookup(selector){
           };
           element.setAttribute('data-filled', 'true');
           mainLib.fillLookupWaitting = false;
+
         },
         function(data){
           mainLib.fillLookupWaitting = false;

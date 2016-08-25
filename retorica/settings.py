@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-BR'
 
 TIME_ZONE = 'UTC'
 
@@ -132,6 +132,10 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "../uploads")
 
-#LOGIN_REDIRECT_URL = '/evento/'
 LOGIN_URL = '/'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'SenhaEmailDawPuc'
+EMAIL_HOST_USER = 'auditorio@auditorioeventos.com.br'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587

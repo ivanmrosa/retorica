@@ -38,9 +38,11 @@ evento = {
    },
 
    carregar_evento_edicao: function(id_evento){
-
+     mainLib.wait.start();
      mainLib.server.get('/evento/detalhe_evento','evento_pk='+id_evento, function(data){
        var row = JSON.parse(data);
+
+       mainLib.dataBinder.removeReplicatedModel('participantes_evento', mainLib.find('#gerenciar-evento-tabs').first());
 
        for(var a in row[0]){
          if(row[0].hasOwnProperty(a)){
@@ -48,11 +50,17 @@ evento = {
            mainLib.dataBinder.bindOnTemplate(a, row[0][a], mainLib.find('#gerenciar-evento-tabs').elements[0]);
            mainLib.dataBinder.fillLookup('[data-replicated-model="'+a+'"] [data-lookup-url]');
 
-         }
+         };
        };
+
+       mainLib.wait.stop();
        evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos');
 
-     });
+     }, function(data){
+       mainLib.wait.stop();
+     }
+
+     );
    },
 
    carregar_participantes_evento: function(){
@@ -64,6 +72,7 @@ evento = {
    },
 
    salvar_evento: function(){
+      mainLib.wait.start();
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
 
@@ -72,10 +81,15 @@ evento = {
           data = JSON.parse(data);
           if(data["ok"] == true){
             mainLib.find('#form-criar-editar-evento [name="id"]').first().value = data["key"];
+            mainLib.wait.stop();
             mainLib.aviso(data["msg"]);
           }else{
             mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
-          }
+            mainLib.wait.stop();
+          };
+
+
+
         },
         function(data){
           document.write(data);
@@ -97,7 +111,7 @@ evento = {
       var id = evento.get_evento_id(true);
       if(!id)
         return false;
-
+      mainLib.wait.start();
       periodo = mainLib.dataBinder.formParser('#gerenciar-periodo-evento form');
       periodo += '&evento_id=' + id;
       mainLib.server.post('/evento/inserir_periodo', periodo,
@@ -108,10 +122,13 @@ evento = {
             frmjs["id"] = data["key"];
             mainLib.dataBinder.bindOnTemplate('periodos', [frmjs],
               mainLib.find('#gerenciar-periodo-evento').first());
+            mainLib.wait.stop()
             mainLib.aviso(data["msg"]);
           }else{
             mainLib.dataBinder.bindValidations('#gerenciar-periodo-evento form', data["msg"]);
+            mainLib.wait.stop()
           };
+
         },
         function(data){
           document.write(data);
@@ -123,13 +140,18 @@ evento = {
    remover_item: function(url, id, ele){
      mainLib.confirma('Deseja realmente excluir este registro?',
        function(){
+          mainLib.wait.start();
           mainLib.server.post(url, 'id='+id,
            function(data){
              data = JSON.parse(data);
              if(data["ok"] == true){
                ele.parentElement.removeChild(ele);
+               mainLib.wait.stop();
                mainLib.aviso(data["msg"]);
-             };
+             }else{
+               mainLib.wait.stop();
+             }
+
            },
            function(data){
              document.write(data);
@@ -151,7 +173,7 @@ evento = {
 
       if(!id_evento)
         return false;
-
+      mainLib.wait.start()
       mainLib.server.post('/evento/inserir_organizador',
         mainLib.format('organizador_id=%s&evento_id=%s', [id_organizador, id_evento]),
         function(data){
@@ -159,8 +181,10 @@ evento = {
           if(data["ok"] == true){
             mainLib.dataBinder.bindOnTemplate('organizadores', [{"id":data["key"], "nome":text_search}],
               mainLib.find('#gerenciar-evento-organizadores').first());
+            mainLib.wait.stop();
             mainLib.aviso(data["msg"]);
           }else{
+            mainLib.wait.stop();
             mainLib.aviso(data["msg"]);
           };
 
@@ -183,7 +207,7 @@ evento = {
      frm.append("evento_id", evento_id);
 
      var titulo_anexo = frm.get("titulo_anexo");
-
+     mainLib.wait.start()
      mainLib.server.post('/evento/inserir_anexo', frm,
          function(data){
            data = JSON.parse(data);
@@ -191,9 +215,11 @@ evento = {
              mainLib.dataBinder.bindOnTemplate('anexos', [{"id":data["key"], "titulo_anexo":titulo_anexo}],
                mainLib.find('#gerenciar-evento-anexos').first());
              mainLib.find('#gerenciar-evento-anexos form').first().reset();
+             mainLib.wait.stop();
              mainLib.aviso(data["msg"]);
            }else{
              mainLib.dataBinder.bindValidations('#gerenciar-evento-anexos form', data["msg"]);
+             mainLib.wait.stop();
            };
          },
          function(data){
@@ -214,18 +240,22 @@ evento = {
      frm.append("evento_id", evento_id);
 
      var titulo_video = frm.get("titulo_video");
-
+     mainLib.wait.start()
      mainLib.server.post('/evento/inserir_video', frm,
          function(data){
+
            data = JSON.parse(data);
            if(data["ok"] == true){
              mainLib.dataBinder.bindOnTemplate('videos', [{"id":data["key"], "titulo_video":titulo_video}],
                mainLib.find('#gerenciar-evento-videos').first());
              mainLib.find('#gerenciar-evento-videos form').first().reset();
+             mainLib.wait.stop();
              mainLib.aviso(data["msg"]);
            }else{
              mainLib.dataBinder.bindValidations('#gerenciar-evento-videos form', data["msg"]);
+             mainLib.wait.stop();
            };
+
          },
          function(data){
            document.write(data);
@@ -293,13 +323,14 @@ evento = {
        mainLib.aviso('Pelo menos uma data deve ser selecionada.');
        return false;
      };
-
+     mainLib.wait.start()
      mainLib.server.post(url, "periodos="+JSON.stringify(data),
        function(data){
          data = JSON.parse(data);
 
          try{
            //verifica se retornou erro
+           mainLib.wait.stop();
            mainLib.aviso(JSON.parse(data["msg"])['__all__'][0]);
          }catch(e){
            if(exclusao != true ){
@@ -307,10 +338,12 @@ evento = {
                find('[name="evento"]').first().value;
                evento.pagamento_pagseguro(evento_id);
            };
+
            mainLib.aviso(data["msg"]);
            mainLib.dataBinder.removeReplicatedModel('periodos_evento', mainLib.find('#inscricao_evento').first());
            mainLib.popup.closePopup('inscricao_evento');
-         }
+         };
+
 
 
        },
@@ -330,16 +363,18 @@ evento = {
 
       var frm = new FormData(mainLib.find('#gerenciar-evento-palestrante form').first());
       frm.append('evento_id', id_evento);
-
+      mainLib.wait.start();
       mainLib.server.post('/evento/inserir_palestrante', frm,
         function(data){
           data = JSON.parse(data);
           if(data["ok"] == true){
             mainLib.dataBinder.bindOnTemplate('palestrantes', [{"id":data["key"], "nome":nome}],
               mainLib.find('#gerenciar-evento-palestrante').first());
+            mainLib.wait.stop();
             mainLib.aviso(data["msg"]);
             mainLib.find('#gerenciar-evento-palestrante form').first().reset();
           }else{
+            mainLib.wait.stop();
             mainLib.dataBinder.bindValidations('#gerenciar-evento-palestrante form', data["msg"]);
           };
 
@@ -359,7 +394,7 @@ evento = {
        mainLib.aviso('Um comentário deve ser fornecido.');
        return false;
      };
-
+     mainLib.wait.start();
      mainLib.server.post('/evento/inserir_comentario',
        mainLib.format('comentario=%s&evento_id=%s', [comentario, evento_id]),
        function(data){
@@ -372,7 +407,9 @@ evento = {
              mainLib.find('#evento-comentario').first(),  'evento_pk='+evento_id);
 
            mainLib.find('#comentario').first().value = "";
+           mainLib.wait.stop();
          }else{
+           mainLib.wait.stop();
            mainLib.aviso(data["msg"]);
          }
        },
@@ -384,8 +421,10 @@ evento = {
    },
 
    pagamento_pagseguro: function(evento_id){
+    mainLib.wait.start();
      mainLib.server.post('/evento/pagseguro', "evento_pk=" + evento_id,
        function(data){
+         mainLib.wait.stop();
          data = JSON.parse(data);
          if(data["ok"] == true){
            if(data["codigo"] != ""){
@@ -403,6 +442,76 @@ evento = {
          document.write(data);
          document.close;
        })
+   },
+
+   editar_presenca_pagamento: function(id, elem, campo){
+      mainLib.server.post('/evento/editar_participantes', mainLib.format("id=%s&%s=%s", [id, campo, elem.checked]),
+        function(data){
+          data = JSON.parse(data);
+          if(data["ok"] != true){
+            mainLib.aviso(data["msg"]);
+          }
+        },
+        function(data){
+          document.write(data);
+          document.close;
+        }
+      )
+   },
+
+   imprimir_cracha: function(usuario_id){
+      var evento_id = evento.get_evento_id(true);
+      var win = window.open(mainLib.format('/imprimir_cracha?evento_id=%s&usuario_id=%s', [evento_id, usuario_id]),
+        'janela', 'height=600,width=400');
+      win.focus();
+   },
+   imprimir_certificado: function(usuario_id){
+      var evento_id = evento.get_evento_id(true);
+      var win = window.open(mainLib.format('/imprimir_certificado?evento_id=%s&usuario_id=%s', [evento_id, usuario_id]),
+        '_blank');
+      win.focus();
+   },
+   imprimir_grafico_genero: function(){
+      var evento_id = evento.get_evento_id(true);
+      var win = window.open(mainLib.format('/imprimir_grafico_genero?evento_id=%s', [evento_id]),
+        'grafico', 'height=600,width=400');
+      win.focus();
+   },
+   imprimir_grafico_localidade: function(){
+      var evento_id = evento.get_evento_id();
+      var win = window.open(mainLib.format('/imprimir_grafico_regiao?evento_id=%s', [evento_id]),
+        'grafico', 'height=600,width=400');
+      win.focus();
+   },
+   enviar_email_participantes: function(){
+      var frm = mainLib.find('#enviar-email-participantes form').first();
+
+      if(frm.mensagem.value.trim() == ""){
+        mainLib.aviso('Uma mensagem deve ser informada.');
+        return false;
+      };
+      if(frm.assunto.value.trim() == ""){
+        mainLib.aviso("Um assunto deve ser informado");
+        return false;
+      };
+      var evento_id = evento.get_evento_id(true);
+
+      if(!evento_id)
+        return false;
+      mainLib.wait.start();
+      mainLib.server.post('/evento/enviar_email_participantes',
+         mainLib.dataBinder.formParser('#enviar-email-participantes form') + '&evento_pk='+evento_id,
+         function(data){
+           mainLib.wait.stop();
+           data = JSON.parse(data);
+           mainLib.aviso(data["msg"])
+         },
+         function(data){
+           document.write(data);
+           document.close;
+         }
+      )
+
    }
 
 }
