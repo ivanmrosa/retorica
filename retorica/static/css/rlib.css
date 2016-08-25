@@ -1207,7 +1207,7 @@ textarea.field, .form-field  textarea{
       float: left;
     }
     .fixed-header.no-fixed-mobile ~ .after-header{
-       padding-top: 75px !important;
+       padding-top: 60px !important;
     }
 
     .hide-scroll.no-height{
