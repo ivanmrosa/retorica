@@ -330,10 +330,13 @@ mainLib.replace = function(str, strToReplace, strReplaceTo) {
 mainLib.addClass = function(cl, element) {
 
     cls = element.getAttribute('class');
+    if(cls){
+      cls = cls.trim();
+    };
 
     if (!mainLib.hasClass(cl, element)) {
 
-        element.setAttribute('class', cls.trim() + ' ' + cl.trim());
+        element.setAttribute('class', cls + ' ' + cl.trim());
 
     }
 
