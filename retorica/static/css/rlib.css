@@ -102,9 +102,6 @@ pre{
   max-height:100%;
   min-height:100%;
   float:left;
-/*  -webkit-transition: width 2s;
-  transition: width 2s;
-  transition-timing-function: ease-in; */
 }
 
 .menu{
@@ -135,8 +132,6 @@ pre{
 	height: 100%;
 	min-height: 100%;
     padding: 0px;
-    /*margin: 5px;
-    margin-left: 15px;*/
     display:inline;
     width: 100% !important;
 }
@@ -1163,6 +1158,7 @@ textarea.field, .form-field  textarea{
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
     z-index: 100000;
+    box-sizing: border-box;
 
 }
 
@@ -1199,12 +1195,31 @@ textarea.field, .form-field  textarea{
 	}
 
 	.fixed-header{
-	   position: relative;
-	   float:left;
-	   max-height:inherit;
+	   /*position: relative;
+	   float:left;*/
+	   max-height:150px;
 	}
     .after-header{
-      padding-top: 0px;
+      padding-top: 150px;
+    }
+    .fixed-header.no-fixed-mobile{
+      position: relative;
+      float: left;
+    }
+    .fixed-header.no-fixed-mobile  .after-header{
+       padding-top: 0px;
+    }
+
+    .hide-scroll.no-height{
+       display: none;
+    }
+
+    .hide-scroll.no-height{
+
+    }
+
+    .hide-scroll.with-height{
+       height: auto;
     }
 
 	.menu{
@@ -1215,8 +1230,7 @@ textarea.field, .form-field  textarea{
         min-height: 32px;
         max-height: 32px;
 	    float:left;
-	    padding-top: 5px;
-        background-color:inherit;
+	    padding-top: 7px;
         border-right: none;
 		background-color:transparent;
 		z-index:3001;
@@ -1243,12 +1257,12 @@ textarea.field, .form-field  textarea{
 	.menu .menu-content::before{
 	   display: inline;
 	   content:url(../images/menu.png);
-	   height:16px;
-	   min-width: 16px;
-	   max-width: 16px;
-	   width: 16px;
+	   height:18px;
+	   min-width: 18px;
+	   max-width: 18px;
+	   width: 18px;
 	   padding-left: 7px;
-	   /*padding-top: 5px;*/
+	   padding-top: 7px;
 	   cursor:pointer;
 	   box-sizing: border-box;
 	}
@@ -1376,6 +1390,10 @@ textarea.field, .form-field  textarea{
      display:none;
    }
 
+   .wait{
+     margin: 50% 40%;
+   }
+
 }
 
 
@@ -1397,6 +1415,10 @@ textarea.field, .form-field  textarea{
 @media screen and (max-height:600px){
     .menu-suspended li{
 	   height: 40px;
+	}
+
+	.menu{
+	  overflow: auto;
 	}
 }
 

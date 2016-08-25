@@ -52,8 +52,6 @@ class UsuarioController(RenderView):
             obj.save()
 
     def AdicionarUsuario(self):
-        print(self.propriedades_requisicao)
-        print(self.request.GET)
         return self.SaveModel(model=UsuarioDetalhe, parametros=self.propriedades_requisicao,
                               msg="Usuário cadastrado com sucesso! Agora você está apto a fazer login")
 

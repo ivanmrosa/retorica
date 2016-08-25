@@ -16,9 +16,8 @@ img[src='/upload/']{
 }
 
 .img-logo{
-  width:15%;
-  height:15%;
-  margin-left:
+  width:12%;
+  height:12%;
 }
 
 
@@ -105,42 +104,42 @@ img[src='/upload/']{
 
 
 @media screen and (max-width: 800px) {
-.br-right, .br-left{
-    border: none;
-    border-bottom: 1px solid white;
-    margin-top: 5px;
-    text-align: center;
+    .br-right, .br-left{
+        border: none;
+        border-bottom: 1px solid white;
+        margin-top: 5px;
+        text-align: center;
 
-}
+    }
 
-.img-logo{
-  width:3%;
-  height:3%;
-}
-
-
-.palestrante{
-  width: 85%;
-  margin-left: 50px;
-}
-
-.group-pesq{
-  margin-top: 0px;
-}
+    .img-logo{
+      width:3%;
+      height:3%;
+    }
 
 
-.fixed-header > div{
-  height: auto;
-}
+    .palestrante{
+      width: 85%;
+      margin-left: 50px;
+    }
 
-#pesquisa-avancada{
-  margin-left: 0px;
-}
+    .group-pesq{
+      margin-top: 0px;
+    }
 
-.event{
-   background-color: ghostwhite;
-   padding: 0px;
-}
+
+    .fixed-header > div{
+      height: auto;
+    }
+
+    #pesquisa-avancada{
+      margin-left: 0px;
+    }
+
+    .event{
+       background-color: ghostwhite;
+       padding: 0px;
+    }
 
 
 }

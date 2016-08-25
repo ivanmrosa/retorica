@@ -242,7 +242,6 @@ class EventoController(RenderView):
         return retorno
 
     def EditarParticipante(self):
-        print(self.attributes)
         return self.SaveModel(model=EventoParticipante, parametros=self.attributes, msg="")
 
     def DeletarParticipante(self):
@@ -340,7 +339,6 @@ class EventoController(RenderView):
 
         return render(request=self.request, template_name='evento/grafico_template.html',
                       context={"titulo": "Auditório eventos - Participantes por gênero", "data": data})
-
 
     def ImprimirGraficoRegiao(self):
         with connection.cursor() as cursor:

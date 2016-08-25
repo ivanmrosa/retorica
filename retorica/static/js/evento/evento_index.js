@@ -87,9 +87,6 @@ evento = {
             mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
             mainLib.wait.stop();
           };
-
-
-
         },
         function(data){
           document.write(data);

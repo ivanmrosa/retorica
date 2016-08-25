@@ -938,7 +938,7 @@ function control_click(e){
       mainLib.controle_cliques = 0;
       return false;
     };
-
+    mainLib.find('.hide-scroll').rmCl('no-height');
     var menuList = document.querySelector('.menu-content');
     if(menuList){
       var menuShow = document.querySelector('.menu');
@@ -951,13 +951,6 @@ function control_click(e){
         menuShow.setAttribute("style", "height:100%");
         content.setAttribute("style", "display:table");
         mainLib.escodermenu = true;
-      }else{
-        /*mainLib.removeClass("menu-full", menuList);
-        mainLib.removeClass("menu-full", menuShow);
-        menuList.setAttribute("style", "height:0%");
-        menuShow.setAttribute("style", "height:0%");
-        content.setAttribute("style", "display:none");*/
-        //hideMenu();
       };
     };
 
@@ -1564,3 +1557,37 @@ mainLib.dataBinder.bindValidations = function(selector, object_erros){
    });
 
 }
+
+mainLib.scroll = {}
+
+mainLib.scroll.countUp = 0;
+mainLib.scroll.countDown = 0;
+mainLib.scroll.lastScrollTop = 0;
+
+
+window.addEventListener('scroll', function(){
+
+  if(mainLib.scroll.lastScrollTop < (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
+    mainLib.scroll.countDown += 1;
+    mainLib.scroll.countUp = 0;
+  }else if(mainLib.scroll.lastScrollTop > (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
+    mainLib.scroll.countDown = 0;
+    mainLib.scroll.countUp += 1;
+  };
+  if(mainLib.scroll.countDown == 2){
+    mainLib.scroll.countDown = 0;
+    mainLib.scroll.countUp = 0;
+    mainLib.find('.hide-scroll').loop(function(){
+       this.adCl('no-height');
+    });
+  }else if(mainLib.scroll.countUp == 2){
+      mainLib.scroll.countDown = 0;
+      mainLib.scroll.countUp = 0;
+      mainLib.find('.hide-scroll').loop(function(){
+       this.rmCl('no-height');
+    });
+  };
+
+  mainLib.scroll.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+});
