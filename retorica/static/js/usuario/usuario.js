@@ -20,9 +20,12 @@ usuario = {
      )
    },
    cadastrar_usuario: function(url, selector, ir_cadastro, resetar){
+       if(!mainLib.canUploadFile){
+         mainLib.aviso('Seu navegador não aceita uploads de arquivos.');
+         return false;
+       };
        url = url||'/cadastrar_usuario';
        selector = selector||'#form_signup';
-       //var params = mainLib.dataBinder.formParser(selector);
        var params = new FormData(mainLib.find(selector).first())
        mainLib.server.post(url, params,
           function(response){

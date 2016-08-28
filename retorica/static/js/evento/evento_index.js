@@ -79,8 +79,7 @@ evento = {
      if(!mainLib.canUploadFile){
         mainLib.aviso('Seu navegador não aceita uploads de arquivos.');
         return false;
-
-     }
+     };
       mainLib.wait.start();
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
