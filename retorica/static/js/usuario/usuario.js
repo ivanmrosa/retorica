@@ -24,11 +24,13 @@ usuario = {
          mainLib.aviso('Seu navegador não aceita uploads de arquivos.');
          return false;
        };
+       mainLib.wait.start();
        url = url||'/cadastrar_usuario';
        selector = selector||'#form_signup';
        var params = new FormData(mainLib.find(selector).first())
        mainLib.server.post(url, params,
           function(response){
+            mainLib.wait.stop();
             var data = JSON.parse(response);
             if(data["ok"] == false){
                if(ir_cadastro){
