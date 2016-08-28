@@ -210,12 +210,10 @@ evento = {
        return false;
 
      mainLib.wait.start()
-
+     mainLib.find('#gerenciar-evento-anexos form').first().evento_id.value = evento_id;
      frm = new FormData(mainLib.find('#gerenciar-evento-anexos form').first());
 
-     frm.append("evento_id", evento_id);
-
-     var titulo_anexo = frm.get("titulo_anexo");
+     var titulo_anexo = mainLib.find('#gerenciar-evento-anexos form').first().titulo_anexo.value;
 
      mainLib.server.post('/evento/inserir_anexo', frm,
          function(data){
