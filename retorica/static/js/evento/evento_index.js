@@ -65,13 +65,22 @@ evento = {
 
    carregar_participantes_evento: function(){
      mainLib.dataBinder.removeReplicatedModel('participantes_evento', mainLib.find('#gerenciar-evento-tabs').first());
-     var id = mainLib.find("#form-criar-editar-evento input[name='id']").elements[0].value;
+     var id = evento.get_evento_id(true);
+
+     if (!id)
+       return false
+
      mainLib.dataBinder.bindServerDataOnTemplate('evento/lista_participantes/', 'participantes_evento',
        mainLib.find('#gerenciar-evento-tabs').first(), 'evento_pk=' + id);
      evento.ir_pagina('gerenciar-eventos-participantes', 'gerenciar-eventos-tarefas');
    },
 
    salvar_evento: function(){
+     if(!mainLib.canUploadFile){
+        mainLib.aviso('Seu navegador não aceita uploads de arquivos.');
+        return false;
+
+     }
       mainLib.wait.start();
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
@@ -470,12 +479,16 @@ evento = {
    },
    imprimir_grafico_genero: function(){
       var evento_id = evento.get_evento_id(true);
+      if(!evento_id)
+        return false;
       var win = window.open(mainLib.format('/imprimir_grafico_genero?evento_id=%s', [evento_id]),
         'grafico', 'height=600,width=400');
       win.focus();
    },
    imprimir_grafico_localidade: function(){
-      var evento_id = evento.get_evento_id();
+      var evento_id = evento.get_evento_id(true);
+      if(!evento_id)
+        return false;
       var win = window.open(mainLib.format('/imprimir_grafico_regiao?evento_id=%s', [evento_id]),
         'grafico', 'height=600,width=400');
       win.focus();

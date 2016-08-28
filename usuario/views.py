@@ -99,7 +99,7 @@ class UsuarioController(RenderView):
         controle = ControleSenha(usuario=usuario)
         controle.RecuperarSenha()
 
-        return json.dumps({"ok": False, "msg": "Sua solicitação foi efetivada. Verifique seu email."})
+        return json.dumps({"ok": False, "msg": "Sua solicitação foi efetivada. Verifique seu e-mail."})
         #except Exception as e:
         #    return json.dumps(
         #        {"ok": False, "msg": "Ocorreu um erro e sua solicitação não pôde ser processada:" + str(e)})

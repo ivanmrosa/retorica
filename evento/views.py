@@ -251,7 +251,8 @@ class EventoController(RenderView):
             EventoParticipante.objects.select_related('EventoPeriodo').filter(
                 evento_periodo_id=participante["evento_periodo_id"], usuario_id=self.request.user.id).delete()
 
-        return json.dumps({"msg": "Inscrição cancelada."})
+        return json.dumps({"msg": "A inscrição foi cancelada com sucesso. Entre em contato com os organizadores "
+                                  "caso haja necessidade de devolução do pagamento."})
 
     def InserirPalestranteEvento(self):
         return self.SaveModel(model=EventoPalestrante, parametros=self.attributes,
