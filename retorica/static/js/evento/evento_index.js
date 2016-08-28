@@ -83,7 +83,7 @@ evento = {
       mainLib.wait.start();
       var frm = new FormData(mainLib.find('#form-criar-editar-evento').first());
       frm.set("evento_privado", mainLib.find('#form-criar-editar-evento [name="evento_privado"]').first().checked);
-
+      mainLib.wait.stop();
       mainLib.server.post('/evento/criar_editar_evento', frm,
         function(data){
           data = JSON.parse(data);
