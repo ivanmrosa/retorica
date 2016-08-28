@@ -209,12 +209,14 @@ evento = {
      if(!evento_id)
        return false;
 
+     mainLib.wait.start()
+
      frm = new FormData(mainLib.find('#gerenciar-evento-anexos form').first());
 
      frm.append("evento_id", evento_id);
 
      var titulo_anexo = frm.get("titulo_anexo");
-     mainLib.wait.start()
+
      mainLib.server.post('/evento/inserir_anexo', frm,
          function(data){
            data = JSON.parse(data);
@@ -242,12 +244,15 @@ evento = {
      if(!evento_id)
        return false;
 
+     mainLib.wait.start()
+     mainLib.find('#gerenciar-evento-videos form').first().evento_id.value = evento_id;
      frm = new FormData(mainLib.find('#gerenciar-evento-videos form').first());
 
-     frm.append("evento_id", evento_id);
+     //frm.append("evento_id", evento_id);
 
-     var titulo_video = frm.get("titulo_video");
-     mainLib.wait.start()
+
+     var titulo_video = mainLib.find('#gerenciar-evento-videos form').first().titulo_video.value;
+
      mainLib.server.post('/evento/inserir_video', frm,
          function(data){
 

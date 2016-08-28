@@ -227,7 +227,6 @@
                         </div>
                         <div class="form-field">
                             <label for="imagem_divulgacao">imagem para timeline:</label>
-                            <!--<input type="hidden" data-name="imagem_divulgacao" data-value="[{imagem_divulgacao}]"> -->
                             <input type="file" data-name="imagem_divulgacao"
                                    accept="image/*"
                                    onchange="mainLib.showLocalImage(this,
@@ -238,6 +237,7 @@
                             <img data-src="/upload/[{imagem_divulgacao}]" data-id="imagem_divulgacao_img"
                                  alt="escolha uma imagem acima"/>
                         </div>
+
 
                     </div>
                     <div data-model="local">
@@ -443,6 +443,7 @@
                                     <input type="url" class="field ff-small small-radius" name="url"
                                            placeholder="digite a url do vídeo que quer incorporar">
                                 </div>
+                                <input type="hidden" name="evento_id">
                             </form>
                         </div>
                         <div>
