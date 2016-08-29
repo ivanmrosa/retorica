@@ -1607,7 +1607,7 @@ window.addEventListener('scroll', function(){
 
 });
 
-mainLib.onPressEnterClick = function(selector){
+mainLib.onPressEnterClick = function(event, selector){
   if(event.keyCode != 13)
     return false;
 

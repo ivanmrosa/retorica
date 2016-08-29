@@ -181,7 +181,7 @@
             <section id="criar_editar_evento" class="col col-10">
 
                 <h3 class="title">adicione e altere o evento</h3>
-                <form id="form-criar-editar-evento" class="col col-10" onkeydown="mainLib.onPressEnterClick('#edicao_evento_salvar')">
+                <form id="form-criar-editar-evento" class="col col-10">
                     <div data-model="evento">
                         <input type="hidden" data-name="id" data-value="[{id}]">
                         <div class="form-field">
@@ -685,7 +685,7 @@
         <div data-model="edicao_usuario">
             <div class="col col-10 suspend bck-ghost">
                 <h3 class="title orange">alterar dados do perfil</h3>
-                <form data-id="form_edicao_usuario" method="post" onkeydown="mainLib.onPressEnterClick('#form_edicao_usuario a.salvar')">
+                <form data-id="form_edicao_usuario" method="post" onkeydown="mainLib.onPressEnterClick(event, '#form_edicao_usuario a.salvar')">
                     <section data-id="imagem_perfil" class="col col-10">
                         <h4 class="title">imagem do perfil</h4>
                         <div class="form-field">
