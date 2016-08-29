@@ -217,8 +217,8 @@
                         <div class="form-field text-center">
                             <label for="evento_privado">evento privado(não mostrar na timeline)</label>
                             <input type="checkbox" data-id="cadastro_evento_evento_privado"
-                                   data-value=[{evento_privado}]  >
-                            <input type="hidden"  data-name="evento_privado">
+                                   data-value=[{evento_privado}]>
+                            <input type="hidden" data-name="evento_privado">
 
                         </div>
                         <div class="form-field">
@@ -290,7 +290,8 @@
 
                 <div class="col col-10">
                     <h3 class="title"></h3>
-                    <a href="javascript:void(0)" class="btn btn-blue"  id="edicao_evento_salvar" onclick="evento.salvar_evento();">salvar e
+                    <a href="javascript:void(0)" class="btn btn-blue" id="edicao_evento_salvar"
+                       onclick="evento.salvar_evento();">salvar e
                         gerenciar</a>
                 </div>
             </section>
@@ -548,7 +549,7 @@
                         <h3 class="title gray">[{titulo}]</h3>
                         <div class="col col-10">
                             <a href="#" class="flo-left img-event"><img class="small-radius"
-                                    data-src="/upload/[{imagem_divulgacao}]"/></a>
+                                                                        data-src="/upload/[{imagem_divulgacao}]"/></a>
 
                             <pre class="text-justify des-event">[{descricao}]</pre>
                         </div>
@@ -608,7 +609,7 @@
                             <div class="col col-5 text-center">
                                 <h5>[{titulo_video}]</h5>
                                 <iframe style="position:relative; float:left; display:inline; width:100%;"
-                                         height="315"
+                                        height="315"
                                         data-src="[{url}]"
                                         webkitallowfullscreen mozallowfullscreen allowfullscreen>
                                 </iframe>
@@ -685,7 +686,8 @@
         <div data-model="edicao_usuario">
             <div class="col col-10 suspend bck-ghost">
                 <h3 class="title orange">alterar dados do perfil</h3>
-                <form data-id="form_edicao_usuario" method="post" onkeydown="mainLib.onPressEnterClick(event, '#form_edicao_usuario a.salvar')">
+                <form data-id="form_edicao_usuario" method="post"
+                      onkeydown="mainLib.onPressEnterClick(event, 'a.salvar_dados_usuario')">
                     <section data-id="imagem_perfil" class="col col-10">
                         <h4 class="title">imagem do perfil</h4>
                         <div class="form-field">
@@ -814,15 +816,17 @@
 
                     </section>
 
-                    <a href="javascript:void(0)"
-                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
-                       class="btn btn-blue full-width salvar">salvar dados do usuário</a>
 
                 </form>
+                <a href="javascript:void(0)"
+                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
+                   class="btn btn-blue full-width salvar_dados_usuario">salvar dados do usuário</a>
+
             </div>
             <div class="col col-10 suspend bck-ghost">
                 <h3 class="title orange">alteração de senha</h3>
-                <form data-id="form_edicao_usuario_senha" onkeydown="mainLib.onPressEnterClick('#form_edicao_usuario_senha a.salvar')">
+                <form data-id="form_edicao_usuario_senha"
+                      onkeydown="mainLib.onPressEnterClick('a.alterar_senha')">
                     <div class="form-field">
                         <label for="password">nova senha:</label>
                         <input type="password" data-id="password" name="password">
@@ -831,11 +835,12 @@
                         <label for="old_password">repita a senha:</label>
                         <input type="password" data-id="confirm_password" name="confirm_password">
                     </div>
-                    <a href="javascript:void(0)"
-                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
-                       class="btn btn-blue full-width salvar">alterar senha</a>
 
                 </form>
+                <a href="javascript:void(0)"
+                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
+                   class="btn btn-blue full-width alterar_senha">alterar senha</a>
+
             </div>
         </div>
 
@@ -854,6 +859,8 @@
       mainLib.dataBinder.autoComplete();
       evento.ir_pagina('lista_eventos');
       evento.pgc_gerenciar_evento();
+
+
 
 
 
