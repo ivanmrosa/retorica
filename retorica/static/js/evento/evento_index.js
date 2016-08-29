@@ -246,9 +246,6 @@ evento = {
      mainLib.find('#gerenciar-evento-videos form').first().evento_id.value = evento_id;
      frm = new FormData(mainLib.find('#gerenciar-evento-videos form').first());
 
-     //frm.append("evento_id", evento_id);
-
-
      var titulo_video = mainLib.find('#gerenciar-evento-videos form').first().titulo_video.value;
 
      mainLib.server.post('/evento/inserir_video', frm,
@@ -280,6 +277,7 @@ evento = {
       mainLib.dataBinder.removeReplicatedModel('local', parent);
       mainLib.dataBinder.removeReplicatedModel('periodos', parent);
       mainLib.dataBinder.removeReplicatedModel('organizadores', parent);
+      mainLib.dataBinder.removeReplicatedModel('palestrantes', parent);
       mainLib.dataBinder.removeReplicatedModel('anexos', parent);
       mainLib.dataBinder.removeReplicatedModel('videos', parent);
       mainLib.dataBinder.removeReplicatedModel('participantes_evento', parent);

@@ -1606,3 +1606,13 @@ window.addEventListener('scroll', function(){
   mainLib.scroll.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
 });
+
+mainLib.onPressEnterClick = function(selector){
+  if(event.keyCode != 13)
+    return false;
+
+  ele = mainLib.find(selector).first();
+  if(ele){
+    ele.click();
+  }
+}

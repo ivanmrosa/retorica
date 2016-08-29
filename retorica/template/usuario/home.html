@@ -33,7 +33,7 @@
         <div class="col col-1 white label-login bold text-center hide-mobile">
             <span class="small-font">login</span>
         </div>
-        <form id="form_login" method="post">{% csrf_token %}
+        <form id="form_login" method="post" onkeydown="mainLib.onPressEnterClick('#form_login a.salvar')">{% csrf_token %}
             <div class="col col-4">
                 <input type="text" class="field ff-small small-radius " placeholder="usuário" name="username">
             </div>
@@ -41,7 +41,7 @@
                 <input type="password" class="field ff-small small-radius" name="password" placeholder="senha">
             </div>
             <div class="col col-2">
-                <a href="javascript:void(0)" onclick="usuario.logar();" class="btn btn-orange btn-small full-width">entrar</a>
+                <a href="javascript:void(0)" onclick="usuario.logar();" class="btn btn-orange btn-small full-width salvar">entrar</a>
             </div>
 
         </form>
