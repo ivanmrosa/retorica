@@ -93,7 +93,7 @@ class UsuarioController(RenderView):
         username = self.propriedades_requisicao["usuario"]
         usuario = UsuarioDetalhe.objects.filter(username=username)
 
-        if not username:
+        if not usuario:
             return json.dumps({"ok": False, "msg": "O usuário informado não existe. Informe um usuário válido."})
 
         controle = ControleSenha(usuario=usuario)
