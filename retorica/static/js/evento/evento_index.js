@@ -1,7 +1,7 @@
 evento = {
    ir_pagina: function(id_page, id_container){
-      mainLib.find('#' + id_container + ' > .page').adCl('hidde');
-      mainLib.find('#' + id_page).rmCl('hidde');
+      mainLib.find('#' + id_container + ' > .page').adCl('hide');
+      mainLib.find('#' + id_page).rmCl('hide');
    },
 
    pgc_gerenciar_evento: function(){

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block 'body' %}
-<header class="fixed-header bck-blue suspend ">
+<header class="fixed-header  little-suspend">
     <div class="col col-1 ">
         <center><a href="/evento"><img src="/static/images/logo4.png" title="auditório eventos" alt="auditório eventos"
                                        class="img-logo"/></a></center>
@@ -19,7 +19,7 @@
                    data-relative-img-url="/upload/" id="pesquisa_evento">
         </div>
         <div class="col col-1 ">
-            <a href="javascript:void(0)" class="btn btn-blue full-width btn-search" id="btn-pesquisa_eventos"></a>
+            <a href="javascript:void(0)" class="btn full-width btn-search" id="btn-pesquisa_eventos"></a>
         </div>
     </div>
     <div class="col col-1 flo-right hide-mobile ">
@@ -38,7 +38,7 @@
 
 </header>
 
-<section id="menu" class="after-header menu bck-blue ">
+<section id="menu" class="after-header menu  ">
 
     <div class="menu-content">
 
@@ -86,8 +86,8 @@
     </div>
 
 </section>
-<div id="evento_conteudo" class="after-header after-menu col col-8">
-    <section id="lista_eventos" class="col col-6 page hidde">
+<div id="evento_conteudo" class="after-header after-menu col col-8 conteudo">
+    <section id="lista_eventos" class="col col-6 page hide">
         <div data-model="evento_lista">
             <div class="event col col-8 suspend radius ">
                 <div class="col col-10 ">
@@ -144,31 +144,31 @@
         </div>
     </section>
 
-    <section id="gerenciar_eventos" class="page hidde col col-7 suspend">
-        <div class="col col-10 title" id="gerenciar-evento-cards">
-
-            <div class="card c-small cur-pointer text-center bigger-on-hover small-radius"
-                 onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
+    <section id="gerenciar_eventos" class="page hide col col-7 border-right">
+        <div class="col col-10 title bck-green" id="gerenciar-evento-cards">
+            <a href="javascript:void(0)" class="btn btn-blue"
+               onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador')">
                 <img src="/static/images/list32_1.png">
-                <div class="green small-font">meus eventos</div>
-            </div>
 
-            <div class="card c-small cur-pointer text-center bigger-on-hover small-radius"
-                 onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
+                <div class="white small-font">&nbsp&nbspmeus eventos&nbsp&nbsp</div>
+            </a>
+
+            <a href="javascript:void(0)" class="btn btn-blue"
+               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
                 <img src="/static/images/add32.png">
-                <div class="green small-font">adicionar evento</div>
-            </div>
+                <div class="white small-font">adicionar evento</div>
+            </a>
         </div>
-        <section id="lista_eventos_gerenciar" class="col col-10  page">
+        <section id="lista_eventos_gerenciar" class="col col-10  page ">
             <div class="col col-10">
-                <small class="blue">clique sobre um evento da lista para editar</small>
+                <small class="red">clique sobre um evento da lista para editar</small>
             </div>
             <div class="col col-10">
                 <ul class="list-btn">
-                    <li data-model="eventos_organizador" class="bck-blue white"
+                    <li data-model="eventos_organizador"
                         onclick="evento.carregar_evento_edicao([{evento_id}])" data-self>
                         <b>[{titulo}]</b>
                     </li>
@@ -176,7 +176,7 @@
             </div>
         </section>
 
-        <div id="gerenciar-evento-tabs" class="hidde page col col-10">
+        <div id="gerenciar-evento-tabs" class="hide page col col-10">
 
             <section id="criar_editar_evento" class="col col-10">
 
@@ -351,7 +351,7 @@
                                data-relative-img-url="/upload/"
                         >
                     </div>
-                    <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue full-width"
+                    <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
                                                onclick="evento.inserir_organizador()">adicionar
                         organizador</a></div>
                     <small class="red">remova os organizadores clicando sobre seus nomes</small>
@@ -386,7 +386,7 @@
                 </form>
                 <div class="col col-10">
                     <a href="javascript:void(0)" onclick="evento.inserir_palestrante()"
-                       class="btn btn-blue full-width">adicionar palestrante</a>
+                       class="btn btn-blue">adicionar palestrante</a>
                 </div>
                 <div class="col col-10">
                     <small class="red">remova os palestrantes clicando sobre seus nomes</small>
@@ -467,23 +467,28 @@
                 </div>
             </section>
             <section id="gerenciar-eventos-tarefas" class="col col-10">
-                <div class="card c-card cur-pointer text-center bigger-on-hover small-radius"
-                     onclick="evento.carregar_participantes_evento();">
-                    <img src="/static/images/list3.png">
-                    <div class="green small-font">gerenciar participantes</div>
+                <div class="col col-1">
+                    <a class="btn btn-blue full-width"
+                       onclick="evento.carregar_participantes_evento();">
+                        <img src="/static/images/list3.png">
+                        <div class="white small-font">gerenciar participantes</div>
+                    </a>
                 </div>
-                <div class="card c-card cur-pointer text-center bigger-on-hover small-radius"
-                     onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
-                    <img src="/static/images/graph.png">
-                    <div class="green small-font">dados gerenciais</div>
-                </div>
-                <div class="card c-card cur-pointer text-center bigger-on-hover small-radius"
-                     onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
-                    <img src="/static/images/graph.png">
-                    <div class="green small-font">enviar email para os participantes</div>
+                <div class="col col-1">
+                    <a class="btn btn-blue full-width"
+                       onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
+                        <img src="/static/images/graph.png">
+                        <div class="white small-font">dados gerenciais</div>
+                    </a></div>
+                <div class="col col-1">
+                    <a class="btn btn-blue full-width"
+                       onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
+                        <img src="/static/images/graph.png">
+                        <div class="white small-font">e-mail para participantes</div>
+                    </a>
                 </div>
 
-                <section id="gerenciar-eventos-participantes" class="col col-10 hidde page">
+                <section id="gerenciar-eventos-participantes" class="col col-10 hide page">
                     <div class="tabled col col-10">
                         <div class="tabled-body col col-10">
                             <div class="tabled-row col col-10" data-model="participantes_evento" data-self="">
@@ -512,7 +517,7 @@
 
                 </section>
 
-                <section id="gerenciar-eventos-relatorios" class="page hidde col col-10">
+                <section id="gerenciar-eventos-relatorios" class="page hide col col-10">
                     <a href="javascript:void(0)" onclick="evento.imprimir_grafico_localidade()"
                        class="btn btn-blue">gráfico por localidade</a>
                     <a href="javascript:void(0)" onclick="evento.imprimir_grafico_genero()"
@@ -520,7 +525,7 @@
 
                 </section>
 
-                <section id="enviar-email-participantes" class="page hidde col col-10">
+                <section id="enviar-email-participantes" class="page hide col col-10">
                     <form>
                         <input type="input" class="field" placeholder="Assunto" name="assunto">
                         <textarea class="field" name="mensagem" placeholder="Mensagem"></textarea>
@@ -681,24 +686,12 @@
         </div>
     </section>
 
-    <section id="dados_usuario_logado" class="page hidde col col-7 ">
+    <section id="dados_usuario_logado" class="page hide col col-7 border-right">
 
         <div data-model="edicao_usuario">
-            <div class="col col-10 suspend bck-ghost">
-                <h3 class="title orange">alterar dados do perfil</h3>
+            <div class="col col-10">
                 <form data-id="form_edicao_usuario" method="post"
                       onkeydown="mainLib.onPressEnterClick(event, 'a.salvar_dados_usuario')">
-                    <section data-id="imagem_perfil" class="col col-10">
-                        <h4 class="title">imagem do perfil</h4>
-                        <div class="form-field">
-                            <input type="file" accept="image/*" name="foto_usuario"
-                                   onchange="mainLib.showLocalImage(this, mainLib.find('#foto_usuario_img').first())">
-                        </div>
-                        <div class="img-event">
-                            <img data-src="/upload/[{foto_usuario}]" data-id="foto_usuario_img"
-                                 alt="escolha uma foto para o perfil"/>
-                        </div>
-                    </section>
                     <section data-id="cadastro_base" class="col col-10">
                         <h4 class="title">identificação</h4>
                         <div class="form-field">
@@ -735,6 +728,17 @@
 
 
                     </section>
+                    <section data-id="imagem_perfil" class="col col-10">
+                        <h4 class="title">imagem do perfil</h4>
+                        <div class="form-field">
+                            <input type="file" accept="image/*" name="foto_usuario"
+                                   onchange="mainLib.showLocalImage(this, mainLib.find('#foto_usuario_img').first())">
+                        </div>
+                        <div class="img-event">
+                            <img data-src="/upload/[{foto_usuario}]" data-id="foto_usuario_img"
+                                 alt="escolha uma foto para o perfil"/>
+                        </div>
+                    </section>
 
                     <section id="cadastro_localidade" class="col col-10">
                         <h4 class="title">Localização</h4>
@@ -746,6 +750,7 @@
 
                             </select>
                         </div>
+
                         <div class="form-field">
                             <label for="estado">estado:</label>
 
@@ -818,28 +823,42 @@
 
 
                 </form>
-                <a href="javascript:void(0)"
-                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
-                   class="btn btn-blue full-width salvar_dados_usuario">salvar dados do usuário</a>
+                <section class="col col-10">
+                    <a href="javascript:void(0)"
+                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
+                       class="btn btn-blue  salvar_dados_usuario">salvar dados do usuário</a>
+                </section>
 
             </div>
-            <div class="col col-10 suspend bck-ghost">
-                <h3 class="title orange">alteração de senha</h3>
-                <form data-id="form_edicao_usuario_senha"
-                      onkeydown="mainLib.onPressEnterClick(event, 'a.alterar_senha')">
-                    <div class="form-field">
-                        <label for="password">nova senha:</label>
-                        <input type="password" data-id="password" name="password">
-                    </div>
-                    <div class="form-field">
-                        <label for="old_password">repita a senha:</label>
-                        <input type="password" data-id="confirm_password" name="confirm_password">
-                    </div>
-
-                </form>
+            <section class="col col-10">
                 <a href="javascript:void(0)"
-                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
-                   class="btn btn-blue full-width alterar_senha">alterar senha</a>
+                   onclick="mainLib.popup.openPopup('popup_aulterar_senha')"
+                   class="btn btn-blue  alterar_senha">alterar senha</a>
+            </section>
+            <div class="popup" id="popup_aulterar_senha">
+                <div class="popup-body popup-dlg">
+                    <h3 class="title">alteração de senha</h3>
+                    <form data-id="form_edicao_usuario_senha"
+                          onkeydown="mainLib.onPressEnterClick(event, 'a.alterar_senha')">
+                        <div class="form-field">
+                            <label for="password">nova senha:</label>
+                            <input type="password" data-id="password" name="password">
+                        </div>
+                        <div class="form-field">
+                            <label for="old_password">repita a senha:</label>
+                            <input type="password" data-id="confirm_password" name="confirm_password">
+                        </div>
+
+                    </form>
+
+                    <a href="javascript:void(0)"
+                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
+                       class="btn btn-blue  alterar_senha">alterar senha</a>
+                    <a href="javascript:void(0)"
+                       onclick="mainLib.popup.closePopup('popup_aulterar_senha')"
+                       class="btn btn-red  alterar_senha">cancelar</a>
+
+                </div>
 
             </div>
         </div>
@@ -859,6 +878,12 @@
       mainLib.dataBinder.autoComplete();
       evento.ir_pagina('lista_eventos');
       evento.pgc_gerenciar_evento();
+
+
+
+
+
+
 
 
 

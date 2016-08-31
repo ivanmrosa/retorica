@@ -79,6 +79,26 @@ img[src='/upload/']{
  word-wrap: break-word;
 }
 
+.border-right{
+   min-height:100%;
+   border-right:1px solid #ebebe0;
+}
+
+.conteudo{
+  height: 100%;
+}
+
+#dados_usuario_logado section{
+   border:1px solid #ebebe0;
+   border-radius: 5px;
+
+}
+
+#form_edicao_usuario section h4{
+  color:#0074D9;
+  font-weight: bold;
+}
+
 @media print, screen{
 
   .cracha{

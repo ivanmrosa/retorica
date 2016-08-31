@@ -110,7 +110,7 @@ mainLib.aviso = function(message, fnToExecuteAfter){
           '  <div class="popup-body popup-dlg small-radius">	'+
  	      '    <h2 class="red title">Aviso !</h2> '+
           '    <p > <center>' + message + ' </center></p>'+          
- 	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn full-width btn-orange small-radius">OK</a>'+
+ 	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn full-width btn-blue small-radius">OK</a>'+
  	      '  </div> ';
 
     var popupE = document.createElement('div');
@@ -137,7 +137,7 @@ mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
           '  <div class="popup-body popup-dlg small-radius">	'+
  	      '    <h2 class="red title">Confirmação ! </h2> '+
           '    <p><center> ' + message + ' </center> </p>'+          
- 	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn full-width btn-green small-radius">Sim</a> '+
+ 	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn full-width btn-blue small-radius">Sim</a> '+
           '    <a href="javascript:void()" id="vmsisMsgBtnNo" class="btn btn-red full-width small-radius">Não</a> </div>'+
  	      '  </div> ';
  
@@ -1464,7 +1464,7 @@ mainLib.dataBinder.autoComplete = function(){
     if(url && field && text_field){
 
       var container = document.createElement('div');
-      container.setAttribute('class', 'autocomplete-container stay-on-top suspend hidde');
+      container.setAttribute('class', 'autocomplete-container stay-on-top suspend hide');
       container = parent.appendChild(container);
 
       this.addEventListener('keyup', function(e){
@@ -1497,9 +1497,9 @@ mainLib.dataBinder.autoComplete = function(){
           };
           html += '</ul>';
           if(data.length > 0){
-            mainLib.removeClass('hidde', container)
+            mainLib.removeClass('hide', container)
           }else{
-            mainLib.addClass('hidde', container);
+            mainLib.addClass('hide', container);
           };
           container.innerHTML = html;
           mainLib.find('ul li', container).loop(function(){
