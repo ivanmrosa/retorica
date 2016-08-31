@@ -60,6 +60,12 @@
   height: 50px;
 }
 
+#div-left img{
+  padding-top: 35%;
+  padding-left: 32%;
+}
+
+
 
 @media screen and (max-width: 800px) {
 
@@ -71,6 +77,11 @@
 
 .fixed-header > div{
   height: auto;
+}
+
+#div-left img{
+  padding-top: 0px;
+  padding-left: 32%;
 }
 
 

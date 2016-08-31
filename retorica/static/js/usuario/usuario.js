@@ -1,7 +1,7 @@
 usuario = {
    ir_cadastro: function(id_cadastro){
-      mainLib.find('#form_signup > section').adCl('hidde');
-      mainLib.find('#' + id_cadastro).rmCl('hidde');
+      mainLib.find('#form_signup > section').adCl('hide');
+      mainLib.find('#' + id_cadastro).rmCl('hide');
    },
    logar: function(){
      mainLib.server.post('/login', mainLib.dataBinder.formParser('#form_login'),
