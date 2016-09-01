@@ -25,9 +25,9 @@
 </div>
 <div class="all_form ">
     <header class="fixed-header no-fixed-mobile">
-       <!-- <div class="col col-2 label-login">
-            <center><img class="img-logo" src="/static/images/logo1.png"/></center>
-        </div> -->
+        <div class="col col-2 label-login">
+            <center><img class="img-logo" src="/static/images/logo3.png"/></center>
+        </div>
         <div class="col col-5 flo-right" id="divlogin">
 
             <div class="col col-1 white label-login bold text-center hide-mobile">
@@ -36,48 +36,48 @@
             <form id="form_login" method="post" onkeydown="mainLib.onPressEnterClick(event, 'a.realizar_login')">
                 {%csrf_token %}
                 <div class="col col-4">
-                    <input type="text" class="field ff-small small-radius " placeholder="usuário" name="username">
+                    <input type="text" class="field  small-radius " placeholder="usuário" name="username">
                 </div>
                 <div class="col col-3">
-                    <input type="password" class="field ff-small small-radius" name="password" placeholder="senha">
+                    <input type="password" class="field  small-radius" name="password" placeholder="senha">
                 </div>
             </form>
             <div class="col col-2">
                 <a href="javascript:void(0)" onclick="usuario.logar();"
-                   class="btn btn-orange btn-small full-width realizar_login">entrar</a>
+                   class="btn btn-blue btn-small full-width realizar_login">entrar</a>
             </div>
 
         </div>
     </header>
 
-    <aside class="col col-3 after-header" id="div-left">
-        <img class="img-logo" src="/static/images/logo1.png"/>
+    <aside class="col col-3 after-header " id="div-left">
     </aside>
+
     <section class="col col-4 after-header" id="cadastro">
-        <div class="title">faça o seu cadastro abaixo \0/ ou recupere sua senha
-            <a href="javascript:void(0)" class=""
+        <div class="title white">faça o seu cadastro abaixo \0/ ou recupere sua senha
+            <a href="javascript:void(0)" class="blue"
                onclick="mainLib.popup.openPopup('recuperar_senha')"> aqui</a>
         </div>
         <form id="form_signup" method="post">{% csrf_token %}
             <section id="cadastro_base">
                 <h4 class="title">Identificação</h4>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="email">e-mail</label>
                     <input type="email" name="email" id="email">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="first_name">primeiro nome:</label>
                     <input type="text" id="first_name" name="first_name">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="last_name">sobrenome:</label>
                     <input type="text" id="last_name" name="last_name">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="telefone">telefone:</label>
                     <input type="text" id="telefone" name="telefone">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="sexo">sexo:</label>
                     <select name="sexo" id="sexo">
                         <option value=""></option>
@@ -87,11 +87,11 @@
                     </select>
                 </div>
 
-                <div class="form-field text-center ff-small">
+                <div class="form-field text-center ">
                     <label for="tipo_usuario">desejo organizar eventos</label>
                     <input type="checkbox" name="tipo_usuario">
                 </div>
-                <a href="javascript:void(0)" class="btn full-width bold btn-orange small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="mainLib.dataBinder.bindServerDataOnTemplate('/localidade/obter_paises',
                           'paises', document, '', mainLib.find('#pais > option').elements.length <= 2 );
                           usuario.ir_cadastro('cadastro_localidade')">prosseguir
@@ -102,14 +102,14 @@
 
             <section id="cadastro_localidade" class="hide">
                 <h4 class="title">Localização</h4>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="pais">país:</label>
                     <select name="pais_id" id="pais" onblur="mainLib.dataBinder.fillLookup('[data-lookup-url]')">
                         <option value=""></option>
                         <option data-model="paises" data-self data-value="[{id}]">[{nome}]</option>
                     </select>
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="estado">estado:</label>
                     <select name="estado_id" id="estado"
                             data-lookup-url="/localidade/obter_estados"
@@ -119,7 +119,7 @@
                     </select>
                 </div>
 
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="cidade">cidade:</label>
                     <select name="cidade_id" id="cidade"
                             data-lookup-url="/localidade/obter_cidades"
@@ -128,59 +128,59 @@
                             data-lookup-master-field="estado_id">
                     </select>
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="cep">cep/zip-code:</label>
                     <input name="cep" id="cep" type="text">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="bairro">bairro:</label>
                     <input name="bairro" id="bairro" type="text">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for=endereco">logradouro:</label>
                     <input name="endereco" id="endereco" type="text">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="numero_endereco">número:</label>
                     <input name="numero_endereco" id="numero_endereco" type="number">
                 </div>
-                <a href="javascript:void(0)" class="btn full-width bold btn-orange small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="usuario.ir_cadastro('cpf_rg')">prosseguir</a>
-                <a href="javascript:void(0)" class="btn full-width bold btn-red small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-red"
                    onclick="usuario.ir_cadastro('cadastro_base')">retornar</a>
 
             </section>
 
             <section id="cpf_rg" class="hide">
                 <h4 class="title">Indentificação oficial</h4>
-                <div class="form-field ff-small">
-                    <label for="cpf">cpf:</label>
+                <div class="form-field">
+                    <label for="cpf">cpf :</label>
                     <input name="cpf" id=cpf" type="text">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field">
                     <label for="numero_identidade">registro geral (RG) :</label>
                     <input name="numero_identidade" id="numero_identidade" type="text">
                 </div>
-                <a href="javascript:void(0)" class="btn full-width bold btn-orange small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="usuario.ir_cadastro('cadastro_pagseguro')">prosseguir</a>
-                <a href="javascript:void(0)" class="btn full-width bold btn-red small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-red"
                    onclick="usuario.ir_cadastro('cadastro_localidade')">retornar</a>
 
             </section>
 
             <section id="cadastro_pagseguro" class="hide">
                 <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="email_pagseguro">email pagseguro:</label>
                     <input name="email_pagseguro" id="email_pagseguro" type="email">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="token_pagseguro">token único pagseguro :</label>
                     <input name="token_pagseguro" id="token_pagseguro" type="text">
                 </div>
-                <a href="javascript:void(0)" class="btn full-width bold btn-orange small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="usuario.ir_cadastro('usuario_senha')">prosseguir</a>
-                <a href="javascript:void(0)" class="btn full-width bold btn-red small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-red"
                    onclick="usuario.ir_cadastro('cpf_rg')">retornar</a>
 
             </section>
@@ -188,22 +188,22 @@
             <section id="usuario_senha" class="hide">
                 <h4 class="title">autenticação:</h4>
 
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="username">usuário:</label>
                     <input type="text" name="username" id="username">
                 </div>
 
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="password">senha:</label>
                     <input name="password" id="password" type="password">
                 </div>
-                <div class="form-field ff-small">
+                <div class="form-field ">
                     <label for="confirmacao_senha">confirmação da senha:</label>
                     <input name="confirm_password" id="confirmacao_senha" type="password">
                 </div>
-                <a href="javascript:void(0)" class="btn full-width bold btn-orange  small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="usuario.cadastrar_usuario('/cadastrar_usuario', '#form_signup', 'cadastro_base', true)">cadastrar</a>
-                <a href="javascript:void(0)" class="btn full-width bold btn-red small"
+                <a href="javascript:void(0)" class="btn full-width bold btn-red"
                    onclick="usuario.ir_cadastro('cadastro_pagseguro')">retornar</a>
 
             </section>

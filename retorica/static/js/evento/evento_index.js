@@ -175,11 +175,13 @@ evento = {
       var text_search = search.value;
       if(!id_organizador){
         mainLib.aviso('Usuário não encontrado nos nossos cadastros. Informe um usuário válido.');
+        return false;
       };
       var id_evento = evento.get_evento_id(true);
 
       if(!id_evento)
         return false;
+
       mainLib.wait.start()
       mainLib.server.post('/evento/inserir_organizador',
         mainLib.format('organizador_id=%s&evento_id=%s', [id_organizador, id_evento]),

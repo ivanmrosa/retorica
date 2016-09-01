@@ -16,8 +16,10 @@ img[src='/upload/']{
 }
 
 .img-logo{
-  width:12%;
-  height:12%;
+  /*width:12%;
+  height:12%;*/
+    width:60%;
+  height:60%;
 }
 
 
@@ -26,12 +28,17 @@ img[src='/upload/']{
 }
 
 
+.menu-content > ul li:hover{
+   background-color: #006080;
+}
+
 
 .event{
    background-color: white;/*ghostwhite;*/
    padding: 20px;
    font-size: 14px;
    color: gray;
+   /*border: 2px solid #ebebe0;*/
 }
 
 .event ul{
@@ -91,11 +98,16 @@ img[src='/upload/']{
 #dados_usuario_logado section{
    border:1px solid #ebebe0;
    border-radius: 5px;
+   background-color:#006080;
 
 }
 
+#dados_usuario_logado section label{
+  color: white;
+}
+
 #form_edicao_usuario section h4{
-  color:#0074D9;
+  color: white;
   font-weight: bold;
 }
 
@@ -123,6 +135,17 @@ img[src='/upload/']{
 
 }
 
+.tab-body{
+  background-color:#006080;
+}
+
+.tab-body label, .tab-body .title{
+  color: white;
+}
+
+.tabs-group{
+  background-color:#006080;
+}
 
 
 @media screen and (max-width: 800px) {
@@ -135,8 +158,8 @@ img[src='/upload/']{
     }
 
     .img-logo{
-      width:3%;
-      height:3%;
+      width:15%;
+      height:15%;
     }
 
 
@@ -159,7 +182,7 @@ img[src='/upload/']{
     }
 
     .event{
-       background-color: ghostwhite;
+       background-color: white;
        padding: 0px;
     }
 

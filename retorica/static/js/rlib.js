@@ -1548,6 +1548,7 @@ mainLib.dataBinder.bindValidations = function(selector, object_erros){
          object_erros = JSON.parse(object_erros);
       };
       var ele = undefined;
+      var lbl = undefined;
       this.find('.errorlist').loop(function(){
         this.parentNode.removeChild(this);
       });
@@ -1559,12 +1560,13 @@ mainLib.dataBinder.bindValidations = function(selector, object_erros){
          for(var i = 0; i < object_erros[key].length; i++){
            error_ele.innerHTML += '<p>'+object_erros[key][i]+'</p>'
          };
-         ele = mainLib.find('[name="'+key+'"', this).elements[0];
+         ele = mainLib.find('[name="'+key+'"', this).first();
          if(!ele){
-           ele = mainLib.find('[name="'+key+'_id"', this).elements[0];
+           ele = mainLib.find('[name="'+key+'_id"', this).first();
          };
          if(ele){
-           ele.parentNode.insertBefore(error_ele, ele);
+           lbl = ele.parentNode.querySelector('label') || ele;
+           ele.parentNode.insertBefore(error_ele, lbl);
          }else{
            this.appendChild(error_ele);
          }

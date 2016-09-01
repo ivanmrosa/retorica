@@ -7,8 +7,8 @@
 {% block 'body' %}
 <header class="fixed-header  little-suspend">
     <div class="col col-1 ">
-        <center><a href="/evento"><img src="/static/images/logo4.png" title="auditório eventos" alt="auditório eventos"
-                                       class="img-logo"/></a></center>
+        <center><a href="/evento"><img src="/static/images/logo3.png" title="auditório eventos" alt="auditório eventos"
+                                       class="img-logo white"/></a></center>
     </div>
 
     <div id="div-pesq" class="col col-8 hide-scroll">
@@ -46,19 +46,19 @@
             <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
                          mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
                          mainLib.find('#lista_eventos').elements[0])">
-                <img src="/static/images/home-32.png">
-                <a href="javascript:void(0)"> Home </a>
+                <img src="/static/images/home32_4.png">
+                <a href="javascript:void(0)" class="white"> Home </a>
             </li>
             <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
                mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_participante/', 'evento_lista',
                   mainLib.find('#lista_eventos').first())">
-                <a href="javascript:void(0)"><img src="/static/images/event.png"></a>
-                <a href="javascript:void(0)"> inscrições </a>
+                <a href="javascript:void(0)"><img src="/static/images/event32_2.png"></a>
+                <a href="javascript:void(0)" class="white"> inscrições </a>
             </li>
             <li onclick="evento.abrir_edicao_usuario()">
 
-                <img src="/static/images/Folder-Profiles-icon32_2.png">
-                <a href="javascript:void(0)">meus dados</a>
+                <img src="/static/images/Folder-Profiles-icon32_3.png">
+                <a href="javascript:void(0)" class="white">meus dados</a>
             </li>
 
             <!--            <li>
@@ -71,14 +71,14 @@
                    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador', null, null, mainLib.find('#lista_eventos_gerenciar .list-btn li').elements.length <= 1)">
                 <a href="javascript:void(0)"><img
-                        src="/static/images/manage32.png"></a>
-                <a href="javascript:void(0)">
+                        src="/static/images/manage32_1.png"></a>
+                <a href="javascript:void(0)" class="white">
                     gerenciar eventos </a>
             </li>
             <li>
                 <a href="/logout/"><img
-                        src="/static/images/logout32.png"></a>
-                <a href="/logout/">
+                        src="/static/images/logout32_1.png"></a>
+                <a href="/logout/" class="white">
                     sair </a>
             </li>
 
@@ -89,16 +89,22 @@
 <div id="evento_conteudo" class="after-header after-menu col col-8 conteudo">
     <section id="lista_eventos" class="col col-6 page hide">
         <div data-model="evento_lista">
-            <div class="event col col-8 suspend radius ">
+            <div class="event col col-8 small-radius suspend">
                 <div class="col col-10 ">
+
                     <h3 class="title"><a href="javascript:void(0)" class="gray hover-blue"
                                          onclick="evento.abrir_detalhe_evento([{id}])">[{titulo}]</a>
                     </h3>
+
+
                     <a href="javascript:void(0)" class="flo-left img-event"
                        onclick="evento.abrir_detalhe_evento([{id}])">
                         <img data-src="/upload/[{imagem_divulgacao}]" class="small-radius"/>
                     </a>
+
+
                     <pre class="text-justify des-event">[{descricao}]</pre>
+
                 </div>
 
                 <section class="col col-7 ">
@@ -123,19 +129,18 @@
 
                 </section>
 
-
                 <div class="col col-10 small-radius event-pan-det">
                     <div class="col col-5">
                         <a href="javascript:void(0)" class="btn btn-blue full-width"
                            onclick="evento.abrir_detalhe_evento([{id}])">
-                            <img data-src="/static/images/details32.png">
+                            <img data-src="/static/images/details32_2.png">
                             <div>detalhes</div>
                         </a>
 
                     </div>
                     <div class="col col-5">
                         <a href="javascript:void(0)" class="btn btn-blue full-width"
-                           onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32.png">
+                           onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32_2.png">
                             <div>participar</div>
                         </a>
                     </div>
@@ -151,14 +156,14 @@
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador')">
-                <img src="/static/images/list32_1.png">
+                <img src="/static/images/event32_2.png">
 
                 <div class="white small-font">&nbsp&nbspmeus eventos&nbsp&nbsp</div>
             </a>
 
             <a href="javascript:void(0)" class="btn btn-blue"
                onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
-                <img src="/static/images/add32.png">
+                <img src="/static/images/add32_1.png">
                 <div class="white small-font">adicionar evento</div>
             </a>
         </div>
@@ -470,20 +475,20 @@
                 <div class="col col-1">
                     <a class="btn btn-blue full-width"
                        onclick="evento.carregar_participantes_evento();">
-                        <img src="/static/images/list3.png">
+                        <img src="/static/images/event32_1.png">
                         <div class="white small-font">gerenciar participantes</div>
                     </a>
                 </div>
                 <div class="col col-1">
                     <a class="btn btn-blue full-width"
                        onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
-                        <img src="/static/images/graph.png">
+                        <img src="/static/images/graph32.png">
                         <div class="white small-font">dados gerenciais</div>
                     </a></div>
                 <div class="col col-1">
                     <a class="btn btn-blue full-width"
                        onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
-                        <img src="/static/images/graph.png">
+                        <img src="/static/images/envelope.png">
                         <div class="white small-font">e-mail para participantes</div>
                     </a>
                 </div>
@@ -823,18 +828,19 @@
 
 
                 </form>
-                <section class="col col-10">
-                    <a href="javascript:void(0)"
-                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
-                       class="btn btn-blue  salvar_dados_usuario">salvar dados do usuário</a>
-                </section>
 
             </div>
             <section class="col col-10">
                 <a href="javascript:void(0)"
+                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
+                   class="btn btn-blue  salvar_dados_usuario">salvar dados do usuário</a>
+
+                <a href="javascript:void(0)"
                    onclick="mainLib.popup.openPopup('popup_aulterar_senha')"
                    class="btn btn-blue  alterar_senha">alterar senha</a>
+
             </section>
+
             <div class="popup" id="popup_aulterar_senha">
                 <div class="popup-body popup-dlg">
                     <h3 class="title">alteração de senha</h3>
@@ -878,6 +884,12 @@
       mainLib.dataBinder.autoComplete();
       evento.ir_pagina('lista_eventos');
       evento.pgc_gerenciar_evento();
+
+
+
+
+
+
 
 
 
