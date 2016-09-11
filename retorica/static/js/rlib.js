@@ -802,11 +802,11 @@ mainLib.pageControl.prototype.draw = function() {
     groupBody.draw();
 
     var painelClose = new mainLib.panel(groupBody.htmlElement);
-    painelClose.htmlClass = 'flo-right fixed close-tab';
+    painelClose.htmlClass = 'fixed close-tab';
     painelClose.draw();
 
     var linkClose = new mainLib.link('javascript:void(0)', painelClose.htmlElement);
-    linkClose.htmlClass = "circle circle-small-small cancel ";
+    linkClose.htmlClass = "circle circle-small cancel suspended";
 
     var closeTab = function(){
       mainLib.removeClass('active', this.parentNode.parentNode)

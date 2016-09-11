@@ -19,7 +19,7 @@
                    data-relative-img-url="/upload/" id="pesquisa_evento">
         </div>
         <div class="col col-1 ">
-            <a href="javascript:void(0)" class="btn full-width btn-search" id="btn-pesquisa_eventos"></a>
+            <a href="javascript:void(0)" class="btn full-width btn-search bck-menu-blue" id="btn-pesquisa_eventos"></a>
         </div>
     </div>
     <div class="col col-1 flo-right hide-mobile ">
@@ -162,7 +162,7 @@
             </a>
 
             <a href="javascript:void(0)" class="btn btn-blue"
-               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos')">
+               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
                 <img src="/static/images/add32_1.png">
                 <div class="white small-font">adicionar evento</div>
             </a>
@@ -472,20 +472,20 @@
                 </div>
             </section>
             <section id="gerenciar-eventos-tarefas" class="col col-10">
-                <div class="col col-1">
+                <div class="col col-2">
                     <a class="btn btn-blue full-width"
                        onclick="evento.carregar_participantes_evento();">
                         <img src="/static/images/event32_1.png">
                         <div class="white small-font">gerenciar participantes</div>
                     </a>
                 </div>
-                <div class="col col-1">
+                <div class="col col-2">
                     <a class="btn btn-blue full-width"
                        onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
                         <img src="/static/images/graph32.png">
                         <div class="white small-font">dados gerenciais</div>
                     </a></div>
-                <div class="col col-1">
+                <div class="col col-2">
                     <a class="btn btn-blue full-width"
                        onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
                         <img src="/static/images/envelope.png">
@@ -548,8 +548,8 @@
     <section id="detalhe_evento" class="popup full">
         <div class="popup-body bck-white">
             <div data-model="evento_detalhe">
-                <div class="fixed flo-right">
-                    <a href="javascript:void(0)" class="circle circle-small-small cancel"
+                <div class="fixed bottom-right stay-on-top">
+                    <a href="javascript:void(0)" class="circle circle-small cancel"
                        onclick="evento.fechar_detalhe_evento()"></a>
                 </div>
                 <div class="col col-2"></div>

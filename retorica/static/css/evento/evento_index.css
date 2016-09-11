@@ -70,9 +70,9 @@ img[src='/upload/']{
   height: 50px;
 }
 
-.palestrante{
+/*.palestrante{
   margin-left: 50px;
-}
+}*/
 
 .btn-float-participar{
    margin-left: 80%;
@@ -163,10 +163,10 @@ img[src='/upload/']{
     }
 
 
-    .palestrante{
+   /* .palestrante{
       width: 85%;
       margin-left: 50px;
-    }
+    }*/
 
     .group-pesq{
       margin-top: 0px;
