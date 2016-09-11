@@ -72,9 +72,10 @@ class EventoController(RenderView):
 
     def ObtemEventos(self):
         eventos = Evento.objects.filter(**self.attributes).annotate(estado=F('cidade__estado__nome'),
-                                                                    cidade_nome=F('cidade__nome')). \
+                                                                    cidade_nome=F('cidade__nome'),
+                                                                    tipo=F('tipo_evento__nome')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
-                   'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao')
+                   'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao', 'valor', 'tipo')
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def FiltroEventosResumo(self):
@@ -95,30 +96,14 @@ class EventoController(RenderView):
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def ObtemInscricoesUsuario(self):
-
-        with connection.cursor() as cursor:
-            cursor.execute(
-                '''
-                    SELECT Evento.id, Evento.titulo, Evento.descricao, Evento.endereco,
-                           Evento.numero_endereco, Cidade.nome as cidade_nome,
-                           Estado.Nome as estado, Evento.bairro, Evento.imagem_divulgacao
-                      FROM Evento
-                      JOIN Cidade
-                        ON Evento.cidade_id = Cidade.id
-                      JOIN Estado
-                        ON Cidade.estado_id = Estado.id
-                     WHERE Exists(
-                      SELECT 1
-                        FROM EventoParticipante as epa
-                        JOIN EventoPeriodo  epe
-                          ON epa.evento_periodo_id = epe.id
-                         AND epa.usuario_id = %s
-                       WHERE epe.evento_id = Evento.id
-                    )
-                ''', [self.request.user.id]
-            )
-            columns = [col[0] for col in cursor.description]
-            return json.dumps([dict(zip(columns, row)) for row in cursor.fetchall()], cls=DjangoJSONEncoder)
+        eventos = Evento.objects.filter(eventoperiodo__eventoparticipante__usuario__id=self.request.user.id).annotate(
+            cidade_nome=F('cidade__nome'),
+            estado=F('cidade__estado__nome'),
+            tipo=F('tipo_evento__nome')
+        ).distinct().values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco', 'cidade_nome', 'estado',
+                            'bairro',
+                            'imagem_divulgacao', 'tipo', 'valor')
+        return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def ObtemEventosDoOrganizador(self):
         return json.dumps(list(
@@ -313,68 +298,44 @@ class EventoController(RenderView):
                                "organizador": self.request.user.first_name + " " + self.request.user.last_name})
 
     def ImprimirGraficoGenero(self):
-        with connection.cursor() as cursor:
-            cursor.execute(
-                '''
-                SELECT COUNT(1) AS Participantes,
-                       CASE u.sexo WHEN 'M'
-                                   THEN 'Masculino'
-                                   WHEN 'F'
-                                   THEN 'Feminino'
-                                   WHEN 'O'
-                                   THEN 'Outros'
-                       END AS Genero
-                  FROM EventoParticipante epa
-                  JOIN EventoPeriodo epe
-                    ON epa.evento_periodo_id = epe.id
-                  JOIN Evento e
-                    ON epe.evento_id = e.id
-                  JOIN UsuarioDetalhe u
-                    ON epa.usuario_id = u.user_ptr_id
-                WHERE e.id = %s
-                GROUP BY u.sexo
-                ''', [self.request.GET.get('evento_id')]
-            )
+        rows = EventoParticipante.objects.filter(evento_periodo__evento__id=self.request.GET.get('evento_id')). \
+            values('usuario__sexo'). \
+            annotate(
+            quantidade=Count('usuario__sexo')
+        )
+        data = []
+        for row in rows:
+            if row['usuario__sexo'] == 'M':
+                data.append(['Masculino', row['quantidade']])
+            elif row['usuario__sexo'] == 'F':
+                data.append(['Feminino', row['quantidade']])
+            else:
+                data.append(['Feminino', row['quantidade']])
 
-            data = [[str(row[1]), row[0]] for row in cursor.fetchall()]
+
 
         return render(request=self.request, template_name='evento/grafico_template.html',
                       context={"titulo": "Auditório eventos - Participantes por gênero", "data": data})
 
     def ImprimirGraficoRegiao(self):
-        with connection.cursor() as cursor:
-            cursor.execute(
-                '''
-                SELECT count(1) AS Participantes,
-                       es.nome
-                 FROM EventoParticipante epa
-                  JOIN EventoPeriodo epe
-                    ON epa.evento_periodo_id = epe.id
-                  JOIN Evento e
-                    ON epe.evento_id = e.id
-                  JOIN UsuarioDetalhe u
-                    ON epa.usuario_id = u.user_ptr_id
-                  JOIN Cidade c
-                    ON u.cidade_id = c.id
-                  JOIN Estado es
-                    ON c.estado_id = es.id
-                  WHERE e.id = %s
-                GROUP BY es.nome
-                ''', [self.request.GET.get('evento_id')]
-            )
-
-            data = [[str(row[1]), row[0]] for row in cursor.fetchall()]
-
+        rows = EventoParticipante.objects.filter(evento_periodo__evento__id=self.request.GET.get('evento_id')). \
+            values('usuario__cidade__estado__nome'). \
+            annotate(
+            quantidade=Count('usuario__cidade__estado__nome')
+        )
+        data = [ [ row['usuario__cidade__estado__nome'] , row['quantidade'] ] for row in rows]
         return render(request=self.request, template_name='evento/grafico_template.html',
                       context={"titulo": "Auditório eventos - Participantes por região", "data": data})
 
-    def EnviarEmailParticipantes(self):
-        msg = self.attributes["mensagem"]
-        assunto = self.attributes["assunto"]
-        participantes = json.loads(self.ObtemParticipantesEvento())
-        emails = [participante["email"] for participante in participantes]
-        send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
-        return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
+
+def EnviarEmailParticipantes(self):
+    msg = self.attributes["mensagem"]
+    assunto = self.attributes["assunto"]
+    participantes = json.loads(self.ObtemParticipantesEvento())
+    emails = [participante["email"] for participante in participantes]
+    send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
+    return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
+
 
 class PagSeguro:
     def __init__(self, evento_id):

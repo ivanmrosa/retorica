@@ -1,5 +1,5 @@
 body{
-  background-color: white;
+  background-color: ghostwhite;
 }
 
 .br-right{
@@ -29,7 +29,7 @@ img[src='/upload/']{
 
 
 .menu-content > ul li:hover{
-   background-color: #006080;
+   background-color: #0099cc;
 }
 
 
@@ -41,14 +41,22 @@ img[src='/upload/']{
    /*border: 2px solid #ebebe0;*/
 }
 
+.event .title, .event .title a{
+  color: #006080;
+}
+
 .event ul{
   list-style: none;
+  padding: 0px;
 }
 
+.logo-div{
+  padding-top: 10px;
+}
 
-.event-pan-det .btn{
+/*.event-pan-det .btn{
    margin-left: 5px;
-}
+}*/
 
 .group-pesq{
   margin-top: 10px;
@@ -56,15 +64,22 @@ img[src='/upload/']{
 
 
 .img-event{
-  margin-right: 14px;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 .img-event > img{
-  max-width: 275px;
+  /*max-width: 500px;*/
+  /*max-height: 183px;*/
+  width: 100%;
+}
+
+
+.img_editar_usuario{
+  max-width: 500px;
   max-height: 183px;
 
 }
-
 
 .fixed-header > div{
   height: 50px;

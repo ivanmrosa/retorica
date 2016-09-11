@@ -72,42 +72,42 @@ pre{
 }
 
 .col-1{
-   width: 9.6%;
+   width: 10%;
 }
 .col-2{
-   width: 19.6%;
+   width: 20%;
 }
 
 .col-3{
-   width: 29.6%;
+   width: 30%;
 }
 
 .col-4{
-   width: 39.6%;
+   width: 40%;
 }
 
 .col-5{
-   width: 49.6%;
+   width: 50%;
 }
 
 .col-6{
-   width: 59.6%;
+   width: 60%;
 }
 
 .col-7{
-   width: 69.6%;
+   width: 70%;
 }
 
 .col-8{
-   width: 79.6%;
+   width: 80%;
 }
 
 .col-9{
-   width: 89.6%;
+   width: 90%;
 }
 
 .col-10{
-   width: 99.6%;
+   width: 100%;
 }
 
 .menu.menu-full{
@@ -297,7 +297,8 @@ pre{
 }
 
 .tabled{
-  box-shadow: gray 0px 0px 10px;
+  /*box-shadow: gray 0px 0px 10px;*/
+  border: 1px solid ghostwhite;
   color:gray;
   vertical-align: middle;
   text-align: center;
@@ -1200,10 +1201,21 @@ textarea.field, .form-field  textarea{
   display:none;
 }
 
+.wait-body{
+	bottom: 0;
+	left: 0;
+	position: fixed;
+    right: 0;
+    top: 0;
+    height : 100%;
+    width:100%;
+    z-index: 100000;
+}
+
 .wait {
-    float: left;
-    position: fixed;
-    margin: 20% 50%;
+
+    margin: 20% auto;
+    position : relative;
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
@@ -1211,8 +1223,6 @@ textarea.field, .form-field  textarea{
     height: 120px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
-    z-index: 100000;
-    box-sizing: border-box;
 
 }
 
@@ -1450,8 +1460,13 @@ textarea.field, .form-field  textarea{
    }
 
    .wait{
-     margin: 50% 40%;
+     margin: 50% auto;
    }
+
+   .popup-dlg{
+       width: 95%;
+       margin: 30% 3px;
+    }
 
 }
 
@@ -1459,7 +1474,6 @@ textarea.field, .form-field  textarea{
     .fixed-header.no-fixed-mobile ~ .after-header{
        padding-top: 0px !important;
     }
-
 }
 
 @media screen and (max-width: 414px) {
@@ -1477,9 +1491,10 @@ textarea.field, .form-field  textarea{
 	    text-align: center;
 	    line-height: 100%;
     }
-    .popup-dlg{
+
+   .popup-dlg{
        width: 95%;
-       margin-left: 3px;
+       margin: 45% 3px;
     }
 }
 
