@@ -328,13 +328,13 @@ class EventoController(RenderView):
                       context={"titulo": "Auditório eventos - Participantes por região", "data": data})
 
 
-def EnviarEmailParticipantes(self):
-    msg = self.attributes["mensagem"]
-    assunto = self.attributes["assunto"]
-    participantes = json.loads(self.ObtemParticipantesEvento())
-    emails = [participante["email"] for participante in participantes]
-    send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
-    return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
+    def EnviarEmailParticipantes(self):
+        msg = self.attributes["mensagem"]
+        assunto = self.attributes["assunto"]
+        participantes = json.loads(self.ObtemParticipantesEvento())
+        emails = [participante["email"] for participante in participantes]
+        send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
+        return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
 
 
 class PagSeguro:
