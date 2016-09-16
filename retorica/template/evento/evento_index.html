@@ -81,9 +81,9 @@
 
 </section>
 <div id="evento_conteudo" class="after-header after-menu col col-8 conteudo">
-    <section id="lista_eventos" class="col col-5 page hide">
+    <section id="lista_eventos" class="col col-7 page hide">
         <div data-model="evento_lista">
-            <div class="event col col-7 small-radius suspend">
+            <div class="event col col-6 small-radius suspend">
                 <div class="col col-10">
                     <div class="col col-10">
                         <h3 class="title"><a href="javascript:void(0)" class="gray hover-blue"
@@ -137,22 +137,21 @@
         </div>
     </section>
 
-    <section id="gerenciar_eventos" class="page hide col col-7 border-right">
+    <section id="gerenciar_eventos" class="page hide col col-7 ">
         <div class="col col-10 title bck-green" id="gerenciar-evento-cards">
-            <a href="javascript:void(0)" class="btn bck-menu-blue"
+            <a href="javascript:void(0)" class="circle circle-medium bck-menu-blue text-center white"
                onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador')">
-                <img src="/static/images/list32_32.png">
+                meus eventos
 
-                <div class=" small-font">&nbsp&nbspmeus eventos&nbsp&nbsp</div>
             </a>
 
-            <a href="javascript:void(0)" class="btn bck-menu-blue"
-               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs', 'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
-                <img src="/static/images/add32_2.png">
-                <div class=" small-font">adicionar evento</div>
+            <a href="javascript:void(0)" class="circle circle-medium bck-menu-blue text-center white"
+               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
+                            'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
+                add <br/> evento
             </a>
         </div>
         <section id="lista_eventos_gerenciar" class="col col-10  page ">
@@ -293,19 +292,19 @@
                 <h3 class="title">adicione as datas em que o evento ocorrerá</h3>
                 <div class="col col-10">
                     <form>
-                        <div class="form-field ff-small">
+                        <div class="form-field">
                             <label for="data-evento">data</label>
                             <input type="date" id="data-evento" name="data">
                         </div>
-                        <div class="form-field ff-small">
+                        <div class="form-field">
                             <label for="hora-inicio-evento">hora do início</label>
                             <input type="time" id="hora-inicio-evento" name="hora_inicio">
                         </div>
-                        <div class="form-field ff-small">
+                        <div class="form-field">
                             <label for="hora-fim-evento">hora do fim</label>
                             <input type="time" id="hora-fim-evento" name="hora_fim">
                         </div>
-                        <div class="form-field ff-small">
+                        <div class="form-field">
                             <label for="quantidade-vagas-evento">quantidade de vagas</label>
                             <input type="number" id="quantidade-vagas-evento" name="quantidade_vagas">
                         </div>
@@ -400,11 +399,11 @@
                     <h3 class="title">adicione arquivos</h3>
                     <div class="col col-10">
                         <form>
-                            <div class="form-field ff-small">
+                            <div class="form-field">
                                 <input type="text" class="small-radius"
                                        placeholder="digite um título para o anexo" name="titulo_anexo">
                             </div>
-                            <div class="form-field ff-small">
+                            <div class="form-field">
                                 <input type="file" name="caminho_arquivo"
                                        accept=".doc,.pdf,.jpg,.png,.gif,.docx,.xls,.xlsx,.odt,.ppt,.pot,.pps,.pptx">
                             </div>
@@ -431,11 +430,11 @@
                         <div class="col col-10">
                             <form>
                                 <div>
-                                    <input type="text" class="field ff-small small-radius"
+                                    <input type="text" class="field "
                                            placeholder="digite um título para o vídeo" name="titulo_video">
                                 </div>
                                 <div>
-                                    <input type="url" class="field ff-small small-radius" name="url"
+                                    <input type="url" class="field " name="url"
                                            placeholder="digite a url do vídeo que quer incorporar">
                                 </div>
                                 <input type="hidden" name="evento_id">
@@ -685,7 +684,7 @@
         </div>
     </section>
 
-    <section id="dados_usuario_logado" class="page hide col col-7 border-right">
+    <section id="dados_usuario_logado" class="page hide col col-7 ">
 
         <div data-model="edicao_usuario">
             <div class="col col-10">

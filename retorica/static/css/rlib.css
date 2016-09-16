@@ -277,8 +277,6 @@ pre{
   list-style: none;
   margin: 5px;
   padding: 0px;
-  border-top: 1px solid #ebebe0;
-  border: 1px solid #ebebe0;
 }
 
 .list-btn li{
@@ -286,14 +284,17 @@ pre{
 	text-align: center;
 	cursor: pointer;
     font-size: 14px;
-    box-shadow: white 0px 0px 2px;
-    background-color: #0099cc;
-    color: white;
+    border: 1.5px solid #ebebe0;
+    color: #006080;
+    background-color: white;
+    margin: 1px;
+    border-radius: 5px;
+
 }
 
 .list-btn li:hover{
-   color:yellow;
-   box-shadow: gray 0px 0px 10px;
+   color:red;
+   box-shadow: gray 0px 0px 3px;
 }
 
 .tabled{
@@ -940,19 +941,15 @@ a.btn{
     height: 100%;
 }
 .tabs-group{
-    /*background-color: white;
-	width: 100%;
-	box-shadow: 0px 0px 2px 1px gray;
-	border-radius: 5px;
-    margin-bottom: 6px; */
     width: 100%;
-    /*box-shadow: 0px 0px 2px 1px gray;*/
     border-radius: 5px;
-    /*border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;*/
     margin-bottom: 2px;
     border-bottom: none;
-    background-color: #0074D9;
+    /*border:1px solid #0074D9;*/
+     border:1px solid #ebebe0;
+    /*background-color: #0074D9;*/
+    background-color: white;
+    color: #006080;
 }
 
 .tab {
@@ -965,10 +962,8 @@ a.btn{
 	box-sizing:border-box;
     min-height: 35px;
     text-align: center;
-    /*background-color: white;*/
-    color: white;
+    /*color: white;*/
     font-size: 14px;
-    /*width: 200px;*/
 }
 
 .close-tab{
@@ -980,7 +975,7 @@ a.btn{
     color:red;
 }
 .tab.active {
-	color:yellow;
+	color:red;
 }
 .page-control {
     float:left;
@@ -998,8 +993,8 @@ a.btn{
     height: 100%;
 	width: 100%;
     overflow: auto;
-    /*box-shadow: 0px 0px 2px 1px gray;*/
-    border:1px solid #0074D9;
+    /*border:1px solid #0074D9;*/
+     border:1px solid #ebebe0;
 }
 .tab-body.active {
     display: inline;
@@ -1037,7 +1032,7 @@ a.btn{
    font-family: "Helvetica Neue",Helvetica,sans-serif,Arial,Times,serif;
    box-sizing: border-box;
    height: 35px;
-   color: #555;
+  /* color: #555;*/
    background-color: #fff;
    background-image: none;
    border: 1px solid #ccc;
@@ -1071,12 +1066,12 @@ textarea.field, .form-field  textarea{
 
 .circle{
     float: left;
-    border: 1px solid white;
+    border: 1px solid #ebebe0;
     text-align: center;
     vertical-align: center;
     box-sizing: border-box;
     background-color: white;
-    box-shadow: 0px 0px 3px gray;
+    /*box-shadow: 0px 0px 3px gray;*/
 }
 .circle:hover{
   background-color: ghostwhite;
@@ -1098,10 +1093,14 @@ textarea.field, .form-field  textarea{
 
 
 .circle-medium{
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 80px;
     height: 80px;
     width: 80px;
+}
+
+.circle-medium.text-center{
+  padding-top: 20px;
 }
 
 .circle-big{
