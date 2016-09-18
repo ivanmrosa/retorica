@@ -1,5 +1,6 @@
 evento = {
    ir_pagina: function(id_page, id_container){
+      //mainLib.find('#' + id_container + ' > .page').adCl('slow-hide');
       mainLib.find('#' + id_container + ' > .page').adCl('hide');
       mainLib.find('#' + id_page).rmCl('hide');
    },

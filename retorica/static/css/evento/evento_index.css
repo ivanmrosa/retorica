@@ -6,6 +6,18 @@ body{
   border-right: 1px solid white;
 }
 
+/*.page{
+
+     -webkit-transition-property: width height background-color font-size left top color;
+    -webkit-transition-duration: 1s;
+    -webkit-transition-delay: 0.5s;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-property: width height background-color font-size left top color;
+    transition-duration: 1s;
+    transition-delay: 0.5s;
+    transition-timing-function: ease-in-out;
+}*/
+
 #img-usr{
   width:30px;
   height:30px;

@@ -54,9 +54,10 @@
    border-radius: 5px;
    margin-top: 5px;
    padding: 5px;
-   background-color:#006080;
+   background-color: #0082af /*#006080*/;
    height: 100%;
    box-sizing: border-box;
+   opacity: 0.95;
 }
 
 #form_signup label, #form_signup .title{

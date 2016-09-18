@@ -65,9 +65,8 @@ mainLib.popup.openPopup = function(select){
     };
     
     if(ele){
-    	//ele.setAttribute('style', 'display:table');
     	mainLib.removeClass('popup-hide', ele);
-    	mainLib.addClass('popup-show', ele)
+    	mainLib.addClass('popup-show', ele);
     }
        mainLib.popup.open = true;
    
@@ -83,9 +82,8 @@ mainLib.popup.closePopup = function(id_filter, fnToExecuteAfter){
     };
 
     if(ele){
-    	//ele.setAttribute('style', 'display:none');
     	mainLib.removeClass('popup-show', ele);
-    	mainLib.addClass('popup-hide', ele)
+    	mainLib.addClass('popup-hide', ele);
     }
     
     mainLib.popup.open = false;
@@ -114,7 +112,7 @@ mainLib.aviso = function(message, fnToExecuteAfter){
  	      '  </div> ';
 
     var popupE = document.createElement('div');
-    popupE.setAttribute('class', 'popup');
+    popupE.setAttribute('class', 'popup slow-hide');
     popupE.setAttribute('id', 'vmsisMsg');
     popupE.innerHTML += html
     
@@ -142,7 +140,7 @@ mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
  	      '  </div> ';
  
     var popupE = document.createElement('div');
-    popupE.setAttribute('class', 'popup small-radius');
+    popupE.setAttribute('class', 'popup small-radius slow-hide');
     popupE.setAttribute('id', 'vmsisMsg');
     popupE.innerHTML += html
     
@@ -771,7 +769,7 @@ mainLib.pageControl.prototype.activeTab = function(idTab) {
         this.adCl('active');
 
         var gbody = this.parentNode;
-        if(getComputedStyle(gbody, null).display == 'none'){
+        if(getComputedStyle(gbody, null).width == '0px'){
            mainLib.addClass('active', gbody);
         }
 
@@ -1490,7 +1488,7 @@ mainLib.dataBinder.autoComplete = function(){
           for(row in data){
             if(data.hasOwnProperty(row)){
               if(img_field){
-                html += mainLib.format('<li data-value="%s" data-text="%s"> <img src="%s%s" /> %s </li>',
+                html += mainLib.format('<li data-value="%s" data-text="%s"> <img src="%s%s" /> <span>%s</span> </li>',
                    [data[row][field], data[row][text_field],  img_relative_url, data[row][img_field], data[row][text_field] ]);
               }else{
                 html += mainLib.format('<li data-value="%s" data-text="%s"> %s </li>', [ data[row][text_field],

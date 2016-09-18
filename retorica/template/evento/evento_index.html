@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block 'body' %}
-<header class="fixed-header title">
+<header class="fixed-header ">
     <div class="col col-1 logo-div">
         <center><a href="/evento"><img src="/static/images/logo2.png" title="auditório eventos" alt="auditório eventos"
                                        class="img-logo white"/></a></center>
@@ -38,7 +38,8 @@
 
 </header>
 
-<section id="menu" class="after-header menu  ">
+
+<section id="menu" class="after-header menu slow-hide ">
 
     <div class="menu-content">
 
@@ -80,8 +81,8 @@
     </div>
 
 </section>
-<div id="evento_conteudo" class="after-header after-menu col col-8 conteudo">
-    <section id="lista_eventos" class="col col-7 page hide">
+<div id="evento_conteudo" class="after-header after-menu col col-8 conteudo ">
+    <section id="lista_eventos" class="col col-7 page hide slow-hide">
         <div data-model="evento_lista">
             <div class="event col col-6 small-radius suspend">
                 <div class="col col-10">
@@ -121,14 +122,14 @@
                     <div class="col col-5">
                         <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
                            onclick="evento.abrir_detalhe_evento([{id}])">
-                            <img data-src="/static/images/details32_2.png">
+                            <img data-src="/static/images/details32.png">
                             <div>detalhes</div>
                         </a>
 
                     </div>
                     <div class="col col-5">
                         <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                           onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32_2.png">
+                           onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32.png">
                             <div>participar</div>
                         </a>
                     </div>
@@ -137,7 +138,7 @@
         </div>
     </section>
 
-    <section id="gerenciar_eventos" class="page hide col col-7 ">
+    <section id="gerenciar_eventos" class="page hide col col-7 slow-hide">
         <div class="col col-10 title bck-green" id="gerenciar-evento-cards">
             <a href="javascript:void(0)" class="circle circle-medium bck-menu-blue text-center white"
                onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
@@ -154,7 +155,7 @@
                 add <br/> evento
             </a>
         </div>
-        <section id="lista_eventos_gerenciar" class="col col-10  page ">
+        <section id="lista_eventos_gerenciar" class="col col-10  page slow-hide">
             <div class="col col-10">
                 <small class="red">clique sobre um evento da lista para editar</small>
             </div>
@@ -168,7 +169,7 @@
             </div>
         </section>
 
-        <div id="gerenciar-evento-tabs" class="hide page col col-10">
+        <div id="gerenciar-evento-tabs" class="hide page col col-10 slow-hide">
 
             <section id="criar_editar_evento" class="col col-10">
 
@@ -532,7 +533,7 @@
 
     </section>
 
-    <section id="detalhe_evento" class="popup full">
+    <section id="detalhe_evento" class="popup full slow-hide">
         <div class="popup-body bck-white">
             <div data-model="evento_detalhe">
                 <div class="fixed bottom-right stay-on-top">
@@ -548,8 +549,9 @@
                             <a href="#" class="flo-left img-event"><img class="small-radius"
                                                                         data-src="/upload/[{imagem_divulgacao}]"/></a>
 
-                            <pre class="text-justify des-event">[{descricao}]</pre>
+
                         </div>
+                        <div class="col col-10"><pre class="text-justify des-event">[{descricao}]</pre></div>
                         <div class="col col-5">
                             <a href="javascript:void(0)" class="btn bck-menu-blue full-width" id="btn-inscrever-evento"
                                onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32_2.png">
@@ -657,7 +659,7 @@
 
     </section>
 
-    <section id="inscricao_evento" class="popup">
+    <section id="inscricao_evento" class="popup slow-hide">
         <div class="popup-body  small-radius popup-dlg " id="inscricao-evento-periodo">
 
             <h3 class="title">período</h3>
@@ -684,7 +686,7 @@
         </div>
     </section>
 
-    <section id="dados_usuario_logado" class="page hide col col-7 ">
+    <section id="dados_usuario_logado" class="page hide col col-7 slow-hide">
 
         <div data-model="edicao_usuario">
             <div class="col col-10">
@@ -834,7 +836,7 @@
 
             </section>
 
-            <div class="popup" id="popup_aulterar_senha">
+            <div class="popup slow-hide" id="popup_aulterar_senha">
                 <div class="popup-body popup-dlg">
                     <h3 class="title">alteração de senha</h3>
                     <form data-id="form_edicao_usuario_senha"
