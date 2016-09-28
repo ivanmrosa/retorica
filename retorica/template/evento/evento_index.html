@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block 'body' %}
-<header class="fixed-header ">
-    <div class="col col-1 logo-div">
+<header class="fixed-header">
+    <div class="col col-1 logo-div invisible-mobile">
         <center><a href="/evento"><img src="/static/images/logo2.png" title="auditório eventos" alt="auditório eventos"
                                        class="img-logo white"/></a></center>
     </div>
@@ -18,11 +18,13 @@
                    data-field="id" data-field-text="titulo" data-field-img="imagem_divulgacao"
                    data-relative-img-url="/upload/" id="pesquisa_evento">
         </div>
+
         <div class="col col-1 ">
             <a href="javascript:void(0)" class="btn full-width btn-search bck-menu-blue" id="btn-pesquisa_eventos"></a>
         </div>
     </div>
-    <div class="col col-1 flo-right hide-mobile ">
+
+    <div class="col col-1 flo-right  ">
 
         <div class="col col-10 group-pesq">
             <center>
@@ -81,6 +83,8 @@
     </div>
 
 </section>
+
+
 <div id="evento_conteudo" class="after-header after-menu col col-8 conteudo ">
     <section id="lista_eventos" class="col col-7 page hide slow-hide">
         <div data-model="evento_lista">
@@ -571,7 +575,7 @@
                     <section id="evento-periodo" class="col col-5">
                         <h3 class="title">período</h3>
                         <div data-model="periodos">
-                            <ul>
+                            <ul >
                                 <li>data: [{data}]</li>
                                 <li>inicio: [{hora_inicio}]</li>
                                 <li>fim: [{hora_fim}]</li>

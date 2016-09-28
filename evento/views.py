@@ -8,7 +8,6 @@ from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, Event
     EventoOrganizador, EventoPalestrante, EventoVideo
 from usuario.models import UsuarioDetalhe
 from lib.main_lib import RenderView
-from django.db import connection
 from django.db.models.functions import Concat
 from django.core.exceptions import ValidationError
 import xml.etree.ElementTree as ET
@@ -68,6 +67,7 @@ class EventoController(RenderView):
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao', 'tipo_cobranca', 'evento_privado',
                    'tipo_evento', 'palavras_chave', 'cidade_id', 'estado_id', 'pais_id', 'cep', 'valor')
+
         return json.dumps(list(evento), cls=DjangoJSONEncoder)
 
     def ObtemEventos(self):
@@ -76,6 +76,7 @@ class EventoController(RenderView):
                                                                     tipo=F('tipo_evento__nome')). \
             values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco',
                    'cidade_nome', 'estado', 'bairro', 'imagem_divulgacao', 'valor', 'tipo')
+
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def FiltroEventosResumo(self):
@@ -103,6 +104,7 @@ class EventoController(RenderView):
         ).distinct().values('id', 'titulo', 'descricao', 'endereco', 'numero_endereco', 'cidade_nome', 'estado',
                             'bairro',
                             'imagem_divulgacao', 'tipo', 'valor')
+
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def ObtemEventosDoOrganizador(self):
@@ -163,7 +165,7 @@ class EventoController(RenderView):
 
     def InserirEditarEvento(self):
 
-        if not self.attributes['id']:
+        if not 'id' in self.attributes or not self.attributes['id']:
             self.attributes.update({"usuario_cadastro_id": self.request.user.id})
             mensagem = "Evento criado com sucesso! Agora é necessário completar as informações."
         else:

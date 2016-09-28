@@ -58,7 +58,7 @@ class RenderView(object):
         return dict(params)
 
     @classmethod
-    def response(cl, method_name, init_params=None, logged=True, request=None):
+    def response(cl, method_name, init_params=None, logged=True, request=None, content_type="application/json"):
         if not logged:
             return redirect(settings.LOGIN_URL)
 
@@ -69,7 +69,7 @@ class RenderView(object):
             obj = cl(**init_params)
         else:
             obj = cl()
-        return HttpResponse(getattr(obj, method_name)())
+        return HttpResponse(getattr(obj, method_name)(), content_type=content_type)
 
     @classmethod
     def to_view(cls, method_name, login_required, method_type):

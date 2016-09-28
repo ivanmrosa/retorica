@@ -217,10 +217,10 @@ class EventoVideo(models.Model):
             self.url = vimeo_url % (id_video)
             self.plataforma = VIMEO
         else:
-            validacao.update({"url": "This url isn't accept."})
+            validacao.update({"url": "Esta url não é aceita."})
 
         if not id_video:
-            validacao.update({"url": "This url isn't accept."})
+            validacao.update({"url": "Esta url não é aceita."})
 
         if validacao:
             raise ValidationError(message=validacao)

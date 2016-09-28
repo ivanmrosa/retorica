@@ -5,7 +5,7 @@ from .models import UsuarioDetalhe
 from django.contrib.auth import authenticate, login
 from lib.main_lib import RenderView
 from django.db.models import F, Value as V, CharField, Q
-from django.db.models.functions import Concat, Coalesce
+from django.db.models.functions import Concat
 from django.core.mail import send_mail
 import random
 from django.contrib.auth.hashers import *
@@ -32,12 +32,13 @@ class UsuarioController(RenderView):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponse('{"logged": "true", "msg": ""}')
+                return HttpResponse('{"logged": "true", "msg": ""}', content_type="application/json")
             else:
-                return HttpResponse('{"logged": "false", "msg": "O usuário está inativo."}')
+                return HttpResponse('{"logged": "false", "msg": "O usuário está inativo."}', content_type="application/json")
         else:
             return HttpResponse('{"logged": "false", \
-                                 "msg": "A combinação entre usuário e senha não pôde ser confirmada. Informe dados válidos."}')
+                                 "msg": "A combinação entre usuário e senha não pôde ser confirmada. Informe dados válidos."}',
+                                content_type="application/json")
 
     def SetValue(self, obj, key, value):
         if key == 'tipo_usuario':
@@ -89,7 +90,7 @@ class UsuarioController(RenderView):
         )), cls=DjangoJSONEncoder)
 
     def RecuperarSenha(self):
-        #try:
+
         username = self.propriedades_requisicao["usuario"]
         usuario = UsuarioDetalhe.objects.filter(username=username)
 
@@ -100,9 +101,6 @@ class UsuarioController(RenderView):
         controle.RecuperarSenha()
 
         return json.dumps({"ok": False, "msg": "Sua solicitação foi efetivada. Verifique seu e-mail."})
-        #except Exception as e:
-        #    return json.dumps(
-        #        {"ok": False, "msg": "Ocorreu um erro e sua solicitação não pôde ser processada:" + str(e)})
 
 
 class ControleSenha:

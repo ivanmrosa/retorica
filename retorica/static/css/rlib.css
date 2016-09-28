@@ -49,12 +49,13 @@ pre{
   opacity: 0;
 }
 
+
 .slow-hide{
     -webkit-transition-property: width height background-color font-size left top color;
-    -webkit-transition-duration: 1s;
+    -webkit-transition-duration: 0.5s;
     -webkit-transition-timing-function: ease-in-out;
     transition-property: width height background-color font-size left top color;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
     transition-timing-function: ease-in-out;
 }
 
@@ -1093,7 +1094,7 @@ a.btn{
    font-family: "Helvetica Neue",Helvetica,sans-serif,Arial,Times,serif;
    box-sizing: border-box;
    height: 35px;
-  /* color: #555;*/
+   color: #555;
    background-color: #fff;
    background-image: none;
    border: 1px solid #ccc;
@@ -1204,6 +1205,11 @@ textarea.field, .form-field  textarea{
   left: 85%;
 }
 
+.top-right{
+  bottom: 3%;
+  left: 85%;
+}
+
 .search {
     background-image: url(../images/search5-24.png);
     background-repeat: no-repeat;
@@ -1211,7 +1217,6 @@ textarea.field, .form-field  textarea{
     background-size: 24px;
     padding-left: 33px;
     box-sizing: border-box;
-    transition: width .4s ease-in-out;
     width: 100%;
     float: left;
     display: inline;
@@ -1220,11 +1225,11 @@ textarea.field, .form-field  textarea{
     height: 35px;
     border-radius: 4px;
     outline: none;
-
-    -webkit-transition: all 0.30s ease-in-out;
+    /*transition: width .4s ease-in-out;*/
+    /*-webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;*/
     outline: none;
     border: 1px solid #DDDDDD;
 }
@@ -1362,13 +1367,18 @@ textarea.field, .form-field  textarea{
        height: auto;
     }
 
+    .invisible-mobile{
+      visibility: hidden;
+    }
+
+
 	.menu{
-	    width: 32px;
-	    max-width: 32px;
-	    min-width: 32px;
-        height: 32px;
-        min-height: 32px;
-        max-height: 32px;
+	    width: 45px;
+	    max-width: 45px;
+	    min-width: 45px;
+        height: 45px;
+        min-height: 45px;
+        max-height: 45px;
 	    float:left;
 	    padding-top: 7px;
         border-right: none;
@@ -1399,12 +1409,12 @@ textarea.field, .form-field  textarea{
     }
 	.menu .menu-content::before{
 	   display: inline;
-	   content:url(../images/menu3.png);
-	   height:24px;
+	   content:url(../images/menu5.png);
+	   /*height:24px;
 	   min-width: 24px;
 	   max-width: 24px;
-	   width: 24px;
-	   padding-left: 7px;
+	   width: 24px;*/
+	   padding-left: 10px;
 	   padding-top: 7px;
 	   cursor:pointer;
 	   box-sizing: border-box;
@@ -1548,6 +1558,9 @@ textarea.field, .form-field  textarea{
 
    .wait{
      margin: 50% auto;
+    width: 60px;
+    height: 60px;
+
    }
 
    .popup-dlg{
