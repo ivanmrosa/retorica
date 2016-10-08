@@ -580,9 +580,6 @@ evento = {
 
 window.addEventListener('load', function(){
 
-   mainLib.loadMenu();
-   mainLib.dataBinder.autoComplete();
-   evento.ir_pagina('lista_eventos');
    evento.pgc_gerenciar_evento();
    mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'dados_perfil_usuario');
    mainLib.dataBinder.bindServerDataOnTemplate('/evento/obter_convites_usuario', 'lista_convites');

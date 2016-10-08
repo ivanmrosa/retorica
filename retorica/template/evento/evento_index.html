@@ -966,8 +966,11 @@
 <script type="text/javascript" src="{% static 'js/usuario/usuario.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/evento/evento_index.js' %}"></script>
 
-<script>
+<script type="text/javascript">
 
+   mainLib.loadMenu();
+   mainLib.dataBinder.autoComplete();
+   evento.ir_pagina('lista_eventos');
 
 </script>
 
