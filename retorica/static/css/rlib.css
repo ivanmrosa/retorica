@@ -50,6 +50,10 @@ pre{
 }
 
 
+.hide-desktop{
+  display: none;
+}
+
 .slow-hide{
     -webkit-transition-property: width height background-color font-size left top color;
     -webkit-transition-duration: 0.5s;
@@ -310,7 +314,8 @@ pre{
 	text-align: center;
 	cursor: pointer;
     font-size: 14px;
-    border: 1.5px solid #ebebe0;
+    border: 1.5px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     color: #006080;
     background-color: white;
     margin: 1px;
@@ -992,7 +997,8 @@ a.btn{
     margin-bottom: 2px;
     border-bottom: none;
     /*border:1px solid #0074D9;*/
-     border:1px solid #ebebe0;
+     border:1px solid;
+     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     /*background-color: #0074D9;*/
     background-color: white;
     color: #006080;
@@ -1041,7 +1047,8 @@ a.btn{
 	opacity:0;
     overflow: auto;
     /*border:1px solid #0074D9;*/
-     border:1px solid #ebebe0;
+     border:1px solid;
+     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
      position: fixed;
     -webkit-transition-property: width height background-color font-size left top color;
     -webkit-transition-duration: 1s;
@@ -1372,6 +1379,7 @@ textarea.field, .form-field  textarea{
     }
 
 
+
 	.menu{
 	    width: 45px;
 	    max-width: 45px;
@@ -1539,6 +1547,12 @@ textarea.field, .form-field  textarea{
     .hide-mobile{
      display: none;
     }
+
+    .hide-desktop{
+       display: inline;
+    }
+
+
     .no-suspend-mobile{
       box-shadow: none;
     }

@@ -38,7 +38,7 @@ class Evento(models.Model):
     descricao = models.TextField(verbose_name='Descrição')
     palavras_chave = models.CharField(verbose_name='Palavras chave', max_length=100)
     tipo_cobranca = models.CharField(verbose_name="Tipo de combrança", choices=TIPOS_COBRANCA, max_length=1)
-    evento_privado = models.BooleanField(verbose_name="Evento privado ?")
+    evento_privado = models.BooleanField(verbose_name="Evento privado ?", default=False)
     cidade = models.ForeignKey(verbose_name="Cidade", to=Cidade)
     cep = models.CharField(verbose_name="CEP/ZIP-Code", max_length=10)
     endereco = models.CharField(verbose_name="Endereço", max_length=100)
@@ -226,3 +226,7 @@ class EventoVideo(models.Model):
             raise ValidationError(message=validacao)
 
         super(EventoVideo, self).clean()
+
+class EventoConvite(models.Model):
+    evento = models.ForeignKey(Evento)
+    usuario_convidado = models.ForeignKey(UsuarioDetalhe)

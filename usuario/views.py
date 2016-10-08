@@ -4,7 +4,7 @@ from django.shortcuts import render, HttpResponse
 from .models import UsuarioDetalhe
 from django.contrib.auth import authenticate, login
 from lib.main_lib import RenderView
-from django.db.models import F, Value as V, CharField, Q
+from django.db.models import F, Value as V, CharField, Q, When, Case
 from django.db.models.functions import Concat
 from django.core.mail import send_mail
 import random
@@ -40,11 +40,11 @@ class UsuarioController(RenderView):
                                  "msg": "A combinação entre usuário e senha não pôde ser confirmada. Informe dados válidos."}',
                                 content_type="application/json")
 
-    def SetValue(self, obj, key, value):
-        if key == 'tipo_usuario':
-            setattr(obj, key, 'O' if value == True else 'P')
-        else:
-            super(UsuarioController, self).SetValue(obj, key, value)
+    #def SetValue(self, obj, key, value):
+        #if key == 'tipo_usuario' and value is bool:
+        #    setattr(obj, key, 'O' if value == True else 'P')
+        #else:
+        #    super(UsuarioController, self).SetValue(obj, key, value)
 
     def SaveObject(self, obj):
         if 'password' in self.propriedades_requisicao:
@@ -71,12 +71,12 @@ class UsuarioController(RenderView):
         return json.dumps(list(UsuarioDetalhe.objects.filter(id=usuario_id).annotate(
             pais_id=F('cidade__pais__id'),
             estado_id=F('cidade__estado__id'),
-            nome_completo=Concat('first_name', V(' '), 'last_name', output_field=CharField())
+            nome_completo=Concat('first_name', V(' '), 'last_name', output_field=CharField()),
         ).values(
             'username', 'telefone', 'numero_identidade', 'sexo', 'numero_endereco', 'last_login',
             'email_pagseguro', 'endereco', 'last_name', 'foto_usuario', 'id', 'pais_id', 'estado_id',
             'email', 'first_name', 'cep', 'bairro', 'cpf', 'token_pagseguro', 'email_pagseguro', 'cidade_id',
-            'nome_completo'
+            'nome_completo', 'tipo_usuario'
         )), cls=DjangoJSONEncoder)
 
     def PesquisarUsuario(self):

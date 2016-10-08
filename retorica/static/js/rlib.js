@@ -106,8 +106,8 @@ mainLib.popup.removePopup = function(id_filter, fnToExecuteAfter){
 mainLib.aviso = function(message, fnToExecuteAfter){
     var html =
           '  <div class="popup-body popup-dlg small-radius">	'+
- 	      '    <h2 class="red title">Aviso !</h2> '+
-          '    <p > <center>' + message + ' </center></p>'+          
+ 	      '    <h2 class="red title">Aviso!</h2> <div class="text-center">'+
+            message + '</div>' +
  	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn full-width btn-blue small-radius">OK</a>'+
  	      '  </div> ';
 
@@ -970,8 +970,8 @@ mainLib.loadMenu = function(){
             };
 		};
 
-		window.addEventListener('resize', resize, true);
-		window.addEventListener('load', resize, true);
+		window.addEventListener('resize', resize);
+		window.addEventListener('load', resize);
 	};
 
     menu.addEventListener('mouseenter', function(){
@@ -1150,9 +1150,11 @@ mainLib.server.post = function(url, data, routineOk, routineNotOk, async, conten
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 ) {
       if(xhttp.status == 200){
-        routineOk(xhttp.responseText);
+        if(routineOk)
+          routineOk(xhttp.responseText);
       }else{
-        routineNotOk(xhttp.responseText);
+        if(routineNotOk)
+          routineNotOk(xhttp.responseText);
       };
     };
   };
@@ -1203,16 +1205,27 @@ mainLib.server.get = function(url, data, routineOk, routineNotOk, async){
 mainLib.dataBinder = {}
 
 mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
-  mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
-     if(empty === true)
-       data = [{}]
+  if(empty === true){
+    data = [{}]
+  }else{
+    if(data.length === 0){
+      mainLib.find("[data-model-empty='"+model+"']").loop(function(){
+        this.rmCl('hide');
+      });
+      return
+    }else{
+      mainLib.find("[data-model-empty='"+model+"']").loop(function(){
+        this.adCl('hide');
+      });
 
-     if(!data){
-       return
-     }
-     if(typeof data != 'object'){
-       data = JSON.parse(data);
-     }
+    };
+  };
+
+  if(typeof data != 'object'){
+    data = JSON.parse(data);
+  };
+
+  mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
      var template = "";
      var isSelfContainer = this.hasAttribute('data-self');
      if(isSelfContainer){
@@ -1277,13 +1290,23 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
       };
     };
   });
-  mainLib.find('[data-replicated-model] [data-id]', parent).loop(function(){
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-id]', parent).loop(function(){
     this.setAttribute('id', this.getAttribute('data-id'));
   });
-  mainLib.find('[data-replicated-model] [data-name]', parent).loop(function(){
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-name]', parent).loop(function(){
     this.setAttribute('name', this.getAttribute('data-name'));
   });
-  mainLib.find('[data-replicated-model]').loop(function(){
+
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-visible]', parent).loop(function(){
+    mainLib.invisibleWhen(this, !eval(this.getAttribute('data-visible')));
+
+  });
+
+  mainLib.find('[data-replicated-model="'+ model +'"]').loop(function(){
+
+    if(this.getAttribute('data-visible'))
+      mainLib.invisibleWhen(this, !eval(this.getAttribute('data-visible')));
+
     if(this.getAttribute('data-src'))
       this.setAttribute('src', this.getAttribute('data-src'));
 
@@ -1369,7 +1392,13 @@ mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, reque
 
   mainLib.server.get(url, request_params,
     function(data){
-      received = JSON.parse(data);
+        try{
+           received = JSON.parse(data);
+        }catch(e){
+           mainLib.wait.stop();
+           mainLib.aviso(data);
+        };
+
         mainLib.dataBinder.bindOnTemplate(model, received, parent);
         mainLib.dataBinder.fillLookup('[data-replicated-model="'+model+'"] [data-lookup-url]')
         mainLib.wait.stop();
@@ -1618,4 +1647,13 @@ mainLib.onPressEnterClick = function(event, selector){
   if(ele){
     ele.click();
   }
+}
+
+mainLib.invisibleWhen = function(ele, condition){
+   if(condition === true){
+      mainLib.addClass('hide', ele);
+   }else{
+      mainLib.removeClass('hide', ele);
+   }
+
 }

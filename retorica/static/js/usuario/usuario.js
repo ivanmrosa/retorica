@@ -27,7 +27,7 @@ usuario = {
        mainLib.wait.start();
        url = url||'/cadastrar_usuario';
        selector = selector||'#form_signup';
-       var params = new FormData(mainLib.find(selector).first())
+       var params = new FormData(mainLib.find(selector).first());
        mainLib.server.post(url, params,
           function(response){
             mainLib.wait.stop();
@@ -42,6 +42,14 @@ usuario = {
               mainLib.aviso(data["msg"]);
               if(resetar){
                 mainLib.find(selector).elements[0].reset();
+              }else{
+
+                mainLib.server.get('/obter_usuario', '', function(data){
+                  mainLib.dataBinder.removeReplicatedModel('dados_perfil_usuario');
+                  mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
+                  mainLib.dataBinder.bindOnTemplate('dados_perfil_usuario', data);
+                  mainLib.dataBinder.bindOnTemplate('edicao_usuario', data);
+                })
               }
             }
           },

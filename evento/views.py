@@ -5,7 +5,7 @@ from django.db.models import F, Count, Q, Value as V
 
 from django.core.serializers.json import DjangoJSONEncoder, json
 from .models import Evento, EventoParticipante, EventoPeriodo, EventoTipo, EventoAnexo, EventoComentario, \
-    EventoOrganizador, EventoPalestrante, EventoVideo
+    EventoOrganizador, EventoPalestrante, EventoVideo, EventoConvite
 from usuario.models import UsuarioDetalhe
 from lib.main_lib import RenderView
 from django.db.models.functions import Concat
@@ -19,6 +19,7 @@ from django.core.mail import send_mail
 # Create your views here.
 
 GRATUITO = 'G'
+USUARIO_ORGANIZADOR = 'O'
 
 
 @login_required
@@ -32,12 +33,19 @@ class EventoController(RenderView):
     def __init__(self, *args, **kwargs):
         if 'evento_pk' in kwargs:
             self.__evento_pk = kwargs['evento_pk']
+        elif 'evento_id' in kwargs:
+            self.__evento_pk = kwargs['evento_id']
 
         self.attributes = kwargs
 
     @property
     def evento_pk(self):
         return self.__evento_pk
+
+    def __PermitirApenasOrganizador(self):
+        if UsuarioDetalhe.objects.get(pk=self.request.user.id).tipo_usuario != USUARIO_ORGANIZADOR:
+            return "Para realizar esta operação você deve ser um organizador de evento."
+
 
     def ObtemPeriodos(self):
         periodos = EventoPeriodo.objects.filter(evento_id=self.evento_pk).select_related(
@@ -71,6 +79,9 @@ class EventoController(RenderView):
         return json.dumps(list(evento), cls=DjangoJSONEncoder)
 
     def ObtemEventos(self):
+        if 'evento_privado' in self.attributes:
+            self.attributes['evento_privado'] = self.CheckBoolean(self.attributes['evento_privado'])
+
         eventos = Evento.objects.filter(**self.attributes).annotate(estado=F('cidade__estado__nome'),
                                                                     cidade_nome=F('cidade__nome'),
                                                                     tipo=F('tipo_evento__nome')). \
@@ -108,6 +119,10 @@ class EventoController(RenderView):
         return json.dumps(list(eventos), cls=DjangoJSONEncoder)
 
     def ObtemEventosDoOrganizador(self):
+        validacao = self.__PermitirApenasOrganizador()
+        if validacao:
+            return validacao
+
         return json.dumps(list(
             EventoOrganizador.objects.filter(organizador_id=self.request.user.id).annotate(titulo=F('evento__titulo')). \
                 values('titulo', 'evento_id')))
@@ -164,6 +179,9 @@ class EventoController(RenderView):
         return json.dumps(list(EventoTipo.objects.all().values()))
 
     def InserirEditarEvento(self):
+        validacao = self.__PermitirApenasOrganizador()
+        if validacao:
+            return validacao
 
         if not 'id' in self.attributes or not self.attributes['id']:
             self.attributes.update({"usuario_cadastro_id": self.request.user.id})
@@ -220,16 +238,62 @@ class EventoController(RenderView):
 
     def InserirParticipante(self):
         retorno = []
+        periodos_confirmados = []
         periodos = json.loads(next(iter(self.attributes.values())))
 
         for participante in periodos:
             participante.update({"usuario_id": self.request.user.id})
-            retorno.append(self.SaveModel(model=EventoParticipante, parametros=participante,
-                                          msg="Sua solicitação para participar foi efetivada. Aguarde a confirmação por e-mail."))
-        return retorno
+
+            dado_salvo = self.SaveModel(
+                model=EventoParticipante,
+                parametros=participante,
+                msg="Sua solicitação para participar foi efetivada. Aguarde a confirmação por e-mail.",
+                fields_to_return=['confirmado']
+            )
+
+            dado_json = json.loads(dado_salvo)
+
+            if dado_json["ok"] == True:
+                if dado_json["data"]["confirmado"] == True:
+                    periodos_confirmados.append(participante["evento_periodo_id"])
+
+            retorno.append(dado_json)
+
+        if periodos_confirmados:
+            self.EnviarEmailConfirmacaoParticipante(lista_periodos=periodos_confirmados,
+                                                    adress_email=self.request.user.email)
+
+        return json.dumps(retorno)
+
+    def EnviarEmailConfirmacaoParticipante(self, lista_periodos, adress_email):
+        periodos = EventoPeriodo.objects.filter(id__in=lista_periodos).values_list('data', 'evento_id')
+
+        datas = [periodo[0].strftime('%d/%m/%Y')  for periodo in periodos]
+        titulo_evento = Evento.objects.get(pk=periodos[0][1]).titulo
+
+        msg = "Sua participação no envento %s foi confirmada. Confira os dias do evento: %s " % \
+              (titulo_evento, str(datas))
+
+        send_mail(subject='Participação em evento confirmada.', message=msg, recipient_list=[adress_email],
+                  from_email="auditorio@auditorioeventos.com.br")
 
     def EditarParticipante(self):
-        return self.SaveModel(model=EventoParticipante, parametros=self.attributes, msg="")
+        dados = self.SaveModel(model=EventoParticipante,
+                              parametros=self.attributes,
+                              msg="",
+                              fields_to_return=["confirmado", "evento_periodo_id"]
+                              )
+        dados = json.loads(dados)
+        if "data" in dados and "confirmado" in self.attributes:
+            if  dados["data"]["confirmado"] == True:
+
+                self.EnviarEmailConfirmacaoParticipante(
+                    lista_periodos=[dados["data"]["evento_periodo_id"]],
+                    adress_email=EventoParticipante.objects.get(pk=self.attributes["id"]).usuario.email
+                )
+
+        return json.dumps(dados)
+
 
     def DeletarParticipante(self):
         periodos = json.loads(next(iter(self.attributes.values())))
@@ -238,8 +302,12 @@ class EventoController(RenderView):
             EventoParticipante.objects.select_related('EventoPeriodo').filter(
                 evento_periodo_id=participante["evento_periodo_id"], usuario_id=self.request.user.id).delete()
 
-        return json.dumps({"msg": "A inscrição foi cancelada com sucesso. Entre em contato com os organizadores "
-                                  "caso haja necessidade de devolução do pagamento."})
+        return json.dumps([{"msg": "A inscrição foi cancelada com sucesso. Entre em contato com os organizadores "
+                                  "caso haja necessidade de devolução do pagamento."}])
+
+    def DeletarParticipantePorId(self):
+        EventoParticipante.objects.get(pk=self.attributes["id"]).delete()
+        return json.dumps({"msg": "Participante removido com sucesso!", "ok": True})
 
     def InserirPalestranteEvento(self):
         return self.SaveModel(model=EventoPalestrante, parametros=self.attributes,
@@ -337,6 +405,21 @@ class EventoController(RenderView):
         emails = [participante["email"] for participante in participantes]
         send_mail(subject=assunto, message=msg, from_email="auditorio@auditorioeventos.com.br", recipient_list=emails)
         return json.dumps({"ok": True, "msg": "Os e-mails foram envidados"})
+
+    def InserirConvite(self):
+        print(self.attributes)
+        return self.SaveModel(model=EventoConvite, parametros=self.attributes, msg="")
+
+    def DeletarConvite(self):
+        EventoConvite.objects.get(pk=self.attributes["id"]).delete()
+        return json.dumps({"ok":True, "msg":""})
+
+    def ObterConvitesUsuario(self):
+        convite = EventoConvite.objects.filter(usuario_convidado_id = self.request.user.id).annotate(
+            titulo=F('evento__titulo')
+        ).values('evento_id', 'titulo', 'id')
+
+        return json.dumps(list(convite))
 
 
 class PagSeguro:

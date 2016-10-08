@@ -8,13 +8,22 @@ import os
 
 class RenderView(object):
 
+    def CheckBoolean(self, value):
+        if value in ('true', 'false', 'TRUE', 'FALSE', 'True', 'False'):
+            return eval(value.lower().capitalize())
+        else:
+            return False
+
     def SetValue(self, obj, key, value):
+        if obj._meta.get_field(key).__class__ == BooleanField:
+            value = self.CheckBoolean(value)
+
         setattr(obj, key, value)
 
     def SaveObject(self, obj):
         obj.save()
 
-    def SaveModel(self, model, parametros, msg, files=None):
+    def SaveModel(self, model, parametros, msg, files=None, fields_to_return = ()):
 
         if 'id' in parametros:
             if parametros['id']:
@@ -28,10 +37,6 @@ class RenderView(object):
             if key.upper() != 'ID' and hasattr(obj, key):
                 if obj._meta.get_field(key).__class__ in(FileField, ImageField):
                     continue
-
-                if obj._meta.get_field(key).__class__ == BooleanField:
-                    if parametros[key] in ('true', 'false', 'TRUE', 'FALSE', 'True', 'False'):
-                        parametros[key] = eval(parametros[key].lower().capitalize())
 
                 self.SetValue(obj=obj, key=key, value=parametros[key])
 
@@ -47,8 +52,14 @@ class RenderView(object):
 
         try:
             self.SaveObject(obj=obj)
+
+            fr = {}
+            if fields_to_return:
+                for f in fields_to_return:
+                    fr.update({f:getattr(obj, f)})
+
             return json.dumps(
-                {"msg": msg, "ok": True, "key": getattr(obj, 'id')})
+                {"msg": msg, "ok": True, "key": getattr(obj, 'id'), "data":fr})
         except Exception as e:
             return str(e)
 

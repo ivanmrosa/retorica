@@ -89,7 +89,12 @@
 
                 <div class="form-field text-center ">
                     <label for="tipo_usuario">desejo organizar eventos</label>
-                    <input type="checkbox" name="tipo_usuario">
+
+                    <select name="tipo_usuario">
+                        <option value=""></option>
+                        <option value="O">Organizador de eventos</option>
+                        <option value="P">Apenas participante</option>
+                    </select>
                 </div>
                 <a href="javascript:void(0)" class="btn full-width bold btn-blue"
                    onclick="mainLib.dataBinder.bindServerDataOnTemplate('/localidade/obter_paises',

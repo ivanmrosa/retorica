@@ -117,6 +117,9 @@ urlpatterns = [
                   url(r'^evento/deletar_participante',
                       viewsevento.EventoController.to_view(method_name='DeletarParticipante', login_required=True,
                                                            method_type='POST'), name='deletar_participante'),
+                  url(r'^evento/forcar_exclucao_participante',
+                      viewsevento.EventoController.to_view(method_name='DeletarParticipantePorId', login_required=True,
+                                                           method_type='POST'), name='deletar_participante_por_id'),
 
                   url(r'evento/pagseguro',
                       viewsevento.EventoController.to_view(method_name='PagamentoPagSeguro', login_required=True,
@@ -168,6 +171,16 @@ urlpatterns = [
                   url(r'imprimir_grafico_regiao',
                       viewsevento.EventoController.to_view(method_name='ImprimirGraficoRegiao', login_required=True,
                                                            method_type='GET'), name='imprimir_grafico_regiao'),
+
+                  url(r'enviar_convite',
+                      viewsevento.EventoController.to_view(method_name='InserirConvite', login_required=True,
+                                                           method_type='POST'), name='enviar_convite'),
+                  url(r'deletar_convite',
+                      viewsevento.EventoController.to_view(method_name='DeletarConvite', login_required=True,
+                                                           method_type='POST'), name='deletar_convite'),
+                  url(r'obter_convites_usuario',
+                      viewsevento.EventoController.to_view(method_name='ObterConvitesUsuario', login_required=True,
+                                                           method_type='GET'), name='obter_convites_usuario'),
 
                   url(r'^admin/', admin.site.urls),
                   url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {'login_url': '/'}),

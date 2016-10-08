@@ -6,7 +6,7 @@
 
 {% block 'body' %}
 <header class="fixed-header">
-    <div class="col col-1 logo-div invisible-mobile">
+    <div class="col col-1 logo-div ">
         <center><a href="/evento"><img src="/static/images/logo2.png" title="auditório eventos" alt="auditório eventos"
                                        class="img-logo white"/></a></center>
     </div>
@@ -28,7 +28,8 @@
 
         <div class="col col-10 group-pesq">
             <center>
-                <a href="javascript:void(0)" class="white small-font bold" onclick="evento.abrir_edicao_usuario();">
+                <a href="javascript:void(0)" class="white small-font bold hide-scroll"
+                   onclick="evento.abrir_edicao_usuario();">
                     <img data-id="img-usr" data-src="/upload/[{foto_usuario}]"
                          data-model="dados_perfil_usuario" data-self=""
                          class="big-radius" title="[{first_name}]"
@@ -48,7 +49,7 @@
         <ul>
             <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
                          mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
-                         mainLib.find('#lista_eventos').elements[0])">
+                         mainLib.find('#lista_eventos').elements[0], 'evento_privado=false')">
                 <img src="/static/images/home-32.png">
                 <a href="javascript:void(0)" class="white"> Home </a>
             </li>
@@ -64,7 +65,7 @@
                 <a href="javascript:void(0)" class="white">meus dados</a>
             </li>
 
-            <li onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo');
+            <li data-model="dados_perfil_usuario" data-self="" data-visible="('[{tipo_usuario}]' === 'O')" onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo');
                    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador', null, null, mainLib.find('#lista_eventos_gerenciar .list-btn li').elements.length <= 1)">
                 <a href="javascript:void(0)"><img
@@ -87,59 +88,98 @@
 
 <div id="evento_conteudo" class="after-header after-menu col col-8 conteudo ">
     <section id="lista_eventos" class="col col-7 page hide slow-hide">
-        <div data-model="evento_lista">
-            <div class="event col col-6 small-radius suspend">
-                <div class="col col-10">
+        <section class="col col-6">
+            <div data-model="evento_lista">
+                <div class="event col col-10 small-radius ">
                     <div class="col col-10">
-                        <h3 class="title"><a href="javascript:void(0)" class="gray hover-blue"
-                                             onclick="evento.abrir_detalhe_evento([{id}])">[{titulo}]</a>
-                        </h3>
+                        <div class="col col-10">
+                            <h3 class="title"><a href="javascript:void(0)" class="gray hover-blue"
+                                                 onclick="evento.abrir_detalhe_evento([{id}])">[{titulo}]</a>
+                            </h3>
 
 
-                        <a href="javascript:void(0)" class="flo-left img-event"
-                           onclick="evento.abrir_detalhe_evento([{id}])">
-                            <img data-src="/upload/[{imagem_divulgacao}]" class="small-radius"/>
-                        </a>
-                    </div>
-                    <div class="col col-10">
-                        <pre class="text-justify des-event">[{descricao}]</pre>
-                    </div>
-
-                </div>
-
-                <section class="col col-5">
-                    <img src="/static/images/local24.png" title="local" alt="local">
-                    [{endereco}], número [{numero_endereco}], bairro [{bairro}], [{estado}] - [{cidade_nome}].
-
-                </section>
-                <section class="col col-5">
-                    <img src="/static/images/tag24.png" title="tipo" alt="tipo">
-                    [{tipo}]
-                </section>
-                <section class="col col-5">
-                    <img src="/static/images/price24.png" title="valor" alt="valor">
-                    $ [{valor}]
-                </section>
-
-
-                <div class="col col-10 small-radius event-pan-det">
-                    <div class="col col-5">
-                        <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                           onclick="evento.abrir_detalhe_evento([{id}])">
-                            <img data-src="/static/images/details32.png">
-                            <div>detalhes</div>
-                        </a>
+                            <a href="javascript:void(0)" class="flo-left img-event"
+                               onclick="evento.abrir_detalhe_evento([{id}])">
+                                <img data-src="/upload/[{imagem_divulgacao}]" class="small-radius"/>
+                            </a>
+                        </div>
+                        <div class="col col-10">
+                            <pre class="text-justify des-event">[{descricao}]</pre>
+                        </div>
 
                     </div>
-                    <div class="col col-5">
-                        <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                           onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32.png">
-                            <div>participar</div>
-                        </a>
+
+                    <section class="col col-5">
+                        <img src="/static/images/local24.png" title="local" alt="local">
+                        [{endereco}], número [{numero_endereco}], bairro [{bairro}], [{estado}] - [{cidade_nome}].
+
+                    </section>
+                    <section class="col col-5">
+                        <img src="/static/images/tag24.png" title="tipo" alt="tipo">
+                        [{tipo}]
+                    </section>
+                    <section class="col col-5">
+                        <img src="/static/images/price24.png" title="valor" alt="valor">
+                        $ [{valor}]
+                    </section>
+
+
+                    <div class="col col-10 small-radius event-pan-det">
+                        <div class="col col-5">
+                            <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
+                               onclick="evento.abrir_detalhe_evento([{id}])">
+                                <img data-src="/static/images/details32.png">
+                                <div>detalhes</div>
+                            </a>
+
+                        </div>
+                        <div class="col col-5">
+                            <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
+                               onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32.png">
+                                <div>participar</div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section id="lista_convites"
+                 class="col col-4 small-radius event down-menu stay-on-top hide-scroll">
+            <h3 class="title cur-pointer" onclick="mainLib.addClass('big', this.parentElement);
+                                       mainLib.removeClass('hide-scroll', this.parentElement);
+                                       mainLib.removeClass('hide', mainLib.find('#fechar_detalhe_convite').first()) ">
+                convites para eventos
+            </h3>
+            <span data-model-empty="lista_convites" class="hide">Não há nenhum convite</span>
+            <div class="col col-10 ">
+                <ul class="list-btn">
+                    <li data-model="lista_convites" data-self="">
+
+                        <a href="javascript:void(0)"
+                           onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');
+                                    mainLib.dataBinder.removeReplicatedModel('evento_lista');
+                                    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
+                                    mainLib.find('#lista_eventos').elements[0], 'id=[{evento_id}]')"
+                           class="gray">
+                            [{titulo}]
+                        </a>
+
+
+                        <a href="javascript:void(0)"
+                           class="circle circle-small-small cancel stay-on-top"
+                           onclick="mainLib.server.post('/deletar_convite', 'id=[{id}]');
+                                    this.parentElement.parentElement.removeChild(this.parentElement);"></a>
+
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:void(0)" id="fechar_detalhe_convite"
+               class="circle circle-small cancel stay-on-top hide-desktop bottom-right fixed hide"
+               onclick="mainLib.addClass('hide', this);
+                        mainLib.removeClass('big', this.parentElement)"></a>
+
+        </section>
     </section>
 
     <section id="gerenciar_eventos" class="page hide col col-7 slow-hide">
@@ -476,7 +516,8 @@
                        onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
                         <img src="/static/images/graph32.png">
                         <div class="white small-font">dados gerenciais</div>
-                    </a></div>
+                    </a>
+                </div>
                 <div class="col col-2">
                     <a class="btn btn-blue full-width"
                        onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
@@ -484,14 +525,22 @@
                         <div class="white small-font">e-mail para participantes</div>
                     </a>
                 </div>
+                <div class="col col-2">
+                    <a class="btn btn-blue full-width"
+                       onclick="evento.ir_pagina('enviar-convite', 'gerenciar-eventos-tarefas')">
+                        <img src="/static/images/invitation32.png">
+                        <div class="white small-font">convidar usuários</div>
+                    </a>
+                </div>
 
                 <section id="gerenciar-eventos-participantes" class="col col-10 hide page">
                     <div class="tabled col col-10">
                         <div class="tabled-body col col-10">
-                            <div class="tabled-row col col-10" data-model="participantes_evento" data-self="">
+                            <div class="tabled-row col col-10" data-model="participantes_evento" data-self=""
+                                 data-participante-id="[{id}]">
                                 <div class="col col-2"><strong> [{nome}] &nbsp; [{sobrenome}] </strong></div>
-                                <div class="col col-2"><strong> [{data}] - [{hora_inicio}] </strong></div>
-                                <div class="col col-2">pago:
+                                <div class="col col-1"><strong> [{data}] [{hora_inicio}] </strong></div>
+                                <div class="col col-1">pago:
                                     <input type="checkbox" data-value="[{confirmado}]"
                                            onclick="evento.editar_presenca_pagamento([{id}], this, 'confirmado')">
                                 </div>
@@ -502,12 +551,19 @@
                                 <div class="col col-1">
                                     <a href="#" class="btn full-width btn-blue"
                                        onclick="evento.imprimir_cracha([{usuario_id}])">
-                                        <img src="/static/images/cracha24.png" title="Imprimir crachá">
+                                        <img src="/static/images/cracha24.png" alt="Imprimir crachá">
                                     </a>
                                 </div>
                                 <div class="col col-1"><a href="#" class="btn btn-blue full-width"
                                                           onclick="evento.imprimir_certificado([{usuario_id}])">
-                                    <img src="/static/images/certificado24.png" title="Imprimir certificado"></a></div>
+                                    <img src="/static/images/certificado24.png" alt="Imprimir certificado"></a>
+                                </div>
+                                <div class="col col-1">
+                                    <a href="#" class="btn btn-blue full-width"
+                                       onclick="evento.forcar_desinscricao_participante([{id}])">
+                                        <img src="/static/images/trash24.png" alt="Excluir participante">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -529,6 +585,34 @@
                     </form>
                     <a href="javascript:void()" class="btn btn-blue full-width"
                        onclick="evento.enviar_email_participantes()">enviar</a>
+                </section>
+
+                <section id="enviar-convite" class="page hide col col-10">
+                    <div>
+                        <small class="blue">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
+                    </div>
+                    <div class="col col-10 autocomplete">
+                        <input id="busca_adicionar_usuario_convite"
+                               placeholder="adicione usuários pesquisando aqui..."
+                               class="small-radius search" type="text" data-autocomplete-url="/pesquisar_usuario"
+                               data-field="id" data-field-text="nome_completo" data-field-img="foto_usuario"
+                               data-relative-img-url="/upload/"
+                        >
+                    </div>
+                    <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
+                                               onclick="evento.inserir_convidado()">enviar convite
+                                            </a>
+                    </div>
+
+                    <div class="col col-10">
+                        <ul class="list-btn">
+                            <li data-model="convites_usuarios" data-self=""
+                                data-user-id="[{id}]">
+                                [{nome}]
+                            </li>
+                        </ul>
+                    </div>
+
                 </section>
 
             </section>
@@ -555,7 +639,9 @@
 
 
                         </div>
-                        <div class="col col-10"><pre class="text-justify des-event">[{descricao}]</pre></div>
+                        <div class="col col-10">
+                            <pre class="text-justify des-event">[{descricao}]</pre>
+                        </div>
                         <div class="col col-5">
                             <a href="javascript:void(0)" class="btn bck-menu-blue full-width" id="btn-inscrever-evento"
                                onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32_2.png">
@@ -575,7 +661,7 @@
                     <section id="evento-periodo" class="col col-5">
                         <h3 class="title">período</h3>
                         <div data-model="periodos">
-                            <ul >
+                            <ul>
                                 <li>data: [{data}]</li>
                                 <li>inicio: [{hora_inicio}]</li>
                                 <li>fim: [{hora_fim}]</li>
@@ -724,10 +810,13 @@
                             </select>
                         </div>
 
-                        <div class="form-field text-center">
-                            <label for="tipo_usuario">desejo organizar eventos</label>
-                            <input type="checkbox" data-id="tipo_usuario" name="tipo_usuario"
-                                   checked="('[{tipo_usuario}]' ==='O')">
+                        <div class="form-field">
+                            <label for="tipo_usuario">Tipo do usuário</label>
+
+                            <select data-value="[{tipo_usuario}]" data-name="tipo_usuario">
+                                <option value="O">Organizador de eventos</option>
+                                <option value="P">Apenas participante</option>
+                            </select>
                         </div>
 
 
@@ -878,78 +967,6 @@
 <script type="text/javascript" src="{% static 'js/evento/evento_index.js' %}"></script>
 
 <script>
-      mainLib.loadMenu();
-      mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'dados_perfil_usuario');
-      mainLib.dataBinder.autoComplete();
-      evento.ir_pagina('lista_eventos');
-      evento.pgc_gerenciar_evento();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </script>
