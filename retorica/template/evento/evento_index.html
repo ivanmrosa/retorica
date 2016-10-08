@@ -160,7 +160,9 @@
                            onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');
                                     mainLib.dataBinder.removeReplicatedModel('evento_lista');
                                     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
-                                    mainLib.find('#lista_eventos').elements[0], 'id=[{evento_id}]')"
+                                    mainLib.find('#lista_eventos').first(), 'id=[{evento_id}]');
+                                    mainLib.addClass('hide', mainLib.find('#fechar_detalhe_convite').first());
+                                    mainLib.removeClass('big', this.parentElement.parentElement.parentElement.parentElement);"
                            class="gray">
                             [{titulo}]
                         </a>
