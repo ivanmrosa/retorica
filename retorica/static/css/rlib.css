@@ -136,8 +136,6 @@ pre{
 }
 
 .menu.menu-full{
-  /*background-color: #006080;*/
-  /*box-shadow: gray 5px 5px 10px 0px;*/
   border-right: 1px solid white;
   background-color: #0082af;
 
@@ -149,17 +147,13 @@ pre{
   min-height:100%;
   float:left;
   opacity:0.9;
-
 }
 
 .menu{
   border-right: 1px solid #ebebe0;
- /* background-color:  #006080;*/
   background-color: #0082af;
   position: fixed;
   box-sizing: border-box;
-
-
 }
 
 .after-menu{
@@ -194,7 +188,6 @@ pre{
    float:left;
    width: 100%;
    text-align: center;
-   /*box-shadow: #f2f2f2 0px 2px 2px;*/
    border-bottom: 1px solid white;
    min-height:5%;
    padding: 15px 0px 25px 0px;
@@ -220,7 +213,6 @@ pre{
 
 
 .container{
-
     float: left;
     list-style: none;
 	height: 100%;
@@ -329,7 +321,6 @@ pre{
 }
 
 .tabled{
-  /*box-shadow: gray 0px 0px 10px;*/
   border: 1px solid ghostwhite;
   color:gray;
   vertical-align: middle;
@@ -521,28 +512,20 @@ a{
 }
 
 .popup-show{
-  /*display: table !important;*/
+
   z-index: 10000 !important;
   height: 100% !important;
   width: 100% !important;
   opacity: 1 !important;
 }
 
-.popup-hide{
-  /*display: none;*/
-}
 
 
 .popup{
-   /*float:left;*/
-   /*height: 100%;
-   width: 100%;*/
    height: 0%;
    width: 0%;
-   /*display:none;*/
    position:fixed;
    display: table;
-   /*z-index: 10000;*/
    z-index:-1;
    bottom: 0;
    left: 0;
@@ -594,8 +577,6 @@ a{
    text-align: center;
    margin: 0px 40% 0px;
 }
-
-
 
 .suspend{
     float: left;
@@ -651,7 +632,7 @@ a{
 }
 
 .bck-menu-blue{
-  background-color: /*#006080*/ #0082af !important;
+  background-color:#0082af !important;
 }
 
 .white{
@@ -956,7 +937,6 @@ a.btn{
   position: fixed;
   z-index:3000;
   max-height:75px;
-  /*background-color:#006080;*/
   background-color: #0082af;
   opacity: 0.9;
   border-bottom: 1px solid white;
@@ -996,10 +976,8 @@ a.btn{
     border-radius: 5px;
     margin-bottom: 2px;
     border-bottom: none;
-    /*border:1px solid #0074D9;*/
-     border:1px solid;
-     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
-    /*background-color: #0074D9;*/
+    border:1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     background-color: white;
     color: #006080;
 }
@@ -1014,7 +992,6 @@ a.btn{
 	box-sizing:border-box;
     min-height: 35px;
     text-align: center;
-    /*color: white;*/
     font-size: 14px;
 }
 
@@ -1037,7 +1014,6 @@ a.btn{
 }
 .tab-body {
     background-color: white;
-    /*display: none;*/
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: 5px;
@@ -1046,7 +1022,6 @@ a.btn{
 	width: 0%;
 	opacity:0;
     overflow: auto;
-    /*border:1px solid #0074D9;*/
      border:1px solid;
      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
      position: fixed;
@@ -1060,9 +1035,6 @@ a.btn{
 
 }
 .tab-body.active {
-    /*display: inline;
-    float: left;
-    padding: 0px;*/
     height: 100% !important;
 	width: 100% !important;
 	opacity: 1 !important;
@@ -1140,7 +1112,6 @@ textarea.field, .form-field  textarea{
     vertical-align: center;
     box-sizing: border-box;
     background-color: white;
-    /*box-shadow: 0px 0px 3px gray;*/
 }
 .circle:hover{
   background-color: ghostwhite;
@@ -1232,11 +1203,6 @@ textarea.field, .form-field  textarea{
     height: 35px;
     border-radius: 4px;
     outline: none;
-    /*transition: width .4s ease-in-out;*/
-    /*-webkit-transition: all 0.30s ease-in-out;
-    -moz-transition: all 0.30s ease-in-out;
-    -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;*/
     outline: none;
     border: 1px solid #DDDDDD;
 }
@@ -1291,8 +1257,8 @@ textarea.field, .form-field  textarea{
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 
@@ -1378,8 +1344,6 @@ textarea.field, .form-field  textarea{
       visibility: hidden;
     }
 
-
-
 	.menu{
 	    width: 45px;
 	    max-width: 45px;
@@ -1412,28 +1376,25 @@ textarea.field, .form-field  textarea{
 
 	}
     .menu .menu-content{
-      /*opacity: 0.9;*/
       background-color: transparent;
     }
 	.menu .menu-content::before{
 	   display: inline;
-	   content:url(../images/menu5.png);
-	   /*height:24px;
-	   min-width: 24px;
-	   max-width: 24px;
-	   width: 24px;*/
+	   content:url(../images/menu7.png);
 	   padding-left: 10px;
 	   padding-top: 7px;
 	   cursor:pointer;
 	   box-sizing: border-box;
-
-
 	}
 
     .menu-content > ul {
 	    float:left;
 	    margin-left:0px;
 		width:100%;
+    }
+
+    .menu.menu-full{
+       z-index: 30001;
     }
 
 	.menu-full .menu-content > ul li{
@@ -1474,8 +1435,6 @@ textarea.field, .form-field  textarea{
     }
 
     a.btn{
-       /*padding-left: 1px;
-       padding-right: 1px;*/
        padding-top: 11px;
        padding-bottom: 11px;
        display:table-cell;
@@ -1489,8 +1448,6 @@ textarea.field, .form-field  textarea{
    .message, .errorlist{
 	    width: 100%;
    }
-
-
    .tabled-head{
       border-bottom: none !important;
    }
@@ -1525,23 +1482,20 @@ textarea.field, .form-field  textarea{
      border-radius: 0px;
    }
    .body-group{
-     /*display:none;*/
      position: fixed;
-     /*z-index: -1;*/
      width:0%;
      opacity:0;
+     z-index: -1;
    }
 
    .body-group.active{
-     /*display:block;*/
-     /*position:fixed;*/
      opacity: 1 !important;
      width: 100% !important;
      bottom: 0;
      left: 0;
      right: 0;
      top: 0;
-     z-index:10000;
+     z-index:30000;
    }
 
     .hide-mobile{
@@ -1622,6 +1576,5 @@ textarea.field, .form-field  textarea{
 	  overflow: auto;
 	}
 }
-
 
 

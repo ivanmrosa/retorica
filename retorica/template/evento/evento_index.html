@@ -42,7 +42,7 @@
 </header>
 
 
-<section id="menu" class="after-header menu slow-hide ">
+<section id="menu" class="after-header menu slow-hide">
 
     <div class="menu-content">
 
@@ -153,8 +153,13 @@
             </h3>
             <span data-model-empty="lista_convites" class="hide">Não há nenhum convite</span>
             <div class="col col-10 ">
-                <ul class="list-btn">
+                <ul class="list-btn col col-10">
                     <li data-model="lista_convites" data-self="">
+
+                        <a href="javascript:void(0)"
+                           class="circle circle-small-small cancel stay-on-top"
+                           onclick="mainLib.server.post('/deletar_convite', 'id=[{id}]');
+                                    this.parentElement.parentElement.removeChild(this.parentElement);"></a>
 
                         <a href="javascript:void(0)"
                            onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');
@@ -162,16 +167,13 @@
                                     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
                                     mainLib.find('#lista_eventos').first(), 'id=[{evento_id}]');
                                     mainLib.addClass('hide', mainLib.find('#fechar_detalhe_convite').first());
-                                    mainLib.removeClass('big', this.parentElement.parentElement.parentElement.parentElement);"
+                                    mainLib.removeClass('big', this.parentElement.parentElement.parentElement.parentElement);
+                                    mainLib.addClass('hide-scroll', this.parentElement.parentElement.parentElement.parentElement)"
                            class="gray">
                             [{titulo}]
                         </a>
 
 
-                        <a href="javascript:void(0)"
-                           class="circle circle-small-small cancel stay-on-top"
-                           onclick="mainLib.server.post('/deletar_convite', 'id=[{id}]');
-                                    this.parentElement.parentElement.removeChild(this.parentElement);"></a>
 
                     </li>
                 </ul>
@@ -179,7 +181,8 @@
             <a href="javascript:void(0)" id="fechar_detalhe_convite"
                class="circle circle-small cancel stay-on-top hide-desktop bottom-right fixed hide"
                onclick="mainLib.addClass('hide', this);
-                        mainLib.removeClass('big', this.parentElement)"></a>
+                        mainLib.removeClass('big', this.parentElement);
+                        mainLib.addClass('hide-scroll', this.parentElement)"></a>
 
         </section>
     </section>
