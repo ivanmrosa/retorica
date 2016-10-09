@@ -569,7 +569,12 @@ evento = {
       mainLib.dataBinder.bindOnTemplate('convites_usuarios', [data]);
 
       mainLib.server.post('/evento/enviar_convite', mainLib.format('evento_id=%s&usuario_convidado_id=%s', [evento.get_evento_id(),
-        id_convidado])
+        id_convidado]),
+        null,
+        function(data){
+             document.write(data);
+            document.close;
+        }
       );
    },
 
