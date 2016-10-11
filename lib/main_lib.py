@@ -80,16 +80,17 @@ class RenderView(object):
             obj = cl(**init_params)
         else:
             obj = cl()
-        return HttpResponse(getattr(obj, method_name)(), content_type=content_type)
+        print(content_type)
+        return HttpResponse(getattr(obj, method_name)() , content_type=content_type)
 
     @classmethod
-    def to_view(cls, method_name, login_required, method_type):
+    def to_view(cls, method_name, login_required, method_type, return_content_type = "application/json"):
         if method_type.upper() == 'GET':
             return lambda request: cls.response(method_name=method_name, init_params=request.GET.dict(),
                                                 logged=(request.user.is_authenticated() if login_required else True),
-                                                request=request)
+                                                request=request, content_type=return_content_type)
 
         else:
             return lambda request: cls.response(method_name=method_name, init_params=request.POST.dict(),
                                                 logged=(request.user.is_authenticated() if login_required else True),
-                                                request=request)
+                                                request=request, content_type=return_content_type)
