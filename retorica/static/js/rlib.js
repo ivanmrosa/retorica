@@ -807,7 +807,8 @@ mainLib.pageControl.prototype.draw = function() {
     linkClose.htmlClass = "circle circle-small cancel suspended";
 
     var closeTab = function(){
-      mainLib.removeClass('active', this.parentNode.parentNode)
+      mainLib.removeClass('active', this.parentNode);
+      mainLib.removeClass('active', this.parentNode.parentNode);
     };
 
     linkClose.events = {"click":closeTab}

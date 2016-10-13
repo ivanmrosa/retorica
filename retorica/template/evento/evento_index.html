@@ -26,7 +26,7 @@
 
     <div class="col col-1 flo-right  ">
 
-        <div class="col col-10 group-pesq">
+        <div class="col col-10 group-pesq hide-mobile">
             <center>
                 <a href="javascript:void(0)" class="white small-font bold hide-scroll"
                    onclick="evento.abrir_edicao_usuario();">
@@ -174,7 +174,6 @@
                         </a>
 
 
-
                     </li>
                 </ul>
             </div>
@@ -188,25 +187,28 @@
     </section>
 
     <section id="gerenciar_eventos" class="page hide col col-7 slow-hide">
-        <div class="col col-10 title bck-green" id="gerenciar-evento-cards">
-            <a href="javascript:void(0)" class="circle circle-medium bck-menu-blue text-center white"
-               onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
+        <div class="col col-10 title " id="gerenciar-evento-cards">
+            <div class="col col-2">
+                <a href="javascript:void(0)" class="white flo-left"
+                   onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador')">
-                meus eventos
+                    meus eventos
 
-            </a>
-
-            <a href="javascript:void(0)" class="circle circle-medium bck-menu-blue text-center white"
-               onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
+                </a>
+            </div>
+            <div class="col col-2">
+                <a href="javascript:void(0)" class="white flo-left"
+                   onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
                             'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
-                add <br/> evento
-            </a>
+                    adicionar evento
+                </a>
+            </div>
         </div>
         <section id="lista_eventos_gerenciar" class="col col-10  page slow-hide">
             <div class="col col-10">
-                <small class="red">clique sobre um evento da lista para editar</small>
+                <small class="white">clique sobre um evento da lista para editar</small>
             </div>
             <div class="col col-10">
                 <ul class="list-btn">
@@ -365,7 +367,7 @@
                     </div>
 
                     <div class="col col-10">
-                        <small class="red">remova os períodos clicando sobre as datas</small>
+                        <small class="white">remova os períodos clicando sobre as datas</small>
                         <ul class="list-btn">
                             <li data-model="periodos" data-self=""
                                 onclick="evento.remover_item('/evento/deletar_periodo', [{id}], this);">
@@ -383,7 +385,7 @@
                 <section class="lista_organizadores">
                     <h3 class="title">adicione os organizadores do evento</h3>
                     <div>
-                        <small class="blue">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
+                        <small class="white">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
                     </div>
                     <div class="col col-10 autocomplete">
                         <input id="busca_adicionar_organizador"
@@ -396,7 +398,7 @@
                     <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
                                                onclick="evento.inserir_organizador()">adicionar
                         organizador</a></div>
-                    <small class="red">remova os organizadores clicando sobre seus nomes</small>
+                    <small class="white">remova os organizadores clicando sobre seus nomes</small>
                     <div class="col col-10">
                         <ul class="list-btn">
                             <li data-model="organizadores" data-self=""
@@ -428,10 +430,10 @@
                 </form>
                 <div class="col col-10">
                     <a href="javascript:void(0)" onclick="evento.inserir_palestrante()"
-                       class="btn btn-blue">adicionar palestrante</a>
+                       class="btn btn-blue">adicionar atração</a>
                 </div>
                 <div class="col col-10">
-                    <small class="red">remova os palestrantes clicando sobre seus nomes</small>
+                    <small class="white">remova as atrações clicando sobre seus nomes</small>
                 </div>
                 <div class="col col-10">
                     <ul class="list-btn">
@@ -463,7 +465,7 @@
                     <a href="javascript:void(0)" class="btn btn-blue" onclick="evento.inserir_anexo()">adicionar</a>
 
                     <div class="col col-10">
-                        <small class="red">remova os anexos clicando sobre seus nomes</small>
+                        <small class="white">remova os anexos clicando sobre seus nomes</small>
                         <ul class="list-btn">
                             <li data-model="anexos" data-self
                                 onclick="evento.remover_item('/evento/deletar_anexo',[{id}], this)">[{titulo_anexo}]
@@ -497,7 +499,7 @@
                     </div>
 
                     <div class="col col-10">
-                        <small class="red">remova os vídeos clicando sobre seus nomes</small>
+                        <small class="white">remova os vídeos clicando sobre seus nomes</small>
                         <ul class="list-btn">
                             <li data-model="videos" data-self=""
                                 onclick="evento.remover_item('/evento/deletar_video',[{id}], this)">
@@ -594,7 +596,7 @@
 
                 <section id="enviar-convite" class="page hide col col-10">
                     <div>
-                        <small class="blue">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
+                        <small class="white">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
                     </div>
                     <div class="col col-10 autocomplete">
                         <input id="busca_adicionar_usuario_convite"
@@ -606,7 +608,7 @@
                     </div>
                     <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
                                                onclick="evento.inserir_convidado()">enviar convite
-                                            </a>
+                    </a>
                     </div>
 
                     <div class="col col-10">
@@ -976,6 +978,9 @@
    mainLib.loadMenu();
    mainLib.dataBinder.autoComplete();
    evento.ir_pagina('lista_eventos');
+
+
+
 
 </script>
 

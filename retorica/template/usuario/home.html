@@ -25,7 +25,7 @@
 </div>
 <div class="all_form ">
     <header class="fixed-header no-fixed-mobile">
-        <div class="col col-2 ">
+        <div class="col col-2 hide-desktop">
             <center><img class="img-logo" src="/static/images/logo3.png"/></center>
         </div>
         <div class="col col-5 flo-right" id="divlogin">
@@ -50,11 +50,24 @@
         </div>
     </header>
 
-    <aside class="col col-3 after-header " id="div-left">
+    <aside class="col col-3 after-header hide-mobile " id="div-left">
+        <div class="col col-10"><img src="/static/images/logo1.png"/></div>
+        <div class="col col-10">
+            <div class="text-justify texto-divulgacao blue bold" style="">
+                O Auditório eventos quer conectar você às melhores palestras, simpósios e eventos do gênero.
+                Nosso site permite você visualizar e se inscrever nos melhores eventos nas proximidades.
+                Não fique de fora.
+                <br/><br/>
+                Agora, se você é um palestrante ou organiza simpósios e afins, divulgue aqui seu evento.
+                Basta se cadastrar como um organizador de eventos e usufruir de nossa plataforma para
+                gerenciar e divulgar seu evento.
+            </div>
+        </div>
+
     </aside>
 
     <section class="col col-4 after-header" id="cadastro">
-        <div class="title white">faça o seu cadastro abaixo \0/ ou recupere sua senha
+        <div class="title red">faça o seu cadastro abaixo \0/ ou recupere sua senha
             <a href="javascript:void(0)" class="blue"
                onclick="mainLib.popup.openPopup('recuperar_senha')"> aqui</a>
         </div>
@@ -218,6 +231,10 @@
     <aside class="col col-3 after-header" id="div-right">
     </aside>
 </div>
+<footer class="col col-10 bck-menu-blue white no-margin">
+    <small class="flo-left">Auditório eventos - 2016</small>
+    <small class="flo-right">PUC Minas - Desenvolvimento de aplicações Web 2016</small>
+</footer>
 {% endblock %}
 
 {% block 'js' %}

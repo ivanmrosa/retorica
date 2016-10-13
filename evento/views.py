@@ -53,7 +53,17 @@ class EventoController(RenderView):
             vagas_disponiveis=F('quantidade_vagas') - Count('eventoparticipante')
         ).values('evento_id', 'data', 'hora_inicio',
                  'hora_fim', 'quantidade_vagas', 'vagas_disponiveis', 'id')
-        return json.dumps(list(periodos), cls=DjangoJSONEncoder)
+
+        periodo_list = []
+
+
+        for p in periodos:
+            p["data"] = p["data"].strftime('%d/%m/%Y')
+            p["hora_inicio"] = p["hora_inicio"].strftime('%H:%M')
+            p["hora_fim"] = p["hora_fim"].strftime('%H:%M')
+            periodo_list.append(p)
+
+        return json.dumps(periodo_list, cls=DjangoJSONEncoder)
 
     def ObtemPalestrantes(self):
         palestrantes = EventoPalestrante.objects.filter(evento_id=self.evento_pk).values()

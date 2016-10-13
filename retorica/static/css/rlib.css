@@ -43,19 +43,21 @@ pre{
 }
 
 
-.hide{
-  /*display:none !important;*/
-  float: left;
+.hide, .hide *{
+  float: left !important;
   width: 0% !important;
   height: 0% !important;
-  position: fixed;
+  position: fixed !important;
   z-index: -1;
   opacity: 0;
+  margin: 0px !important;
+  padding: 0px !important;
+  min-height: 0px !important;
 }
 
 
 .hide-desktop{
-  display: none;
+  display: none !important;
 }
 
 .slow-hide{
@@ -487,7 +489,7 @@ a{
    float:left;
    position:absolute;
    border-radius: 2px;
-   z-index: 10000;
+   z-index: 103;
    box-shadow: 5px 5px 5px #888888;
    display: none;
 
@@ -517,7 +519,7 @@ a{
 
 .popup-show{
 
-  z-index: 30002 !important;
+  z-index: 103 !important;
   height: 100% !important;
   width: 100% !important;
   opacity: 1 !important;
@@ -545,7 +547,7 @@ a{
 	height:auto;
     overflow: auto;
 	box-shadow: gray 0px 10px 10px 0px ;
-	z-index: 10001;
+	z-index: 103;
 	padding: 5px;
 	width:auto;
 	margin: 12% auto;
@@ -655,7 +657,7 @@ a{
 }
 
 .bck-ghost{
-  background-color: ghostwhite;
+  background-color: ghostwhite !important
 }
 
 
@@ -676,7 +678,7 @@ a{
 }
 
 .bck-yellow{
-   background-color: #cccc00;
+   background-color:  rgb(231, 212,96) !important;
 }
 
 .red{
@@ -700,7 +702,7 @@ a{
 }
 
 .bck-hover-blue:hover{
-  background-color:#66a2ff;
+  background-color:#66a2ff !important;
 }
 
 .hover-yellow:hover{
@@ -721,7 +723,7 @@ a{
 }
 
 .bck-orange{
-  background-color: orange;
+  background-color: orange !important;
 }
 
 .hover-orange:hover{
@@ -939,7 +941,7 @@ a.btn{
   margin: 0px !important;
   width: 100%;
   position: fixed;
-  z-index:3000;
+  z-index:103;
   max-height:75px;
   background-color: #0082af;
   opacity: 0.9;
@@ -952,7 +954,7 @@ a.btn{
 }
 
 .stay-on-top{
-  z-index: 30000;
+  z-index: 103;
 }
 
 .bigger-on-hover:hover{
@@ -1251,7 +1253,7 @@ textarea.field, .form-field  textarea{
     top: 0;
     height : 100%;
     width:100%;
-    z-index: 100000;
+    z-index: 105;
 }
 
 .wait {
@@ -1359,7 +1361,7 @@ textarea.field, .form-field  textarea{
 	    padding-top: 7px;
         border-right: none;
 		background-color:transparent;
-		z-index:3001;
+		z-index:103;
 		position:fixed;
 	}
 
@@ -1398,7 +1400,7 @@ textarea.field, .form-field  textarea{
     }
 
     .menu.menu-full{
-       z-index: 30001;
+       z-index: 103;
     }
 
 	.menu-full .menu-content > ul li{
@@ -1470,6 +1472,7 @@ textarea.field, .form-field  textarea{
      border-bottom: 2px solid #a2c3c3;
    }
 
+
    .tab{
      width:100%;
      margin-top: 3px;
@@ -1482,32 +1485,47 @@ textarea.field, .form-field  textarea{
 	 margin: 0px;
 	 box-shadow: gray 0px 0px 2px;
    }
+
    .tab-body{
      border-radius: 0px;
    }
    .body-group{
-     position: fixed;
      width:0%;
      opacity:0;
      z-index: -1;
    }
 
+
    .body-group.active{
+     position: absolute;
      opacity: 1 !important;
      width: 100% !important;
-     bottom: 0;
      left: 0;
      right: 0;
      top: 0;
-     z-index:30000;
+     z-index: 104 !important;
+     margin-top: 150px;
    }
+
+   /*.tab-body.active{
+      position: fixed;
+      z-index: 104 !important;
+      opacity: 1 !important;
+      width: 100% !important;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      margin-top: 150px
+   }*/
+
 
     .hide-mobile{
      display: none;
     }
 
     .hide-desktop{
-       display: inline;
+       display: inline !important;
     }
 
 
@@ -1521,7 +1539,7 @@ textarea.field, .form-field  textarea{
      padding: 5px;
      bottom: 10px;
      left: 85%;
-     z-index: 1000;
+     z-index: 105;
    }
 
    [data-model]{
@@ -1580,5 +1598,3 @@ textarea.field, .form-field  textarea{
 	  overflow: auto;
 	}
 }
-
-

@@ -67,6 +67,10 @@ img[src='/upload/']{
 
 .img-event > img{
   width: 100%;
+  max-width: 400px;
+  max-height: 400px;
+  display: table;
+  margin: 0px auto;
 }
 
 
@@ -103,29 +107,33 @@ img[src='/upload/']{
   height: 100%;
 }
 
-#dados_usuario_logado section{
+#dados_usuario_logado section, .tab-body.active, .tabs-group{
    border:1px solid;
    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
    border-radius: 5px;
-   background-color: white;/*#006080;*/
-
+   background-color:#0082af;
+   opacity: 0.9;
 }
 
-#dados_usuario_logado section label{
-  /*color: #006080;*/
-   color:gray;
+.tab.active{
+  color: yellow;
 }
 
-#form_edicao_usuario section h4{
-  color: #006080;
+#dados_usuario_logado section label, .tab-body.active label, .tabs-group div{
+   color:white;
+}
+
+#form_edicao_usuario section h4, .tab-body.active h3{
+  color: white;
   font-weight: bold;
 }
 
 #gerenciar_eventos{
  height: 100%;
- background-color: white;
+ background-color: #0082af;/*white*/;
  border:1px solid;
  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+ opacity: 0.9;
 }
 
 
@@ -209,6 +217,16 @@ img[src='/upload/']{
     .down-menu.big{
        height:100% !important;
     }
+
+    .page, #evento_conteudo{
+       margin-left: 0px;
+       margin-right: 0px;
+       padding-left: 0px;
+       padding-right: 0px;
+    }
+
+
+
 
 
 }
