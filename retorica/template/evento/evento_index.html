@@ -98,10 +98,12 @@
                             </h3>
 
 
-                            <a href="javascript:void(0)" class="flo-left img-event"
+                            <a href="javascript:void(0)" class="img-event"
                                onclick="evento.abrir_detalhe_evento([{id}])">
-                                <img data-src="/upload/[{imagem_divulgacao}]" class="small-radius"/>
+                                <img data-src="/upload/[{imagem_divulgacao}]"
+                                     class="small-radius"/>
                             </a>
+
                         </div>
                         <div class="col col-10">
                             <pre class="text-justify des-event">[{descricao}]</pre>
@@ -189,7 +191,7 @@
     <section id="gerenciar_eventos" class="page hide col col-7 slow-hide">
         <div class="col col-10 title " id="gerenciar-evento-cards">
             <div class="col col-2">
-                <a href="javascript:void(0)" class="white flo-left"
+                <a href="javascript:void(0)" class="menu-blue flo-left btn full-width"
                    onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
@@ -199,7 +201,7 @@
                 </a>
             </div>
             <div class="col col-2">
-                <a href="javascript:void(0)" class="white flo-left"
+                <a href="javascript:void(0)" class="menu-blue flo-left btn full-width"
                    onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
                             'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
                     adicionar evento
@@ -272,7 +274,7 @@
                         <div class="form-field">
                             <label for="imagem_divulgacao">imagem para timeline:</label>
                             <input type="file" data-name="imagem_divulgacao"
-                                   accept="image/*"
+                                   accept="Image|*.jpg,*.png"
                                    onchange="mainLib.showLocalImage(this,
                                      mainLib.find('#imagem_divulgacao_img').first());">
 
@@ -978,6 +980,9 @@
    mainLib.loadMenu();
    mainLib.dataBinder.autoComplete();
    evento.ir_pagina('lista_eventos');
+
+
+
 
 
 

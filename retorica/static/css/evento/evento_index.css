@@ -67,8 +67,6 @@ img[src='/upload/']{
 
 .img-event > img{
   width: 100%;
-  max-width: 400px;
-  max-height: 400px;
   display: table;
   margin: 0px auto;
 }

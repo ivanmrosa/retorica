@@ -641,6 +641,10 @@ a{
   background-color:#0082af !important;
 }
 
+.menu-blue{
+  color:#0082af !important;
+}
+
 .white{
   color: white !important;
 }
@@ -674,7 +678,7 @@ a{
 }
 
 .yellow{
-  color: #cccc00 !important;
+  color: rgb(231, 212,96)  !important;
 }
 
 .bck-yellow{
@@ -706,11 +710,11 @@ a{
 }
 
 .hover-yellow:hover{
-  color: #cccc00;
+  color: rgb(231, 212,96) ;
 }
 
 .bck-hover-yellow:hover{
-  background-color: #cccc00;
+  background-color: rgb(231, 212,96) ;
 }
 
 
@@ -848,6 +852,17 @@ a.btn{
 
 }
 
+.btn.btn-yellow{
+   background-color:rgb(231, 212,96);
+   color: white!important;
+}
+
+.btn.btn-yellow:hover{
+   color:#0099cc;
+   background-color: white;
+   border: 1px solid ghostwhite;
+}
+
 .bor-orange{
   border: 1px solid orange;
 }
@@ -861,7 +876,7 @@ a.btn{
 }
 
 .bor-yellow{
-  border: 1px solid yellow;
+  border: 1px solid rgb(231, 212,96) ;
 }
 
 .bor-white{
@@ -961,7 +976,6 @@ a.btn{
   box-shadow: gray 0px 10px 10px 0px ;
 }
 
-/*aba*/
 
 .hidden {
     display: none;
@@ -969,6 +983,7 @@ a.btn{
 
 
 
+/*aba*/
 .tabs-group,
 .body-group {
     float: left;
@@ -1031,14 +1046,12 @@ a.btn{
      border:1px solid;
      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
      position: fixed;
-    -webkit-transition-property: width height background-color font-size left top color;
+    -webkit-transition-property: width  background-color font-size left top color;
     -webkit-transition-duration: 1s;
     -webkit-transition-timing-function: ease-in-out;
-    transition-property: width height background-color font-size left top color;
+    transition-property: width background-color font-size left top color;
     transition-duration: 1s;
     transition-timing-function: ease-in-out;
-
-
 }
 .tab-body.active {
     height: 100% !important;
@@ -1046,7 +1059,6 @@ a.btn{
 	opacity: 1 !important;
 	float: left;
 	position: relative;
-
 }
 
 
@@ -1311,7 +1323,7 @@ textarea.field, .form-field  textarea{
     }
 
     .after-header{
-      margin-top: 150px;
+      margin-top: 136px;
     }
     .fixed-header.no-fixed-mobile{
       position: relative;
@@ -1323,27 +1335,20 @@ textarea.field, .form-field  textarea{
        margin-top: 0px !important;
     }
 
-    .hide-scroll{
-       -webkit-transition-property: width height background-color font-size left top color;
-       -webkit-transition-duration: 1s;
-       -webkit-transition-timing-function: ease-in-out;
-       transition-property: width height background-color font-size left top color;
-       transition-duration: 1s;
-       transition-timing-function: ease-in-out;
-
-    }
 
     .hide-scroll.no-height{
-       float: left;
+       /*float: left;
        width: 0% !important;
        height: 0% !important;
        position: fixed;
        z-index: -1;
-       opacity: 0;
+       opacity: 0;*/
+       display: none;
     }
 
     .hide-scroll.with-height{
-       height: auto;
+       /*height: auto;*/
+       display:auto;
     }
 
     .invisible-mobile{
@@ -1372,8 +1377,6 @@ textarea.field, .form-field  textarea{
 	  width: 30% !important;
 	  min-width: 30% !important;
       max-width: 30% !important;
-
-
 	}
 
 	.menu  ul{
@@ -1400,7 +1403,7 @@ textarea.field, .form-field  textarea{
     }
 
     .menu.menu-full{
-       z-index: 103;
+       z-index: 104;
     }
 
 	.menu-full .menu-content > ul li{
@@ -1473,7 +1476,7 @@ textarea.field, .form-field  textarea{
    }
 
 
-   .tab{
+  /* .tab{
      width:100%;
      margin-top: 3px;
      border-left: none;
@@ -1494,20 +1497,19 @@ textarea.field, .form-field  textarea{
      opacity:0;
      z-index: -1;
    }
+*/
 
-
-   .body-group.active{
-     position: absolute;
-     opacity: 1 !important;
-     width: 100% !important;
+   /*.body-group.active{
+     position: fixed;
+     opacity: 1;
+     width: 100%;
+     min-height: 100%;
      left: 0;
-     right: 0;
      top: 0;
-     z-index: 104 !important;
-     margin-top: 150px;
+     z-index: 104;
    }
 
-   /*.tab-body.active{
+   .tab-body.active{
       position: fixed;
       z-index: 104 !important;
       opacity: 1 !important;
@@ -1516,7 +1518,15 @@ textarea.field, .form-field  textarea{
       left: 0;
       right: 0;
       top: 0;
-      margin-top: 150px
+   }
+
+   .close-tab{
+     display: block;
+     box-sizing: border-box;
+     padding: 5px;
+     bottom: 10px;
+     left: 85%;
+     z-index: 105;
    }*/
 
 
@@ -1533,14 +1543,6 @@ textarea.field, .form-field  textarea{
       box-shadow: none;
     }
 
-   .close-tab{
-     display: block;
-     box-sizing: border-box;
-     padding: 5px;
-     bottom: 10px;
-     left: 85%;
-     z-index: 105;
-   }
 
    [data-model]{
      display:none;
