@@ -11,7 +11,7 @@
                                        class="img-logo white"/></a></center>
     </div>
 
-    <div id="div-pesq" class="col col-8 hide-scroll">
+    <div id="div-pesq" class="col col-8 hide-mobile slow-hide">
         <div class="col col-5 autocomplete " id="pesqtext">
             <input class="search" placeholder="pesquise eventos aqui..." type="text"
                    data-autocomplete-url="/evento/lista_eventos_autocomplete"
@@ -28,7 +28,7 @@
 
         <div class="col col-10 group-pesq hide-mobile">
             <center>
-                <a href="javascript:void(0)" class="white small-font bold hide-scroll"
+                <a href="javascript:void(0)" class="white small-font bold"
                    onclick="evento.abrir_edicao_usuario();">
                     <img data-id="img-usr" data-src="/upload/[{foto_usuario}]"
                          data-model="dados_perfil_usuario" data-self=""
@@ -37,6 +37,22 @@
                 </a>
             </center>
         </div>
+    </div>
+
+    <div class="fixed flo-right top-right hide-desktop stay-on-top">
+        <a href="javascript:void(0)" class="show-plus-header"
+           onclick="mainLib.find('#div-pesq').rmCl('hide-mobile');
+                     mainLib.addClass('hide', this);
+                     mainLib.find('.hide-plus-header').rmCl('hide')">
+            <img src="/static/images/arrow-down24.png">
+        </a>
+        <a href="javascript:void(0)" class="hide-plus-header hide stay-on-top"
+           onclick="mainLib.find('#div-pesq').adCl('hide-mobile');
+                     mainLib.addClass('hide', this);
+                     mainLib.find('.show-plus-header').rmCl('hide')">
+            <img src="/static/images/arrow-up24.png">
+        </a>
+
     </div>
 
 </header>
@@ -147,9 +163,9 @@
         </section>
 
         <section id="lista_convites"
-                 class="col col-4 small-radius event down-menu stay-on-top hide-scroll">
+                 class="col col-4 small-radius event hide-mobile stay-on-top ">
             <h3 class="title cur-pointer" onclick="mainLib.addClass('big', this.parentElement);
-                                       mainLib.removeClass('hide-scroll', this.parentElement);
+
                                        mainLib.removeClass('hide', mainLib.find('#fechar_detalhe_convite').first()) ">
                 convites para eventos
             </h3>
@@ -170,7 +186,8 @@
                                     mainLib.find('#lista_eventos').first(), 'id=[{evento_id}]');
                                     mainLib.addClass('hide', mainLib.find('#fechar_detalhe_convite').first());
                                     mainLib.removeClass('big', this.parentElement.parentElement.parentElement.parentElement);
-                                    mainLib.addClass('hide-scroll', this.parentElement.parentElement.parentElement.parentElement)"
+                                    "
+
                            class="gray">
                             [{titulo}]
                         </a>
@@ -183,7 +200,7 @@
                class="circle circle-small cancel stay-on-top hide-desktop bottom-right fixed hide"
                onclick="mainLib.addClass('hide', this);
                         mainLib.removeClass('big', this.parentElement);
-                        mainLib.addClass('hide-scroll', this.parentElement)"></a>
+                        "></a>
 
         </section>
     </section>
