@@ -1260,10 +1260,13 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
          };
        };
        var chElements = parser.parseFromString(rowTemplate, 'text/html').body.children;
+
        while(chElements.length > 0){
          var ele = this.parentNode.insertBefore(chElements[0], this);
+
          ele.removeAttribute("data-model");
          ele.setAttribute("data-replicated-model", model)
+
          for(var i = 0; i < details.length; i++){
            mainLib.dataBinder.bindOnTemplate(details[i], columns[details[i]], ele);
          };
@@ -1271,13 +1274,17 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
      };
   });
 
-  mainLib.find('[data-replicated-model] [data-src]', parent).loop(function(){
-    this.setAttribute('src', this.getAttribute('data-src'));
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-src]', parent).loop(function(){
+    var atr = this.getAttribute('data-src');
+    if(atr.trim().substr(0, 2) != "[{"){
+      this.setAttribute('src', atr)
+    };
+    atr = undefined;
   });
-  mainLib.find('[data-replicated-model] [data-href]', parent).loop(function(){
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-href]', parent).loop(function(){
     this.setAttribute('href', this.getAttribute('data-href'));
   });
-  mainLib.find('[data-replicated-model] [data-value] ', parent).loop(function(){
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-value] ', parent).loop(function(){
     if(this.getAttribute('data-value') != null &&  this.getAttribute('data-value') != undefined){
       if(this.type == "checkbox" || this.type == "radio"){
         if(this.getAttribute('data-value') == "true"){
@@ -1308,8 +1315,13 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
     if(this.getAttribute('data-visible'))
       mainLib.invisibleWhen(this, !eval(this.getAttribute('data-visible')));
 
-    if(this.getAttribute('data-src'))
-      this.setAttribute('src', this.getAttribute('data-src'));
+    var atr = this.getAttribute('data-src');
+    if(atr){
+      if(atr.trim().substr(0, 2) != "[{"){
+        this.setAttribute('src', atr);
+      };
+    };
+    atr = undefined;
 
     if(this.getAttribute('data-href'))
       this.setAttribute('href', this.getAttribute('data-href'));
@@ -1613,32 +1625,37 @@ mainLib.scroll.countDown = 0;
 mainLib.scroll.lastScrollTop = 0;
 
 
-window.addEventListener('scroll', function(){
+mainLib.hideOnScroll = function(){
 
-  if(mainLib.scroll.lastScrollTop < (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
-    mainLib.scroll.countDown += 1;
-    mainLib.scroll.countUp = 0;
-  }else if(mainLib.scroll.lastScrollTop > (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
-    mainLib.scroll.countDown = 0;
-    mainLib.scroll.countUp += 1;
-  };
-  if(mainLib.scroll.countDown == 2){
-    mainLib.scroll.countDown = 0;
-    mainLib.scroll.countUp = 0;
-    mainLib.find('.hide-scroll').loop(function(){
-       this.adCl('no-height');
+
+    window.addEventListener('scroll', function(){
+
+      if(mainLib.scroll.lastScrollTop < (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
+        mainLib.scroll.countDown += 1;
+        mainLib.scroll.countUp = 0;
+      }else if(mainLib.scroll.lastScrollTop > (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)){
+        mainLib.scroll.countDown = 0;
+        mainLib.scroll.countUp += 1;
+      };
+      if(mainLib.scroll.countDown == 2){
+        mainLib.scroll.countDown = 0;
+        mainLib.scroll.countUp = 0;
+        mainLib.find('.hide-scroll').loop(function(){
+           this.adCl('no-height');
+        });
+      }else if(mainLib.scroll.countUp == 2){
+          mainLib.scroll.countDown = 0;
+          mainLib.scroll.countUp = 0;
+          mainLib.find('.hide-scroll').loop(function(){
+           this.rmCl('no-height');
+        });
+      };
+
+      mainLib.scroll.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
     });
-  }else if(mainLib.scroll.countUp == 2){
-      mainLib.scroll.countDown = 0;
-      mainLib.scroll.countUp = 0;
-      mainLib.find('.hide-scroll').loop(function(){
-       this.rmCl('no-height');
-    });
-  };
 
-  mainLib.scroll.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-});
+}
 
 mainLib.onPressEnterClick = function(event, selector){
   if(event.keyCode != 13)

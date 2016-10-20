@@ -128,16 +128,16 @@
                     </div>
 
                     <section class="col col-5">
-                        <img src="/static/images/local24.png" title="local" alt="local">
+                        <img data-src="/static/images/local24.png" title="local" alt="local">
                         [{endereco}], número [{numero_endereco}], bairro [{bairro}], [{estado}] - [{cidade_nome}].
 
                     </section>
                     <section class="col col-5">
-                        <img src="/static/images/tag24.png" title="tipo" alt="tipo">
+                        <img data-src="/static/images/tag24.png" title="tipo" alt="tipo">
                         [{tipo}]
                     </section>
                     <section class="col col-5">
-                        <img src="/static/images/price24.png" title="valor" alt="valor">
+                        <img data-src="/static/images/price24.png" title="valor" alt="valor">
                         $ [{valor}]
                     </section>
 
@@ -153,7 +153,7 @@
                         </div>
                         <div class="col col-5">
                             <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                               onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32.png">
+                               onclick="evento.abrir_periodos([{id}])"><img data-src="/static/images/check-mark32.png">
                                 <div>participar</div>
                             </a>
                         </div>
@@ -670,13 +670,13 @@
                         </div>
                         <div class="col col-5">
                             <a href="javascript:void(0)" class="btn bck-menu-blue full-width" id="btn-inscrever-evento"
-                               onclick="evento.abrir_periodos([{id}])"><img src="/static/images/check-mark32_2.png">
+                               onclick="evento.abrir_periodos([{id}])"><img data-src="/static/images/check-mark32_2.png">
                                 <div>participar</div>
                             </a>
                         </div>
                         <div class="col col-5">
                             <a href="javascript:void(0)" class="btn btn-red full-width" id="btn-cancelar-inscricao"
-                               onclick="evento.abrir_periodos([{id}], true)"><img src="/static/images/cancel32_1.png">
+                               onclick="evento.abrir_periodos([{id}], true)"><img data-src="/static/images/cancel32_1.png">
                                 <div>cancelar</div>
                             </a>
                         </div>
@@ -997,12 +997,6 @@
    mainLib.loadMenu();
    mainLib.dataBinder.autoComplete();
    evento.ir_pagina('lista_eventos');
-
-
-
-
-
-
 
 </script>
 
