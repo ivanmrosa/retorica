@@ -1425,6 +1425,32 @@ mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, reque
   )
 }
 
+mainLib.dataBinder.getTemplate = function(dataContainer, executeAfter){
+  mainLib.find('[data-container-template="'+ dataContainer +'"]').loop(function(){
+    var currentEle = this;
+    if(!currentEle.hasAttribute('data-template-binded')){
+      var url = currentEle.getAttribute('data-template-url');
+      mainLib.server.get(
+        url,
+        '',
+        function(data){
+          currentEle.innerHTML = data;
+          currentEle.setAttribute('data-template-binded', true);
+          if (executeAfter)
+              executeAfter();
+        },
+        function(data){
+          currentEle.innerHTML = data;
+          if (executeAfter)
+            executeAfter();
+        }
+      )
+    }
+  });
+}
+
+mainLib.getAllTemplates = function(){
+}
 
 mainLib.fillLookupWaitting = false;
 

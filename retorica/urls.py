@@ -20,6 +20,7 @@ from evento import views as viewsevento
 from localidade import views as viewslocalidade
 from django.conf.urls.static import static
 from django.conf import settings
+from lib.main_lib import RenderView
 
 urlpatterns = [
                   url(r'^$', viewsusuario.home, name='home'),
@@ -186,6 +187,28 @@ urlpatterns = [
                   url(r'obter_convites_usuario',
                       viewsevento.EventoController.to_view(method_name='ObterConvitesUsuario', login_required=True,
                                                            method_type='GET'), name='obter_convites_usuario'),
+
+                  url(r'template/lista_eventos',
+                      RenderView.get_template(template='evento/lista_eventos.html'),
+                      name="lista_eventos_template"
+                      ),
+
+                  url(r'template/gerenciar_eventos',
+                      RenderView.get_template(template='evento/gerenciar_eventos.html'),
+                      name="gerenciar_eventos_template"
+                      ),
+                  url(r'template/detalhe_evento',
+                      RenderView.get_template(template='evento/detalhe_evento.html'),
+                      name="detalhe_evento_template"
+                      ),
+                  url(r'template/inscricao_evento',
+                      RenderView.get_template(template='evento/inscricao_evento.html'),
+                      name="inscricao_evento_template"
+                      ),
+                  url(r'template/dados_usuario',
+                      RenderView.get_template(template='evento/dados_usuario.html'),
+                      name="dados_usuario_template"
+                      ),
 
                   url(r'^admin/', admin.site.urls),
                   url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {'login_url': '/'}),

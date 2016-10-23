@@ -1,13 +1,12 @@
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import HttpResponse, redirect, render_to_response, render
 from django.conf import settings
 import json
 from django.core.exceptions import ValidationError
 from django.db.models import BooleanField, ImageField, FileField
 from django.db.models.fields.files import ImageFieldFile
-#from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
-#from io import StringIO
 import os
+from django.template import loader
 
 class RenderView(object):
 
@@ -146,3 +145,7 @@ class RenderView(object):
             return lambda request: cls.response(method_name=method_name, init_params=request.POST.dict(),
                                                 logged=(request.user.is_authenticated() if login_required else True),
                                                 request=request, content_type=return_content_type)
+
+    @classmethod
+    def get_template(cls, template):
+        return lambda request: render_to_response(template_name=template)

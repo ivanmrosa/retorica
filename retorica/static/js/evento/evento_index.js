@@ -1,26 +1,41 @@
 evento = {
    ir_pagina: function(id_page, id_container){
-      //mainLib.find('#' + id_container + ' > .page').adCl('slow-hide');
       mainLib.find('#' + id_container + ' > .page').adCl('hide');
       mainLib.find('#' + id_page).rmCl('hide');
    },
 
    pgc_gerenciar_evento: function(){
-      pgc = new mainLib.pageControl(mainLib.find('#gerenciar-evento-tabs').first());
-      pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
-      pgc.addTab('tbs_gerenciar-periodo-evento', 'períodos do evento', mainLib.find('#gerenciar-periodo-evento').first());
-      pgc.addTab('tbs_evento-organizadores', 'organizadores', mainLib.find('#gerenciar-evento-organizadores').first());
-      pgc.addTab('tbs_gerenciar-evento-palestrante', 'atrações', mainLib.find('#gerenciar-evento-palestrante').first());
-      pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').first());
-      pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').first());
-      pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
-      pgc.draw();
+      var container = mainLib.find('#gerenciar-evento-tabs').first();
+      if(!container){
+          mainLib.dataBinder.getTemplate('gerenciar_eventos',
+          function(){
+              container = mainLib.find('#gerenciar-evento-tabs').first();
+              pgc = new mainLib.pageControl(container);
+              pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
+              pgc.addTab('tbs_gerenciar-periodo-evento', 'períodos do evento', mainLib.find('#gerenciar-periodo-evento').first());
+              pgc.addTab('tbs_evento-organizadores', 'organizadores', mainLib.find('#gerenciar-evento-organizadores').first());
+              pgc.addTab('tbs_gerenciar-evento-palestrante', 'atrações', mainLib.find('#gerenciar-evento-palestrante').first());
+              pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').first());
+              pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').first());
+              pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
+              pgc.draw();
+          });
+      };
+
    },
 
    abrir_detalhe_evento: function(id_evento){
-     mainLib.dataBinder.bindServerDataOnTemplate('/evento/detalhe_evento', 'evento_detalhe',
-       mainLib.find('#detalhe_evento').first(), 'evento_pk='+id_evento);
-     mainLib.popup.openPopup('detalhe_evento');
+     var load = function(){
+       mainLib.dataBinder.bindServerDataOnTemplate('/evento/detalhe_evento', 'evento_detalhe',
+         mainLib.find('#detalhe_evento').first(), 'evento_pk='+id_evento);
+       mainLib.popup.openPopup('detalhe_evento');
+     };
+
+     if(mainLib.find('#detalhe_evento').first()){
+       load();
+     }else{
+       mainLib.dataBinder.getTemplate('detalhe_evento', load);
+     }
    },
 
    fechar_detalhe_evento: function(){
@@ -34,8 +49,17 @@ evento = {
 
    abrir_edicao_usuario: function(){
      evento.ir_pagina('dados_usuario_logado','evento_conteudo');
-     mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
-     mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'edicao_usuario');
+     var load = function(){
+        mainLib.dataBinder.removeReplicatedModel('edicao_usuario');
+        mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'edicao_usuario');
+     };
+
+     if(mainLib.find("[data-model='edicao_usuario']").first()){
+        load();
+     }else{
+        mainLib.dataBinder.getTemplate('dados_usuario', load);
+     };
+
    },
 
    carregar_evento_edicao: function(id_evento){
@@ -290,23 +314,35 @@ evento = {
    },
 
    abrir_periodos: function(evento_id, exclusao){
+
+     var load = function(){
+         var popup = mainLib.find('#inscricao_evento').first();
+         mainLib.dataBinder.removeReplicatedModel('periodos_evento', popup);
+         mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_periodos', 'periodos_evento', popup,
+           'evento_pk='+evento_id);
+
+         if(exclusao === true){
+           mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
+           mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
+           mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "false");
+           url = '/evento/deletar_participante';
+         }else{
+           mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
+           mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
+           mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "true");
+         }
+
+         mainLib.popup.openPopup('inscricao_evento');
+
+     };
      var popup = mainLib.find('#inscricao_evento').first();
-     mainLib.dataBinder.removeReplicatedModel('periodos_evento', popup);
-     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_periodos', 'periodos_evento', popup,
-       'evento_pk='+evento_id);
 
-     if(exclusao === true){
-       mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
-       mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
-       mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "false");
-       url = '/evento/deletar_participante';
+     if(popup){
+        load();
      }else{
-       mainLib.removeClass('hidden', mainLib.find('#inscricao_evento [name="inscrever"]').first());
-       mainLib.addClass('hidden', mainLib.find('#inscricao_evento [name="desinscrever"]').first());
-       mainLib.find('#inscricao_evento [name="periodo"]').first().setAttribute('data-verificar', "true");
-     }
+        mainLib.dataBinder.getTemplate('inscricao_evento', load);
+     };
 
-     mainLib.popup.openPopup('inscricao_evento');
    },
 
    verificar_vagas: function(element){
@@ -586,7 +622,6 @@ evento = {
 
 window.addEventListener('load', function(){
 
-   evento.pgc_gerenciar_evento();
    mainLib.dataBinder.bindServerDataOnTemplate('/obter_usuario', 'dados_perfil_usuario');
    mainLib.dataBinder.bindServerDataOnTemplate('/evento/obter_convites_usuario', 'lista_convites');
    mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',

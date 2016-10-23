@@ -1,0 +1,26 @@
+<section id="inscricao_evento" class="popup slow-hide">
+    <div class="popup-body  small-radius popup-dlg " id="inscricao-evento-periodo">
+
+        <h3 class="title">período</h3>
+        <div class="tabled col col-10">
+            <div class="tabled-body col col-10">
+                <div class="tabled-row col col-10" data-model="periodos_evento" data-self="">
+                    data: [{data}] vagas: [{vagas_disponiveis}]
+                    <input name="periodo" type="checkbox" value="[{id}]"
+                           data-verificar="true" data-vagas="[{vagas_disponiveis}]"
+                           onclick="return evento.verificar_vagas(this)">
+
+                    <input type="hidden" name="evento" value="[{evento_id}]">
+                </div>
+            </div>
+        </div>
+
+        <span name="inscrever" class="hidden"><a href="javascript:void(0)" class="btn btn-orange"
+                                                 onclick="evento.inserir_deletar_participante(false)">confirmar</a></span>
+        <span name="desinscrever" class="hidden"><a href="javascript:void(0)" class="btn btn-orange"
+                                                    onclick="evento.inserir_deletar_participante(true)">confirmar</a></span>
+        <a href="javascript:void(0)" class="btn btn-red"
+           onclick="mainLib.popup.closePopup('inscricao_evento')">cancelar</a>
+
+    </div>
+</section>
