@@ -77,6 +77,7 @@ evento = {
    },
 
    salvar_evento: function(){
+
      if(!mainLib.canUploadFile){
         mainLib.aviso('Seu navegador não aceita uploads de arquivos.');
         return false;
@@ -89,14 +90,14 @@ evento = {
 
       mainLib.server.post('/evento/criar_editar_evento', frm,
         function(data){
+          mainLib.wait.stop();
           data = JSON.parse(data);
+
           if(data["ok"] == true){
             mainLib.find('#form-criar-editar-evento [name="id"]').first().value = data["key"];
-            mainLib.wait.stop();
             mainLib.aviso(data["msg"]);
           }else{
             mainLib.dataBinder.bindValidations("#form-criar-editar-evento", data["msg"]);
-            mainLib.wait.stop();
           };
         },
         function(data){

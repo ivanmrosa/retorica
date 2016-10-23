@@ -126,9 +126,11 @@ class EventoTest(TestCase):
                        "periodos":'[{"evento_periodo_id":1}]',
                    })
 
-        if r.json()["ok"] != True:
-            raise Exception('Ocorreu um erro:' + r.json()["msg"])
-
+        try:
+            if r.json()[0]["ok"] != True:
+                raise Exception('Ocorreu um erro:' + r.json()["msg"])
+        except Exception as e:
+            raise Exception(r)
 
     def testInserirOrganizador(self):
         c = Client()

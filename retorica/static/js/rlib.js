@@ -1010,16 +1010,18 @@ mainLib.canUploadFile = function(){
 
 mainLib.wait = {}
 
-mainLib.wait.start = function(){
+mainLib.wait.start = function(parent){
+  var parent = parent||mainLib.find('body').first();
   var ele = document.createElement('div');
   ele.setAttribute('class', 'wait');
   var main = document.createElement('div');
   main.setAttribute('class', 'wait-body');
   main.appendChild(ele);
-  mainLib.find('body').first().appendChild(main);
+  parent.appendChild(main);
 }
 
-mainLib.wait.stop = function(){
+mainLib.wait.stop = function(parent){
+  var parent = parent||mainLib.find('body').first();
   mainLib.find('body').first().removeChild(mainLib.find('.wait-body').first());
 }
 
