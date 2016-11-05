@@ -1425,6 +1425,21 @@ mainLib.dataBinder.bindServerDataOnTemplate = function(url, model, parent, reque
   )
 }
 
+mainLib.dataBinder.templatesBag = {};
+
+mainLib.dataBinder.addTemplateOnBag = function(key, template){
+  if(!mainLib.dataBinder.templatesBag[key]){
+    mainLib.dataBinder.templatesBag[key] = template;
+  };
+}
+
+mainLib.dataBinder.removeTemplateFromBag = function(key, template){
+  if(mainLib.dataBinder.templatesBag[key]){
+    delete mainLib.dataBinder.templatesBag[key];
+  };
+}
+
+
 mainLib.dataBinder.getTemplate = function(dataContainer, executeAfter){
   mainLib.find('[data-container-template="'+ dataContainer +'"]').loop(function(){
     var currentEle = this;
@@ -1436,8 +1451,9 @@ mainLib.dataBinder.getTemplate = function(dataContainer, executeAfter){
         function(data){
           currentEle.innerHTML = data;
           currentEle.setAttribute('data-template-binded', true);
+          mainLib.dataBinder.autoComplete();
           if (executeAfter)
-              executeAfter();
+            executeAfter();
         },
         function(data){
           currentEle.innerHTML = data;
