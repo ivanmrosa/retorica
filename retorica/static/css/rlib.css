@@ -1000,12 +1000,8 @@ a{
     }
 
 	.menu{
-	    width: 45px;
-	    max-width: 45px;
-	    min-width: 45px;
+	    width: 50px;
         height: 45px;
-        min-height: 45px;
-        max-height: 45px;
 	    float:left;
         border-right: none;
 		background-color:transparent;
