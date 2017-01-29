@@ -3,13 +3,20 @@ evento = {
       mainLib.find('#' + id_container + ' > .page').adCl('hide');
       mainLib.find('#' + id_page).rmCl('hide');
    },
+   ativar_aba: function(id_page, clickedElement){
+     var childs = clickedElement.parentElement.children;
+     for(var i=0; i< childs.length; i++){
+       mainLib.removeClass()
+     };
+     evento.ir_pagina(id_page, 'gerenciar-evento-tabs');
+   },
 
    pgc_gerenciar_evento: function(){
       var container = mainLib.find('#gerenciar-evento-tabs').first();
       if(!container){
           mainLib.dataBinder.getTemplate('gerenciar_eventos',
           function(){
-              container = mainLib.find('#gerenciar-evento-tabs').first();
+              /*container = mainLib.find('#gerenciar-evento-tabs').first();
               pgc = new mainLib.pageControl(container);
               pgc.addTab('tbs_criar_editar_evento', 'adicionar/editar evento', mainLib.find('#criar_editar_evento').first());
               pgc.addTab('tbs_gerenciar-periodo-evento', 'períodos do evento', mainLib.find('#gerenciar-periodo-evento').first());
@@ -18,7 +25,7 @@ evento = {
               pgc.addTab('tbs_evento-anexos', 'anexos', mainLib.find('#gerenciar-evento-anexos').first());
               pgc.addTab('tbs_evento-videos', 'vídeos', mainLib.find('#gerenciar-evento-videos').first());
               pgc.addTab('tbs_gerenciar-eventos-tarefas', 'tarefas', mainLib.find('#gerenciar-eventos-tarefas').first());
-              pgc.draw();
+              pgc.draw(); */
           });
       };
 
@@ -89,7 +96,9 @@ evento = {
    },
 
    carregar_participantes_evento: function(){
+
      mainLib.dataBinder.removeReplicatedModel('participantes_evento', mainLib.find('#gerenciar-evento-tabs').first());
+     evento.ir_pagina('gerenciar-eventos-participantes', 'task-bodies');
      var id = evento.get_evento_id(true);
 
      if (!id)
@@ -97,7 +106,7 @@ evento = {
 
      mainLib.dataBinder.bindServerDataOnTemplate('evento/lista_participantes/', 'participantes_evento',
        mainLib.find('#gerenciar-evento-tabs').first(), 'evento_pk=' + id);
-     evento.ir_pagina('gerenciar-eventos-participantes', 'gerenciar-eventos-tarefas');
+
    },
 
    salvar_evento: function(){
@@ -647,7 +656,6 @@ window.addEventListener('load', function(){
     evento.ir_pagina('lista_eventos', 'evento_conteudo');
 
   });
-
 
 
 });

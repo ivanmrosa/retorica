@@ -105,10 +105,10 @@ mainLib.popup.removePopup = function(id_filter, fnToExecuteAfter){
 
 mainLib.aviso = function(message, fnToExecuteAfter){
     var html =
-          '  <div class="popup-body popup-dlg small-radius">	'+
+          '  <div class="popup-body popup-dlg small-radius bck-white">	'+
  	      '    <h2 class="red title">Aviso!</h2> <div class="text-center">'+
             message + '</div>' +
- 	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn full-width btn-blue small-radius">OK</a>'+
+ 	  	  '    <a id="vmsisMsgBtn" href="javascript:void(0)" class="btn btn-primary">OK</a>'+
  	      '  </div> ';
 
     var popupE = document.createElement('div');
@@ -132,11 +132,11 @@ mainLib.aviso = function(message, fnToExecuteAfter){
 
 mainLib.confirma = function(message, executeIfTrue, executeIfFalse){
     var html =
-          '  <div class="popup-body popup-dlg small-radius">	'+
+          '  <div class="popup-body popup-dlg small-radius bck-white">	'+
  	      '    <h2 class="red title">Confirmação ! </h2> '+
           '    <p><center> ' + message + ' </center> </p>'+          
- 	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn full-width btn-blue small-radius">Sim</a> '+
-          '    <a href="javascript:void()" id="vmsisMsgBtnNo" class="btn btn-red full-width small-radius">Não</a> </div>'+
+ 	  	  '   <div> <a href="javascript:void()" id="vmsisMsgBtnYes" class="btn btn-primary">Sim</a> '+
+          '    <a href="javascript:void()" id="vmsisMsgBtnNo" class="btn btn-danger">Não</a> </div>'+
  	      '  </div> ';
  
     var popupE = document.createElement('div');
@@ -917,7 +917,7 @@ mainLib.contextMenu = function(fnExecuteOnItenClick, idContext){
 mainLib.controle_clicques = 0;
 
 function hideMenu(e){
-
+    mainLib.controle_cliques = 0;
     var menuList = document.querySelector('.menu-content');
     var menuShow = document.querySelector('.menu');
     var content = document.querySelector('.menu-content > ul');
@@ -961,12 +961,16 @@ mainLib.loadMenu = function(){
 	if(menu){
        var resize = function(){
             mainLib.controle_clicques = 0;
-            var display = window.getComputedStyle(document.querySelector('.menu .menu-content'),
-                ':before').getPropertyValue('display');
-            menu.removeEventListener('click', control_click, true);
+            /*var display = window.getComputedStyle(document.querySelector('.menu .menu-content'),
+                ':before').getPropertyValue('display'); */
+            var opened = document.querySelector('.menu .menu-content.menu-full');
+            var btn = document.querySelector('.menu .mnu-button');
+            //menu.removeEventListener('click', control_click, true);
+            btn.removeEventListener('click', control_click, true);
             document.removeEventListener('click', hideMenu);
-            if(display === 'inline'){
-                menu.addEventListener('click',control_click, true);
+            if(!opened){
+                //menu.addEventListener('click',control_click, true);
+                btn.addEventListener('click',control_click, true);
                 document.addEventListener('click', hideMenu, true);
             };
 		};
@@ -975,13 +979,18 @@ mainLib.loadMenu = function(){
 		window.addEventListener('load', resize);
 	};
 
-    menu.addEventListener('mouseenter', function(){
+/*    menu.addEventListener('mouseenter', function(){
       this.style.overflow = "auto";
     });
     menu.addEventListener('mouseleave', function(){
       this.style.overflow = "hidden";
+    }); */
+    mainLib.find('.menu ul li').loop(function(){
+      this.addEventListener('click', function(){
+         mainLib.find('.menu ul li').rmCl('active');
+         this.setAttribute('class', this.getAttribute('class') + ' ' + 'active');
+      }, true);
     });
-
 
 }
 
@@ -1208,6 +1217,10 @@ mainLib.server.get = function(url, data, routineOk, routineNotOk, async){
 mainLib.dataBinder = {}
 
 mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
+  if(typeof data != 'object'){
+    data = JSON.parse(data);
+  };
+
   if(empty === true){
     data = [{}]
   }else{
@@ -1224,11 +1237,8 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
     };
   };
 
-  if(typeof data != 'object'){
-    data = JSON.parse(data);
-  };
-
   mainLib.find('[data-model="'+model+'"]', parent).loop(function(){
+     var template_container = this;
      var template = "";
      var isSelfContainer = this.hasAttribute('data-self');
      if(isSelfContainer){
@@ -1264,7 +1274,7 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
        var chElements = parser.parseFromString(rowTemplate, 'text/html').body.children;
 
        while(chElements.length > 0){
-         var ele = this.parentNode.insertBefore(chElements[0], this);
+         var ele = template_container.parentNode.insertBefore(chElements[0], template_container);
 
          ele.removeAttribute("data-model");
          ele.setAttribute("data-replicated-model", model)
@@ -1307,6 +1317,9 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
     this.setAttribute('name', this.getAttribute('data-name'));
   });
 
+  mainLib.find('[data-replicated-model="'+ model +'"] [data-title]', parent).loop(function(){
+    this.setAttribute('title', this.getAttribute('data-title'));
+  });
   mainLib.find('[data-replicated-model="'+ model +'"] [data-visible]', parent).loop(function(){
     mainLib.invisibleWhen(this, !eval(this.getAttribute('data-visible')));
 
@@ -1342,6 +1355,9 @@ mainLib.dataBinder.bindOnTemplate = function(model, data, parent, empty){
     };
     if(this.getAttribute('data-id'))
       this.setAttribute('id', this.getAttribute('data-id'));
+
+    if(this.getAttribute('data-title'))
+      this.setAttribute('title', this.getAttribute('data-title'));
 
     if(this.getAttribute('data-name'))
       this.setAttribute('name', this.getAttribute('data-name'));
@@ -1551,7 +1567,7 @@ mainLib.dataBinder.autoComplete = function(){
     if(url && field && text_field){
 
       var container = document.createElement('div');
-      container.setAttribute('class', 'autocomplete-container stay-on-top suspend hide');
+      container.setAttribute('class', 'autocomplete-container suspend hide');
       container = parent.appendChild(container);
 
       this.addEventListener('keyup', function(e){

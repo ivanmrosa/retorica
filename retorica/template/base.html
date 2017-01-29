@@ -5,7 +5,12 @@
        <meta charset="utf-8">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <title>{{TITULO}}</title>
+       <link  rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
        <link rel="stylesheet" href="{% static 'css/rlib.css' %}">
+       <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+       <![endif]-->       
       {% block 'head'%}
       {%endblock%}
    </head>
@@ -15,7 +20,10 @@
    {%block 'body'%}
    {%endblock%}
 
-   <script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+   <script src=" {% static 'js/jquery-3.1.1.min.js' %}"></script>
+   <script src=" {% static 'js/jquery.mask.min.js' %}"></script>    
+   <script src=" {% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
    <script type="text/javascript" src="{% static 'js/rlib.js'%}"></script>
    {%block 'js'%}
    {%endblock%}

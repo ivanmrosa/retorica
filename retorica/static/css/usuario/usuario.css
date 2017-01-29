@@ -1,19 +1,11 @@
-.form-field input, .form-field select {
-   /*border-radius: 4px !important;*/
+body {
+  padding-top: 70px;
+  background-color: ghostwhite;
 }
 
-.all_form{
-    float:left;
-    width: 100%;
-    min-height: 89.7%;
-   /* background-image: url(/static/images/auditorio3.jpg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;*/
-    background-color: ghostwhite;
-}
 
-.fixed-header{
-  border-bottom: 1px solid white;
+.menu{
+  top:50px;
 }
 
 .img-logo{
@@ -22,56 +14,6 @@
 }
 
 
-
-
-.all_form .form-field label, .all_form .title{
-  color:black;
-  font-weight: bold;
-
-}
-
-.label-login{
-  padding-top: 10px;
-}
-
-#form_signin{
-  margin-top:10px;
-}
-
-
-#form_signin > section{
-  float:left;
-
-}
-#form_signup{
-  height: 100%;
-}
-
-#form_signup section{
-   width: 100%;
-   float:left;
-   border:1px solid #ebebe0;
-   border-radius: 5px;
-   margin-top: 5px;
-   padding: 5px;
-   background-color: #0082af /*#006080*/;
-   height: 100%;
-   box-sizing: border-box;
-   opacity: 0.95;
-}
-
-#form_signup label, #form_signup .title{
-  color: white;
-}
-
-#cadastro{
-  height: 100%;
-}
-
-#cadastro div:first-of-type{
-  margin-top: 20px;
-}
-
 .rec-pass-msg{
   float:left;
   text-align:justify;
@@ -79,59 +21,40 @@
 
 }
 
-.br-right{
-  border-right: 1px solid white;
+.bck-color-footer{
+    background-color:#2a2730;
 }
 
-
-
-#divlogin > div, #divlogin > form >div{
-  margin-top: 7px;
-}
-
-
-.fixed-header > div{
-  height: 50px;
-}
-
-#div-left > div:first-of-type{
-  margin: 120px auto 20px;
-}
-
-#div-left > div img, .texto-divulgacao{
-  display: table;
-  width: 70%;
-  margin: 0px auto;
+#welcome{
+  margin-bottom :0px !important;
+  padding-bottom: 0px !important;
 
 }
 
-.texto-divulgacao{
-  font-size: 14px;
+.container-cadastro label, .container-cadastro h1, .container-cadastro h3{
+  color: white !important;
 }
 
-footer{
-  position: relative;
-  /*bottom: 0px;*/
-  left: 0px;
-  height: 100px;
+.container-cadastro{
+  padding-bottom: 10px;
 }
+
+.container-footer{
+  border-top: 1px solid white;
+}
+
 
 @media screen and (max-width: 800px) {
+   .menu{
+     top:0px;
 
-.br-right, {
-    border-bottom: 1px solid white;
-    margin-top: 5px;
-    text-align: center;
+   }
+   .container-btn-mnu{
+      padding:9px 10px;
+
+   }
+ .page-title{
+      padding: 15px 55px !important;
+    }
 }
-
-.fixed-header > div{
-  height: auto;
-}
-
-#div-left img{
-  padding-top: 0px;
-  padding-left: 32%;
-}
-
-
 }

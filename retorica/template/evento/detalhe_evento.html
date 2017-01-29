@@ -1,127 +1,170 @@
-    <section id="detalhe_evento" class="popup full slow-hide">
-        <div class="popup-body bck-white">
-            <div data-model="evento_detalhe">
-                <div class="fixed bottom-right stay-on-top">
-                    <a href="javascript:void(0)" class="circle circle-small cancel"
-                       onclick="evento.fechar_detalhe_evento()"></a>
-                </div>
-                <div class="col col-2"></div>
-                <div class="event col col-6 suspend">
-                    <div data-model="evento">
-                        <input type="hidden" data-id="detalhe_evento_evento_id" value="[{id}]">
-                        <h3 class="title gray">[{titulo}]</h3>
-                        <div class="col col-10">
-                            <a href="#" class="flo-left img-event"><img class="small-radius"
-                                                                        data-src="/upload/[{imagem_divulgacao}]"/></a>
+<section id="detalhe_evento" class="popup full slow-hide ">
+    <div class="popup-body">
+        <div data-model="evento_detalhe">
+            <div class="fixed bottom-right stay-on-top">
+                <a href="javascript:void(0)" class="circle circle-small cancel"
+                   onclick="evento.fechar_detalhe_evento()"></a>
+            </div>
 
+            <div class="container">
+                <div class="col-md-3"></div>
+                <div class="col-md-7 bck-white radius">
+                    <div class="">
+                        <script type="text/html" data-model="evento">
+                            <input type="hidden" data-id="detalhe_evento_evento_id"
+                                   value="[{id}]">
 
-                        </div>
-                        <div class="col col-10">
-                            <pre class="text-justify des-event">[{descricao}]</pre>
-                        </div>
-                        <div class="col col-5">
-                            <a href="javascript:void(0)" class="btn bck-menu-blue full-width" id="btn-inscrever-evento"
-                               onclick="evento.abrir_periodos([{id}])"><img data-src="/static/images/check-mark32_2.png">
-                                <div>participar</div>
-                            </a>
-                        </div>
-                        <div class="col col-5">
-                            <a href="javascript:void(0)" class="btn btn-red full-width" id="btn-cancelar-inscricao"
-                               onclick="evento.abrir_periodos([{id}], true)"><img data-src="/static/images/cancel32_1.png">
-                                <div>cancelar</div>
-                            </a>
-                        </div>
-
-                    </div>
-
-
-                    <section id="evento-periodo" class="col col-5">
-                        <h3 class="title">período</h3>
-                        <div data-model="periodos">
-                            <ul>
-                                <li>data: [{data}]</li>
-                                <li>inicio: [{hora_inicio}]</li>
-                                <li>fim: [{hora_fim}]</li>
-                                <li>vagas disponibilizadas: [{quantidade_vagas}]</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section id="evento-localidade" class="col col-5">
-                        <h3 class="title">local</h3>
-                        <div data-model="local">
-                            <ul>
-                                <li>estado - [{estado}]</li>
-                                <li>cidade - [{cidade_nome}]</li>
-                                <li>logradouro - [{endereco}]</li>
-                                <li>bairro - [{bairro}]</li>
-                                <li>número - [{numero_endereco}]</li>
-                            </ul>
-                        </div>
-                    </section>
-
-                    <section id="evento-palestrantes" class="col col-10">
-                        <h3 class="title">atrações</h3>
-                        <div data-model="palestrantes">
-                            <div class="col col-4 palestrante">
-                                <h5 class="title">[{nome}]</h5>
-
-                                <p class="text-justify">
-                                    [{descricao}]
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="evento-videos" class="col col-10">
-                        <h3 class="title">Vídeos</h3>
-                        <div data-model="videos">
-                            <div class="col col-5 text-center">
-                                <h5>[{titulo_video}]</h5>
-                                <iframe style="position:relative; float:left; display:inline; width:100%;"
-                                        height="315"
-                                        data-src="[{url}]"
-                                        webkitallowfullscreen mozallowfullscreen allowfullscreen>
-                                </iframe>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="evento-anexos" class="col col-10">
-                        <h3 class="title">anexos</h3>
-                        <ul>
-                            <span data-model="anexos">
-
-                                <li>
-                                    <a data-href="/upload/[{caminho_arquivo}]" target="_blank">[{titulo_anexo}]</a>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h3 class="title">[{titulo}]</h3>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="#" class="img-event"><img class="small-radius"
+                                                                       data-src="/upload/[{imagem_divulgacao}]"/></a>
                                 </li>
 
-                            </span>
+                                <li class="list-group-item">
+                                    <p class="text-justify">[{descricao}]</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="javascript:void(0)" class="btn btn-primary"
+                                       id="btn-inscrever-evento"
+                                       onclick="evento.abrir_periodos([{id}])">
+                                        Participar
+                                    </a>
+
+                                    <a href="javascript:void(0)" class="btn btn-primary"
+                                       id="btn-cancelar-inscricao"
+                                       onclick="evento.abrir_periodos([{id}], true)">
+                                        Cancelar
+                                    </a>
+                                </li>
+                            </ul>
+                        </script>
+
+
+                        <ul class="list-group">
+
+                            <li id="evento-periodo" class="list-group-item">
+                                <h3 class="title">Período</h3>
+                                <script type="text/html" data-model="periodos">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Data: [{data}]</li>
+                                        <li class="list-group-item">Inicio: [{hora_inicio}]</li>
+                                        <li class="list-group-item">Fim: [{hora_fim}]</li>
+                                        <li class="list-group-item">Vagas disponibilizadas: [{quantidade_vagas}]</li>
+                                    </ul>
+                                </script>
+                                <span data-model-empty="periodos" class="hide list-group-item">Não há perídos
+                                cadastrados
+                                </span>
+                            </li>
+
+                            <li id="evento-localidade" class="list-group-item">
+                                <h3 class="title">Local</h3>
+                                <script type="text/html" data-model="local">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">Estado - [{estado}]</li>
+                                        <li class="list-group-item">Cidade - [{cidade_nome}]</li>
+                                        <li class="list-group-item">Logradouro - [{endereco}]</li>
+                                        <li class="list-group-item">Bairro - [{bairro}]</li>
+                                        <li class="list-group-item">Número - [{numero_endereco}]</li>
+                                    </ul>
+                                </script>
+                                <span data-model-empty="local" class="hide list-group-item">Não há local
+                                        cadastrado
+                                </span>
+
+                            </li>
+
+                            <li id="evento-palestrantes" class="list-group-item">
+                                <h3 class="title">Atrações</h3>
+                                <ul class="list-group">
+                                    <li data-model-empty="palestrantes"
+                                        class="hide list-group-item">Não há atrações cadastradas
+                                    </li>
+                                    <script type="text/html" data-model="palestrantes">
+                                        <li class="list-group-item palestrante">
+                                            <h5 class="title">[{nome}]</h5>
+                                            <p class="text-justify">
+                                                [{descricao}]
+                                            </p>
+                                        </li>
+                                    </script>
+                                </ul>
+                            </li>
+
+                            <li id="evento-videos" class="list-group-item">
+                                <h3 class="">Vídeos</h3>
+                                <ul class="list-group">
+                                    <script type="text/html" data-model="videos">
+                                        <li class="list-group-item">
+                                            <h5 class="title">[{titulo_video}]</h5>
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" data-src="[{url}]"
+                                                        webkitallowfullscreen mozallowfullscreen allowfullscreen>
+                                                </iframe>
+                                            </div>
+                                        </li>
+                                    </script>
+                                    <li data-model-empty="videos" class="hide list-group-item">Não há vídeos
+                                        cadastrados
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li id="evento-anexos" class="list-group-item">
+                                <h3 class="title">Anexos</h3>
+                                <ul class="list-group">
+                                    <li data-model-empty="anexos" class="hide list-group-item">Não há anexos</li>
+                                    <script type="text/html" data-model="anexos">
+                                        <li class="list-group-item">
+                                            <a data-href="/upload/[{caminho_arquivo}]"
+                                               target="_blank">[{titulo_anexo}]</a>
+                                        </li>
+
+                                    </script>
+                                </ul>
+                            </li>
+
+                            <li id="evento-comentario" class="list-group-item">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <h3 class="title">Adicionar comentário</h3>
+                                        <div class="form-group">
+                                            <label>Comentário</label>
+                                            <textarea id="comentario" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <a class="btn btn-primary form-control" href="javascript:void(0)"
+                                               onclick="evento.inserir_comentario()">adicionar</a>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <h3 class="title">Comentários</h3>
+                                        <ul class="list-group">
+                                            <li data-model-empty="comentarios" class="hide list-group-item">Não há
+                                                comentários
+                                            </li>
+
+                                            <script type="text/html" data-model="comentarios">
+                                                <li class="list-group-item">
+                                                    <h4 class="strong">[{usuario_nome}]</h4>
+                                                    <p>
+                                                        [{comentario}]
+                                                    </p>
+                                                </li>
+                                            </script>
+                                        </ul>
+                                    </li>
+                                </ul>
                         </ul>
-                    </section>
-
-                    <section id="evento-comentario" class="col col-10">
-                        <div class="col col-10">
-                            <h3 class="title">adicionar comentário</h3>
-                            <div class="col col-10">
-                                <textarea id="comentario" class="field"></textarea>
-                                <a class="btn btn-blue" href="javascript:void(0)"
-                                   onclick="evento.inserir_comentario()">adicionar</a>
-                            </div>
-                        </div>
-
-                        <div class="col col-10">
-                            <h3 class="title">comentários</h3>
-                            <div data-model="comentarios" data-self="">
-                                <h4 class="strong">[{usuario_nome}]</h4>
-                                <p>
-                                    [{comentario}]
-                                </p>
-                            </div>
-                        </div>
-                    </section>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    </section>
+</section>

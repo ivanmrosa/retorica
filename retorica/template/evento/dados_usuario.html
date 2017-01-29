@@ -1,178 +1,183 @@
-<div data-model="edicao_usuario">
-            <div class="col col-10">
-                <form data-id="form_edicao_usuario" method="post"
-                      onkeydown="mainLib.onPressEnterClick(event, 'a.salvar_dados_usuario')">
-                    <section data-id="cadastro_base" class="col col-10">
-                        <h4 class="title">identificação</h4>
-                        <div class="form-field">
-                            <label for="email">e-mail</label>
-                            <input type="email" name="email" data-id="email" data-value="[{email}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="first_name">primeiro nome:</label>
-                            <input type="text" data-id="first_name" name="first_name" data-value="[{first_name}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="last_name">sobrenome:</label>
-                            <input type="text" data-id="last_name" name="last_name" data-value="[{last_name}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="telefone">telefone:</label>
-                            <input type="text" data-id="telefone" name="telefone" data-value="[{telefone}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="sexo">sexo:</label>
-                            <select name="sexo" data-id="sexo" data-value="[{sexo}]">
-                                <option value=""></option>
-                                <option value="F">Feminino</option>
-                                <option value="M">Masculino</option>
-                                <option value="O">Outros</option>
-                            </select>
-                        </div>
+<div class="container">
+    <script type="text/html" data-model="edicao_usuario">
+        <ul class="list-group">
+            <form data-id="form_edicao_usuario" method="post"
+                  onkeydown="mainLib.onPressEnterClick(event, 'a.salvar_dados_usuario')">
+                <li data-id="cadastro_base" class="list-group-item">
+                    <h4 class="title">Identificação</h4>
+                    <div class="form-group">
+                        <label for="email">e-mail</label>
+                        <input type="email" name="email" class="form-control" data-id="email" data-value="[{email}]">
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name">Primeiro nome:</label>
+                        <input type="text" data-id="first_name" class="form-control" name="first_name"
+                               data-value="[{first_name}]">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Sobrenome:</label>
+                        <input type="text" class="form-control" data-id="last_name" name="last_name"
+                               data-value="[{last_name}]">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" class="form-control" data-id="telefone" name="telefone"
+                               data-value="[{telefone}]">
+                    </div>
+                    <div class="form-group">
+                        <label for="sexo">Sexo:</label>
+                        <select name="sexo" data-id="sexo" data-value="[{sexo}]" class="form-control">
+                            <option value=""></option>
+                            <option value="F">Feminino</option>
+                            <option value="M">Masculino</option>
+                            <option value="O">Outros</option>
+                        </select>
+                    </div>
 
-                        <div class="form-field">
-                            <label for="tipo_usuario">Tipo do usuário</label>
+                    <div class="form-group">
+                        <label for="tipo_usuario">Tipo do usuário</label>
 
-                            <select data-value="[{tipo_usuario}]" data-name="tipo_usuario">
-                                <option value="O">Organizador de eventos</option>
-                                <option value="P">Apenas participante</option>
-                            </select>
-                        </div>
-
-
-                    </section>
-                    <section data-id="imagem_perfil" class="col col-10">
-                        <h4 class="title">imagem do perfil</h4>
-                        <div class="form-field">
-                            <input type="file" accept="image/*" name="foto_usuario"
-                                   onchange="mainLib.showLocalImage(this, mainLib.find('#foto_usuario_img').first())">
-                        </div>
-                        <div>
-                            <img data-src="/upload/[{foto_usuario}]" data-id="foto_usuario_img"
-                                 alt="escolha uma foto para o perfil" class="img_editar_usuario"/>
-                        </div>
-                    </section>
-
-                    <section id="cadastro_localidade" class="col col-10">
-                        <h4 class="title">Localização</h4>
-                        <div class="form-field">
-                            <label for="pais">país:</label>
-                            <select name="pais_id" data-id="pais" data-value="[{pais_id}]"
-                                    data-lookup-url="/localidade/obter_paises" data-lookup-field="id"
-                                    data-lookup-field2="nome">
-
-                            </select>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="estado">estado:</label>
-
-                            <select name="estado_id" data-id="estado" data-value="[{estado_id}]"
-                                    data-lookup-url="/localidade/obter_estados" data-lookup-field="id"
-                                    data-lookup-field2="nome"
-                                    data-lookup-master="#pais"
-                                    data-lookup-master-field="pais_id">
-                            </select>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="cidade">cidade:</label>
-                            <select name="cidade_id" data-id="cidade" data-value="[{cidade_id}]"
-                                    data-lookup-url="/localidade/obter_cidades" data-lookup-field="id"
-                                    data-lookup-field2="nome"
-                                    data-lookup-master="#estado"
-                                    data-lookup-master-field="estado_id">
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cep">cep/zip-code:</label>
-                            <input name="cep" data-id="cep" type="text" data-value="[{cep}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="bairro">bairro:</label>
-                            <input name="bairro" data-id="bairro" type="text" data-value="[{bairro}]">
-                        </div>
-                        <div class="form-field">
-                            <label for=endereci">logradouro:</label>
-                            <input name="endereco" data-id="endereco" type="text" data-value="[{endereco}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="numero_endereco">número:</label>
-                            <input name="numero_endereco" data-id="numero_endereco" type="number"
-                                   data-value="[{numero_endereco}]">
-                        </div>
-
-                    </section>
-
-                    <section id="cpf_rg" class="col col-10">
-                        <h4 class="title">Indentificação oficial</h4>
-                        <div class="form-field">
-                            <label for="cpf">cpf:</label>
-                            <input name="cpf" data-id=cpf" type="text" data-value="[{cpf}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="numero_identidade">registro geral (RG) :</label>
-                            <input name="numero_identidade" data-id="numero_identidade"
-                                   data-value="[{numero_identidade}]"
-                                   type="text">
-                        </div>
-
-                    </section>
-
-                    <section id="cadastro_pagseguro" class="col col-10">
-                        <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
-                        <div class="form-field">
-                            <label for="email_pagseguro">email pagseguro:</label>
-                            <input name="email_pagseguro" data-id="email_pagseguro" type="email"
-                                   data-value="[{email_pagseguro}]">
-                        </div>
-                        <div class="form-field">
-                            <label for="token_pagseguro">token único pagseguro :</label>
-                            <input name="token_pagseguro" data-id="token_pagseguro" type="text"
-                                   data-value="[{token_pagseguro}]">
-                        </div>
-
-                    </section>
+                        <select data-value="[{tipo_usuario}]" data-name="tipo_usuario" class="form-control">
+                            <option value="O">Organizador de eventos</option>
+                            <option value="P">Apenas participante</option>
+                        </select>
+                    </div>
 
 
-                </form>
+                </li>
+                <li data-id="imagem_perfil" class="list-group-item">
+                    <h4 class="title">Imagem do perfil</h4>
+                    <div class="form-group">
+                        <input type="file" accept="image/*" name="foto_usuario" class="form-control"
+                               onchange="mainLib.showLocalImage(this, mainLib.find('#foto_usuario_img').first())">
+                    </div>
+                    <div>
+                        <img data-src="/upload/[{foto_usuario}]" data-id="foto_usuario_img"
+                             alt="escolha uma foto para o perfil" class="img_editar_usuario"/>
+                    </div>
+                </li>
 
-            </div>
-            <section class="col col-10">
+                <li id="cadastro_localidade" class="list-group-item">
+                    <h4 class="title">Localização</h4>
+                    <div class="form-group">
+                        <label for="pais">País:</label>
+                        <select name="pais_id" data-id="pais" data-value="[{pais_id}]" class="form-control"
+                                data-lookup-url="/localidade/obter_paises" data-lookup-field="id"
+                                data-lookup-field2="nome">
+
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estado">Estado:</label>
+
+                        <select name="estado_id" data-id="estado" data-value="[{estado_id}]"
+                                data-lookup-url="/localidade/obter_estados" data-lookup-field="id"
+                                data-lookup-field2="nome"
+                                data-lookup-master="#pais"
+                                data-lookup-master-field="pais_id" class="form-control">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cidade">Cidade:</label>
+                        <select name="cidade_id" data-id="cidade" data-value="[{cidade_id}]"
+                                data-lookup-url="/localidade/obter_cidades" data-lookup-field="id"
+                                data-lookup-field2="nome"
+                                data-lookup-master="#estado"
+                                data-lookup-master-field="estado_id" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cep">Cep/Zip-Code:</label>
+                        <input name="cep" data-id="cep" type="text" data-value="[{cep}]" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro">Bairro:</label>
+                        <input name="bairro" data-id="bairro" type="text" data-value="[{bairro}]" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for=endereci">Logradouro:</label>
+                        <input name="endereco" data-id="endereco" type="text" data-value="[{endereco}]"
+                               class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_endereco">Número:</label>
+                        <input name="numero_endereco" data-id="numero_endereco" type="number"
+                               data-value="[{numero_endereco}]" class="form-control">
+                    </div>
+
+                </li>
+
+                <li id="cpf_rg" class="list-group-item">
+                    <h4 class="title">Indentificação oficial</h4>
+                    <div class="form-group">
+                        <label for="cpf">CPF:</label>
+                        <input name="cpf" data-id=cpf" type="text" data-value="[{cpf}]" class="form-control">
+                    </div>
+                   <!-- <div class="form-group">
+                        <label for="numero_identidade">Registro geral (RG) :</label>
+                        <input name="numero_identidade" data-id="numero_identidade"
+                               data-value="[{numero_identidade}]"
+                               type="text" class="form-control">
+                    </div> -->
+
+                </li>
+
+                <li id="cadastro_pagseguro" class="list-group-item">
+                    <h4 class="title">Integração com pagseguro (caso queira cobrar pelas palestras)</h4>
+                    <div class="form-group">
+                        <label for="email_pagseguro">Email pagseguro:</label>
+                        <input name="email_pagseguro" data-id="email_pagseguro" type="email"
+                               data-value="[{email_pagseguro}]" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="token_pagseguro">Token único pagseguro :</label>
+                        <input name="token_pagseguro" data-id="token_pagseguro" type="text"
+                               data-value="[{token_pagseguro}]" class="form-control">
+                    </div>
+
+                </li>
+
+
+            </form>
+            <li class="list-group-item">
                 <a href="javascript:void(0)"
                    onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario')"
-                   class="btn btn-blue  salvar_dados_usuario">salvar dados do usuário</a>
+                   class="btn btn-primary salvar_dados_usuario">Salvar dados do usuário</a>
 
                 <a href="javascript:void(0)"
                    onclick="mainLib.popup.openPopup('popup_aulterar_senha')"
-                   class="btn btn-blue  alterar_senha">alterar senha</a>
+                   class="btn btn-primary  alterar_senha">Alterar senha</a>
 
-            </section>
+            </li>
 
-            <div class="popup slow-hide" id="popup_aulterar_senha">
-                <div class="popup-body popup-dlg">
-                    <h3 class="title">alteração de senha</h3>
-                    <form data-id="form_edicao_usuario_senha"
-                          onkeydown="mainLib.onPressEnterClick(event, 'a.alterar_senha')">
-                        <div class="form-field">
-                            <label for="password">nova senha:</label>
-                            <input type="password" data-id="password" name="password">
-                        </div>
-                        <div class="form-field">
-                            <label for="old_password">repita a senha:</label>
-                            <input type="password" data-id="confirm_password" name="confirm_password">
-                        </div>
+        </ul>
 
-                    </form>
+        <div class="popup slow-hide" id="popup_aulterar_senha">
+            <div class="popup-body popup-dlg bck-white radius">
+                <h3 class="title">alteração de senha</h3>
+                <form data-id="form_edicao_usuario_senha"
+                      onkeydown="mainLib.onPressEnterClick(event, 'a.alterar_senha')">
+                    <div class="form-group">
+                        <label for="password">Nova senha:</label>
+                        <input class="form-control" type="password" data-id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="old_password">Repita a senha:</label>
+                        <input type="password" class="form-control" data-id="confirm_password" name="confirm_password">
+                    </div>
 
-                    <a href="javascript:void(0)"
-                       onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
-                       class="btn btn-blue  alterar_senha">alterar senha</a>
-                    <a href="javascript:void(0)"
-                       onclick="mainLib.popup.closePopup('popup_aulterar_senha')"
-                       class="btn btn-red  alterar_senha">cancelar</a>
+                </form>
 
-                </div>
-
+                <a href="javascript:void(0)"
+                   onclick="usuario.cadastrar_usuario('/editar_usuario', '#form_edicao_usuario_senha')"
+                   class="btn btn-primary  alterar_senha">Alterar senha</a>
+                <a href="javascript:void(0)"
+                   onclick="mainLib.popup.closePopup('popup_aulterar_senha')"
+                   class="btn btn-danger  alterar_senha">Cancelar</a>
             </div>
+
         </div>
+    </script>
+</div>

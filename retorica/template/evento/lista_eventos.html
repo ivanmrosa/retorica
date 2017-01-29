@@ -1,80 +1,27 @@
-<section class="col col-6">
-    <div data-model="evento_lista">
-        <div class="event col col-10 small-radius ">
-            <div class="col col-10">
-                <div class="col col-10">
-                    <h3 class="title"><a href="javascript:void(0)" class="gray hover-blue"
-                                         onclick="evento.abrir_detalhe_evento([{id}])">[{titulo}]</a>
-                    </h3>
-
-
-                    <a href="javascript:void(0)" class="img-event"
-                       onclick="evento.abrir_detalhe_evento([{id}])">
-                        <img data-src="/upload/[{imagem_divulgacao}]"
-                             class="small-radius"/>
-                    </a>
-
-                </div>
-                <div class="col col-10">
-                    <pre class="text-justify des-event">[{descricao}]</pre>
-                </div>
-
-            </div>
-
-            <section class="col col-5">
-                <img data-src="/static/images/local24.png" title="local" alt="local">
-                [{endereco}], número [{numero_endereco}], bairro [{bairro}], [{estado}] - [{cidade_nome}].
-
-            </section>
-            <section class="col col-5">
-                <img data-src="/static/images/tag24.png" title="tipo" alt="tipo">
-                [{tipo}]
-            </section>
-            <section class="col col-5">
-                <img data-src="/static/images/price24.png" title="valor" alt="valor">
-                $ [{valor}]
-            </section>
-
-
-            <div class="col col-10 small-radius event-pan-det">
-                <div class="col col-5">
-                    <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                       onclick="evento.abrir_detalhe_evento([{id}])">
-                        <img data-src="/static/images/details32.png">
-                        <div>detalhes</div>
-                    </a>
-
-                </div>
-                <div class="col col-5">
-                    <a href="javascript:void(0)" class="btn bck-menu-blue full-width"
-                       onclick="evento.abrir_periodos([{id}])"><img data-src="/static/images/check-mark32.png">
-                        <div>participar</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <section id="lista_convites"
-         class="col col-4 small-radius event hide-mobile stay-on-top ">
-    <h3 class="title cur-pointer" onclick="mainLib.addClass('big', this.parentElement);
-
+         class="col-md-3  hide-mobile">
+    <div class="panel panel-default ">
+        <div class="panel-heading">
+            <a href="javascript:void(0)" class="cur-pointer" onclick="mainLib.addClass('big', this.parentElement);
                                        mainLib.removeClass('hide', mainLib.find('#fechar_detalhe_convite').first()) ">
-        convites para eventos
-    </h3>
-    <span data-model-empty="lista_convites" class="hide">Não há nenhum convite</span>
-    <div class="col col-10 ">
-        <ul class="list-btn col col-10">
-            <li data-model="lista_convites" data-self="">
+                convites para eventos
+            </a>
+        </div>
+        <div class="panel-body">
+            <span data-model-empty="lista_convites" class="hide">Não há nenhum convite</span>
 
-                <a href="javascript:void(0)"
-                   class="circle circle-small-small cancel stay-on-top"
-                   onclick="mainLib.server.post('/deletar_convite', 'id=[{id}]');
-                                    this.parentElement.parentElement.removeChild(this.parentElement);"></a>
+            <ul class="">
+                <li data-model="lista_convites" data-self="" class="">
 
-                <a href="javascript:void(0)"
-                   onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');
+                    <a href="javascript:void(0)"
+                       class="stay-on-top"
+                       onclick="mainLib.server.post('/deletar_convite', 'id=[{id}]');
+                                    this.parentElement.parentElement.removeChild(this.parentElement);">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+
+                    <a href="javascript:void(0)"
+                       onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');
                                     mainLib.dataBinder.removeReplicatedModel('evento_lista');
                                     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
                                     mainLib.find('#lista_eventos').first(), 'id=[{evento_id}]');
@@ -82,13 +29,14 @@
                                     mainLib.removeClass('big', this.parentElement.parentElement.parentElement.parentElement);
                                     "
 
-                   class="gray">
-                    [{titulo}]
-                </a>
+                       class="gray">
+                        [{titulo}]
+                    </a>
 
 
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
     <a href="javascript:void(0)" id="fechar_detalhe_convite"
        class="circle circle-small cancel stay-on-top hide-desktop bottom-right fixed hide"
@@ -96,4 +44,63 @@
                         mainLib.removeClass('big', this.parentElement);
                         "></a>
 
+</section>
+
+<section class="col-md-6">
+    <div data-model="evento_lista">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="text-center"><a href="javascript:void(0)" class="gray hover-blue"
+                                           onclick="evento.abrir_detalhe_evento([{id}])">[{titulo}]</a>
+                </h3>
+
+            </div>
+
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="javascript:void(0)" class="img-event"
+                                                   onclick="evento.abrir_detalhe_evento([{id}])">
+                        <img data-src="/upload/[{imagem_divulgacao}]"
+                             class="small-radius"/>
+                    </a>
+                    </li>
+
+                    <li class="list-group-item">
+                        <p class="text-justify">[{descricao}]</p>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-map-marker"></span>
+                        [{endereco}], número [{numero_endereco}], bairro [{bairro}], [{estado}] - [{cidade_nome}].
+
+                    </li>
+                    <li class="list-group-item">
+                        <span class="glyphicon glyphicon-tag"></span>
+                        [{tipo}]
+                    </li>
+                    <li class="list-group-item">
+                        <span  class="glyphicon glyphicon-usd"></span>
+                         [{valor}]
+                    </li>
+                    <li class="list-group-item">
+
+                        <a href="javascript:void(0)" class="btn btn-primary"
+                           onclick="evento.abrir_detalhe_evento([{id}])">
+                            detalhes
+                        </a>
+
+
+                        <a href="javascript:void(0)" class="btn btn-primary"
+                           onclick="evento.abrir_periodos([{id}])">
+                            participar
+                        </a>
+
+
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
 </section>

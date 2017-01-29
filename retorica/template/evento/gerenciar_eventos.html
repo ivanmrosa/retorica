@@ -1,438 +1,528 @@
-<div class="col col-10 title " id="gerenciar-evento-cards">
-    <div class="col col-2">
-        <a href="javascript:void(0)" class="menu-blue flo-left btn full-width"
-           onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
+<div class="col-md-12 title " id="gerenciar-evento-cards">
+    <div class="btn-group flo-left" aria-label="...">
+        <button type="button" class="btn btn-default"
+                onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
                  mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
                   'eventos_organizador')">
-            meus eventos
+            Meus eventos
 
-        </a>
-    </div>
-    <div class="col col-2">
-        <a href="javascript:void(0)" class="menu-blue flo-left btn full-width"
-           onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
+        </button>
+
+
+        <button type="button" class="btn btn-default"
+                onclick="evento.limpar_template();evento.ir_pagina('gerenciar-evento-tabs',
                             'gerenciar_eventos');mainLib.find('#criar_editar_evento').first().click()">
-            adicionar evento
-        </a>
+            Adicionar evento
+        </button>
     </div>
+
 </div>
-<section id="lista_eventos_gerenciar" class="col col-10  page slow-hide">
-    <div class="col col-10">
-        <small class="white">clique sobre um evento da lista para editar</small>
+
+<section id="lista_eventos_gerenciar" class="col-md-12 page slow-hide">
+    <div class="col-md-12">
+        <small class="menu-blue">clique sobre um evento da lista para editar</small>
     </div>
-    <div class="col col-10">
-        <ul class="list-btn">
-            <li data-model="eventos_organizador"
-                onclick="evento.carregar_evento_edicao([{evento_id}])" data-self>
+    <div class="col-md-12">
+        <div class="list-group">
+            <a data-model="eventos_organizador" class="list-group-item text-center" href="javascript:void(0)"
+               onclick="evento.carregar_evento_edicao([{evento_id}])" data-self>
                 <b>[{titulo}]</b>
-            </li>
-        </ul>
+            </a>
+            <a  class="list-group-item text-center hide" href="javascript:void(0)" data-model-empty="eventos_organizador">Não
+                há eventos cadastrados</a>
+        </div>
     </div>
 </section>
 
-<div id="gerenciar-evento-tabs" class="hide page col col-10 slow-hide">
+<div id="gerenciar-evento-tabs" class="hide page col-md-12 slow-hide">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#criar_editar_evento" role="tab" data-toggle="tab"
+                                                  aria-controls="criar_editar_evento">Adicionar/Editar</a></li>
+        <li role="presentation"><a href="#gerenciar-periodo-evento" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-perido-evento">Períodos do evento</a></li>
+        <li role="presentation"><a href="#gerenciar-evento-organizadores" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-evento-organizadores">Organizadores</a></li>
+        <li role="presentation"><a href="#gerenciar-evento-palestrante" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-evento-palestrantes">Atrações</a></li>
+        <li role="presentation"><a href="#gerenciar-evento-anexos" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-evento-anexos">Anexos</a></li>
+        <li role="presentation"><a href="#gerenciar-evento-videos" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-evento-videos">Vídeos</a></li>
+        <li role="presentation"><a href="#gerenciar-eventos-tarefas" role="tab" data-toggle="tab"
+                                   aria-controls="gerenciar-eventos-tarefas">Tarefas</a></li>
+    </ul>
+    <div class="tab-content">
+        <section role="tabpanel" id="criar_editar_evento" class="tab-pane active">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center">Adicione e altere o evento</h3>
+                </div>
+                <div class="panel-body">
+                    <form id="form-criar-editar-evento" class="col col-10">
+                        <div data-model="evento">
+                            <input type="hidden" data-name="id" data-value="[{id}]">
+                            <div class="form-group">
+                                <label for="titulo">título</label>
+                                <input type="text" class="form-control" data-id="titulo" data-name="titulo"
+                                       data-value="[{titulo}]">
+                            </div>
+                            <div class="form-group">
+                                <label for="descricao">descrição detalhada</label>
+                                <textarea class="form-control" data-id="descricao"
+                                          data-name="descricao">[{descricao}]</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="palavras_chave">palavras chaves</label>
+                                <input type="text" data-id="palavras_chave" data-name="palavras_chave"
+                                       data-value="[{palavras_chave}]" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo_evento">tipo do evento</label>
+                                <select data-value="[{tipo_evento}]" data-name="tipo_evento_id"
+                                        data-lookup-url="evento/lista_tipo_evento" data-lookup-field="id"
+                                        data-lookup-field2="nome" class="form-control"
+                                >
 
-    <section id="criar_editar_evento" class="col col-10">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo_cobranca">tipo da cobrança</label>
+                                <select data-name="tipo_cobranca" data-value="[{tipo_cobranca}]" class="form-control">
+                                    <option value=""></option>
+                                    <option value="G">Gratuíto</option>
+                                    <option value="P">Pago</option>
+                                </select>
+                            </div>
+                            <div class="form-group text-center">
+                                <label for="evento_privado">evento privado(não mostrar na timeline)</label>
+                                <input type="checkbox" data-id="cadastro_evento_evento_privado"
+                                       data-value=[{evento_privado}] class="form-control">
+                                <input type="hidden" data-name="evento_privado">
 
-        <h3 class="title">adicione e altere o evento</h3>
-        <form id="form-criar-editar-evento" class="col col-10">
-            <div data-model="evento">
-                <input type="hidden" data-name="id" data-value="[{id}]">
-                <div class="form-field">
-                    <label for="titulo">título</label>
-                    <input type="text" data-id="titulo" data-name="titulo" data-value="[{titulo}]">
-                </div>
-                <div class="form-field">
-                    <label for="descricao">descrição detalhada</label>
-                    <textarea data-id="descricao" data-name="descricao">[{descricao}]</textarea>
-                </div>
-                <div class="form-field">
-                    <label for="palavras_chave">palavras chaves</label>
-                    <input type="text" data-id="palavras_chave" data-name="palavras_chave"
-                           data-value="[{palavras_chave}]">
-                </div>
-                <div class="form-field">
-                    <label for="tipo_evento">tipo do evento</label>
-                    <select data-value="[{tipo_evento}]" data-name="tipo_evento_id"
-                            data-lookup-url="evento/lista_tipo_evento" data-lookup-field="id"
-                            data-lookup-field2="nome"
-                    >
+                            </div>
+                            <div class="form-group">
+                                <label for="valor">preço</label>
+                                <input type="number" step="0.01" data-value="[{valor}]" data-id="valor"
+                                       data-name="valor"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="imagem_divulgacao">imagem para timeline:</label>
+                                <input type="file" data-name="imagem_divulgacao"
+                                       accept=".jpg, .png"
+                                       onchange="mainLib.showLocalImage(this,
+                                     mainLib.find('#imagem_divulgacao_img').first());" class="form-control">
 
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="tipo_cobranca">tipo da cobrança</label>
-                    <select data-name="tipo_cobranca" data-value="[{tipo_cobranca}]">
-                        <option value=""></option>
-                        <option value="G">Gratuíto</option>
-                        <option value="P">Pago</option>
-                    </select>
-                </div>
-                <div class="form-field text-center">
-                    <label for="evento_privado">evento privado(não mostrar na timeline)</label>
-                    <input type="checkbox" data-id="cadastro_evento_evento_privado"
-                           data-value=[{evento_privado}]>
-                    <input type="hidden" data-name="evento_privado">
-
-                </div>
-                <div class="form-field">
-                    <label for="valor">preço</label>
-                    <input type="number" step="0.01" data-value="[{valor}]" data-id="valor" data-name="valor">
-                </div>
-                <div class="form-field">
-                    <label for="imagem_divulgacao">imagem para timeline:</label>
-                    <input type="file" data-name="imagem_divulgacao"
-                           accept=".jpg, .png"
-                           onchange="mainLib.showLocalImage(this,
-                                     mainLib.find('#imagem_divulgacao_img').first());">
-
-                </div>
-                <div class="col col-3 img-event">
-                    <img data-src="/upload/[{imagem_divulgacao}]" data-id="imagem_divulgacao_img"
-                         alt="escolha uma imagem acima"/>
-                </div>
-
-
-            </div>
-            <div data-model="local">
-                <div class="form-field">
-                    <label for="pais">país:</label>
-                    <select data-name="pais_id" data-id="pais_evento" data-lookup-url="/localidade/obter_paises"
-                            data-lookup-field="id" data-lookup-field2="nome" data-value="[{pais_id}]">
-                    </select>
-                </div>
-
-                <div class="form-field">
-                    <label for="estado">estado:</label>
-                    <select data-name="estado_id" data-id="estado_evento" data-value="[{estado_id}]"
-                            data-lookup-url="/localidade/obter_estados"
-                            data-lookup-field="id" data-lookup-field2="nome"
-                            data-lookup-master="#pais_evento"
-                            data-lookup-master-field="pais_id">
-                    </select>
-                </div>
-
-                <div class="form-field">
-                    <label for="cidade">cidade:</label>
-                    <select data-name="cidade_id" data-id="cidade_evento" data-value="[{cidade_id}]"
-                            data-lookup-url="/localidade/obter_cidades"
-                            data-lookup-field="id" data-lookup-field2="nome"
-                            data-lookup-master="#estado_evento"
-                            data-lookup-master-field="estado_id">
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label for="cep">cep/zip-code:</label>
-                    <input data-name="cep" data-id="cep" type="text" data-value="[{cep}]">
-                </div>
-                <div class="form-field">
-                    <label for="bairro">bairro:</label>
-                    <input data-name="bairro" id="bairro" type="text" data-value="[{bairro}]">
-                </div>
-                <div class="form-field">
-                    <label for="endereco">logradouro:</label>
-                    <input data-name="endereco" id="endereco" type="text" data-value="[{endereco}]">
-                </div>
-                <div class="form-field">
-                    <label for="numero_endereco">número:</label>
-                    <input data-name="numero_endereco" id="numero_endereco" type="number"
-                           data-value="[{numero_endereco}]">
-                </div>
-            </div>
-
-        </form>
-
-        <div class="col col-10">
-            <h3 class="title"></h3>
-            <a href="javascript:void(0)" class="btn btn-blue" id="edicao_evento_salvar"
-               onclick="evento.salvar_evento();">salvar e
-                gerenciar</a>
-        </div>
-    </section>
-    <section class="col col-10" id="gerenciar-periodo-evento">
-
-        <h3 class="title">adicione as datas em que o evento ocorrerá</h3>
-        <div class="col col-10">
-            <form>
-                <div class="form-field">
-                    <label for="data-evento">data</label>
-                    <input type="date" id="data-evento" name="data">
-                </div>
-                <div class="form-field">
-                    <label for="hora-inicio-evento">hora do início</label>
-                    <input type="time" id="hora-inicio-evento" name="hora_inicio">
-                </div>
-                <div class="form-field">
-                    <label for="hora-fim-evento">hora do fim</label>
-                    <input type="time" id="hora-fim-evento" name="hora_fim">
-                </div>
-                <div class="form-field">
-                    <label for="quantidade-vagas-evento">quantidade de vagas</label>
-                    <input type="number" id="quantidade-vagas-evento" name="quantidade_vagas">
-                </div>
-            </form>
-            <div class="col col-10">
-                <a href="javascript:void(0)" onclick="evento.inserir_periodo();"
-                   class="btn btn-blue">adicionar período</a>
-            </div>
-
-            <div class="col col-10">
-                <small class="white">remova os períodos clicando sobre as datas</small>
-                <ul class="list-btn">
-                    <li data-model="periodos" data-self=""
-                        onclick="evento.remover_item('/evento/deletar_periodo', [{id}], this);">
-                        [{data}] -
-                        de [{hora_inicio}] à [{hora_fim}] -
-                        [{quantidade_vagas}] vagas
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-
-    </section>
-    <section id="gerenciar-evento-organizadores" class="col col-10">
-        <section class="lista_organizadores">
-            <h3 class="title">adicione os organizadores do evento</h3>
-            <div>
-                <small class="white">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
-            </div>
-            <div class="col col-10 autocomplete">
-                <input id="busca_adicionar_organizador"
-                       placeholder="adicione organizadores pesquisando aqui..."
-                       class="small-radius search" type="text" data-autocomplete-url="/pesquisar_usuario"
-                       data-field="id" data-field-text="nome_completo" data-field-img="foto_usuario"
-                       data-relative-img-url="/upload/"
-                >
-            </div>
-            <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
-                                       onclick="evento.inserir_organizador()">adicionar
-                organizador</a></div>
-            <small class="white">remova os organizadores clicando sobre seus nomes</small>
-            <div class="col col-10">
-                <ul class="list-btn">
-                    <li data-model="organizadores" data-self=""
-                        onclick="evento.remover_item('/evento/deletar_organizador', [{id}], this);">
-                        [{nome}]
-                    </li>
-                </ul>
-            </div>
-        </section>
-    </section>
-    <section id="gerenciar-evento-palestrante" class="col col-10">
-        <form>
-            <div class="form-field">
-                <label for="palestrante_nome">nome</label>
-                <input type="text" name="nome" id="palestrante_nome">
-            </div>
-            <div class="form-field">
-                <label for="palestrante_cpf">cpf</label>
-                <input type="text" name="cpf" id="palestrante_cpf">
-            </div>
-            <div class="form-field">
-                <label for="palestrante_descricao">descrição</label>
-                <input type="text" name="descricao" id="palestrante_descricao">
-            </div>
-            <div class="form-field">
-                <label for="palestrante_email">e-mail</label>
-                <input type="email" name="email" id="palestrante_email">
-            </div>
-        </form>
-        <div class="col col-10">
-            <a href="javascript:void(0)" onclick="evento.inserir_palestrante()"
-               class="btn btn-blue">adicionar atração</a>
-        </div>
-        <div class="col col-10">
-            <small class="white">remova as atrações clicando sobre seus nomes</small>
-        </div>
-        <div class="col col-10">
-            <ul class="list-btn">
-                <li data-model="palestrantes" data-self=""
-                    onclick="evento.remover_item('/evento/deletar_palesrante', [{id}], this);">
-                    [{nome}]
-                </li>
-            </ul>
-        </div>
+                            </div>
+                            <div class="col col-3 img-event">
+                                <img data-src="/upload/[{imagem_divulgacao}]" data-id="imagem_divulgacao_img"
+                                     alt="escolha uma imagem acima"/>
+                            </div>
 
 
-    </section>
-    <section id="gerenciar-evento-anexos" class="col col-10">
-        <div class="col col-10">
-            <h3 class="title">adicione arquivos</h3>
-            <div class="col col-10">
-                <form>
-                    <div class="form-field">
-                        <input type="text" class="small-radius"
-                               placeholder="digite um título para o anexo" name="titulo_anexo">
-                    </div>
-                    <div class="form-field">
-                        <input type="file" name="caminho_arquivo"
-                               accept=".doc,.pdf,.jpg,.png,.gif,.docx,.xls,.xlsx,.odt,.ppt,.pot,.pps,.pptx">
-                    </div>
-                    <input type="hidden" name="evento_id">
-                </form>
-            </div>
-            <a href="javascript:void(0)" class="btn btn-blue" onclick="evento.inserir_anexo()">adicionar</a>
-
-            <div class="col col-10">
-                <small class="white">remova os anexos clicando sobre seus nomes</small>
-                <ul class="list-btn">
-                    <li data-model="anexos" data-self
-                        onclick="evento.remover_item('/evento/deletar_anexo',[{id}], this)">[{titulo_anexo}]
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-    <section id="gerenciar-evento-videos" class="col col-10">
-        <div class="col col-10">
-            <h3 class="title">adicione vídeos</h3>
-            <div class="col col-10">
-                <div class="col col-10">
-                    <form>
-                        <div>
-                            <input type="text" class="field "
-                                   placeholder="digite um título para o vídeo" name="titulo_video">
                         </div>
-                        <div>
-                            <input type="url" class="field " name="url"
-                                   placeholder="digite a url do vídeo que quer incorporar">
+                        <div data-model="local">
+                            <div class="form-group">
+                                <label for="pais">país:</label>
+                                <select data-name="pais_id" data-id="pais_evento"
+                                        data-lookup-url="/localidade/obter_paises"
+                                        class="form-control"
+                                        data-lookup-field="id" data-lookup-field2="nome" data-value="[{pais_id}]">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="estado">estado:</label>
+                                <select data-name="estado_id" data-id="estado_evento" data-value="[{estado_id}]"
+                                        class="form-control"
+                                        data-lookup-url="/localidade/obter_estados"
+                                        data-lookup-field="id" data-lookup-field2="nome"
+                                        data-lookup-master="#pais_evento"
+                                        data-lookup-master-field="pais_id">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cidade">cidade:</label>
+                                <select data-name="cidade_id" data-id="cidade_evento" data-value="[{cidade_id}]"
+                                        class="form-control"
+                                        data-lookup-url="/localidade/obter_cidades"
+                                        data-lookup-field="id" data-lookup-field2="nome"
+                                        data-lookup-master="#estado_evento"
+                                        data-lookup-master-field="estado_id">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cep">cep/zip-code:</label>
+                                <input data-name="cep" data-id="cep" type="text" data-value="[{cep}]"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="bairro">bairro:</label>
+                                <input data-name="bairro" id="bairro" type="text" data-value="[{bairro}]"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="endereco">logradouro:</label>
+                                <input data-name="endereco" id="endereco" type="text" data-value="[{endereco}]"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="numero_endereco">número:</label>
+                                <input data-name="numero_endereco" id="numero_endereco" type="number"
+                                       data-value="[{numero_endereco}]" class="form-control">
+                            </div>
                         </div>
-                        <input type="hidden" name="evento_id">
+
                     </form>
-                </div>
-                <div>
-                    <a href="javascript:void(0)" class="btn btn-blue"
-                       onclick="evento.inserir_video()">adicionar</a>
+
+                    <div class="col col-10">
+                        <h3 class="title"></h3>
+                        <a href="javascript:void(0)" class="btn btn-primary" id="edicao_evento_salvar"
+                           onclick="evento.salvar_evento();">salvar e
+                            gerenciar</a>
+                    </div>
                 </div>
             </div>
+        </section>
+        <section role="tabpanel" id="gerenciar-periodo-evento" class="tab-pane">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center">Adicione as datas em que o evento ocorrerá</h3>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="data-evento">data</label>
+                            <input type="date" id="data-evento" name="data" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="hora-inicio-evento">hora do início</label>
+                            <input type="time" id="hora-inicio-evento" name="hora_inicio" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="hora-fim-evento">hora do fim</label>
+                            <input type="time" id="hora-fim-evento" name="hora_fim" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantidade-vagas-evento">quantidade de vagas</label>
+                            <input type="number" id="quantidade-vagas-evento" name="quantidade_vagas"
+                                   class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <a href="javascript:void(0)" onclick="evento.inserir_periodo();"
+                               class="btn btn-primary">adicionar período</a>
+                        </div>
 
-            <div class="col col-10">
-                <small class="white">remova os vídeos clicando sobre seus nomes</small>
-                <ul class="list-btn">
-                    <li data-model="videos" data-self=""
-                        onclick="evento.remover_item('/evento/deletar_video',[{id}], this)">
-                        [{titulo_video}]
-                    </li>
+                    </form>
 
-                </ul>
+
+                    <small class="menu-blue">remova os períodos clicando sobre as datas</small>
+                    <div class="list-group">
+                        <a data-model="periodos" data-self="" class="list-group-item text-center"
+                           href="javascript:void(0)"
+                           onclick="evento.remover_item('/evento/deletar_periodo', [{id}], this);">
+                            [{data}] -
+                            de [{hora_inicio}] à [{hora_fim}] -
+                            [{quantidade_vagas}] vagas
+                        </a>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    </section>
-    <section id="gerenciar-eventos-tarefas" class="col col-10">
-        <div class="col col-2">
-            <a class="btn btn-blue full-width"
-               onclick="evento.carregar_participantes_evento();">
-                <img src="/static/images/event32_1.png">
-                <div class="white small-font">gerenciar participantes</div>
-            </a>
-        </div>
-        <div class="col col-2">
-            <a class="btn btn-blue full-width"
-               onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'gerenciar-eventos-tarefas')">
-                <img src="/static/images/graph32.png">
-                <div class="white small-font">dados gerenciais</div>
-            </a>
-        </div>
-        <div class="col col-2">
-            <a class="btn btn-blue full-width"
-               onclick="evento.ir_pagina('enviar-email-participantes', 'gerenciar-eventos-tarefas')">
-                <img src="/static/images/envelope.png">
-                <div class="white small-font">e-mail para participantes</div>
-            </a>
-        </div>
-        <div class="col col-2">
-            <a class="btn btn-blue full-width"
-               onclick="evento.ir_pagina('enviar-convite', 'gerenciar-eventos-tarefas')">
-                <img src="/static/images/invitation32.png">
-                <div class="white small-font">convidar usuários</div>
-            </a>
-        </div>
+        </section>
+        <section role="tabpanel" id="gerenciar-evento-organizadores" class="tab-pane">
+            <section class="lista_organizadores">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center">Adicione os organizadores do evento</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div>
+                                <small class="menu-blue">preencher o e-mail completo do usuário deixa a pesquisa mais
+                                    eficaz
+                                </small>
+                            </div>
 
-        <section id="gerenciar-eventos-participantes" class="col col-10 hide page">
-            <div class="tabled col col-10">
-                <div class="tabled-body col col-10">
-                    <div class="tabled-row col col-10" data-model="participantes_evento" data-self=""
-                         data-participante-id="[{id}]">
-                        <div class="col col-2"><strong> [{nome}] &nbsp; [{sobrenome}] </strong></div>
-                        <div class="col col-1"><strong> [{data}] [{hora_inicio}] </strong></div>
-                        <div class="col col-1">pago:
-                            <input type="checkbox" data-value="[{confirmado}]"
-                                   onclick="evento.editar_presenca_pagamento([{id}], this, 'confirmado')">
+                            <div class="autocomplete form-group">
+                                <input id="busca_adicionar_organizador" class="form-control"
+                                       placeholder="adicione organizadores pesquisando aqui..."
+                                       type="text" data-autocomplete-url="/pesquisar_usuario"
+                                       data-field="id" data-field-text="nome_completo" data-field-img="foto_usuario"
+                                       data-relative-img-url="/upload/">
+                            </div>
+
+                            <div class="form-group"><a href="javascript:void(0)" class="btn btn-primary"
+                                                       onclick="evento.inserir_organizador()">Adicionar
+                                organizador</a></div>
                         </div>
-                        <div class="col col-2">presente:
-                            <input type="checkbox" data-value="[{presente}]"
-                                   onclick="evento.editar_presenca_pagamento([{id}], this, 'presente')">
+                        <div class="col-md-12">
+                            <small class="menu-blue">remova os organizadores clicando sobre seus nomes</small>
+                            <ul class="list-group">
+                                <a data-model="organizadores" data-self="" href="javascript:void(0)"
+                                   class="list-group-item text-center"
+                                   onclick="evento.remover_item('/evento/deletar_organizador', [{id}], this);">
+                                    [{nome}]
+                                </a>
+                            </ul>
                         </div>
-                        <div class="col col-1">
-                            <a href="#" class="btn full-width btn-blue"
-                               onclick="evento.imprimir_cracha([{usuario_id}])">
-                                <img src="/static/images/cracha24.png" alt="Imprimir crachá">
+                    </div>
+
+
+                </div>
+            </section>
+        </section>
+        <section role="tabpanel" id="gerenciar-evento-palestrante" class="tab-pane">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center">Adicione atrações</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="col-md-12">
+                        <div class="form-group">
+                            <label for="palestrante_nome">nome</label>
+                            <input type="text" name="nome" id="palestrante_nome" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="palestrante_cpf">cpf</label>
+                            <input type="text" name="cpf" id="palestrante_cpf" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="palestrante_descricao">descrição</label>
+                            <input type="text" name="descricao" id="palestrante_descricao" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="palestrante_email">e-mail</label>
+                            <input type="email" name="email" id="palestrante_email" class="form-control">
+                        </div>
+                    </form>
+                    <div class="col-md-12">
+                        <a href="javascript:void(0)" onclick="evento.inserir_palestrante()"
+                           class="btn btn-primary">adicionar atração</a>
+                    </div>
+                    <div class="col-md-12">
+                        <small class="menu-blue">remova as atrações clicando sobre seus nomes</small>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="list-group">
+                            <a data-model="palestrantes" data-self="" href="javascript:void(0)"
+                               class="list-group-item text-center"
+                               onclick="evento.remover_item('/evento/deletar_palesrante', [{id}], this);">
+                                [{nome}]
                             </a>
                         </div>
-                        <div class="col col-1"><a href="#" class="btn btn-blue full-width"
-                                                  onclick="evento.imprimir_certificado([{usuario_id}])">
-                            <img src="/static/images/certificado24.png" alt="Imprimir certificado"></a>
-                        </div>
-                        <div class="col col-1">
-                            <a href="#" class="btn btn-blue full-width"
-                               onclick="evento.forcar_desinscricao_participante([{id}])">
-                                <img src="/static/images/trash24.png" alt="Excluir participante">
+                    </div>
+
+
+                </div>
+
+        </section>
+        <section role="tabpanel" id="gerenciar-evento-anexos" class="tab-pane">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center">Adicione arquivos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       placeholder="digite um título para o anexo" name="titulo_anexo"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="caminho_arquivo"
+                                       accept=".doc,.pdf,.jpg,.png,.gif,.docx,.xls,.xlsx,.odt,.ppt,.pot,.pps,.pptx"
+                                       class="form-control">
+                            </div>
+                            <input type="hidden" name="evento_id">
+                        </form>
+                        <a href="javascript:void(0)" class="btn btn-primary"
+                           onclick="evento.inserir_anexo()">adicionar</a>
+                    </div>
+
+
+                    <div class="col-md-12">
+                        <small class="menu-blue">remova os anexos clicando sobre seus nomes</small>
+                        <div class="list-group">
+                            <a data-model="anexos" data-self class="list-group-item text-center"
+                               href="javascript:void(0)"
+                               onclick="evento.remover_item('/evento/deletar_anexo',[{id}], this)">[{titulo_anexo}]
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
+        <section role="tabpanel" id="gerenciar-evento-videos" class="tab-pane">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="text-center">Adicione vídeos</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
 
-        <section id="gerenciar-eventos-relatorios" class="page hide col col-10">
-            <a href="javascript:void(0)" onclick="evento.imprimir_grafico_localidade()"
-               class="btn btn-blue">gráfico por localidade</a>
-            <a href="javascript:void(0)" onclick="evento.imprimir_grafico_genero()"
-               class="btn btn-blue">gráfico por gênero</a>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                       placeholder="digite um título para o vídeo" name="titulo_video">
+                            </div>
+                            <div class="form-group">
+                                <input type="url" class="form-control" name="url"
+                                       placeholder="digite a url do vídeo que quer incorporar">
+                            </div>
+                            <input type="hidden" name="evento_id">
+                        </form>
 
+
+                        <a href="javascript:void(0)" class="btn btn-primary"
+                           onclick="evento.inserir_video()">adicionar</a>
+
+                    </div>
+
+                    <div class="col-md-12">
+                        <small class="menu-blue">remova os vídeos clicando sobre seus nomes</small>
+                        <ul class="list-group">
+                            <a data-model="videos" data-self="" href="javascript:void(0)"
+                               class="list-group-item text-center"
+                               onclick="evento.remover_item('/evento/deletar_video',[{id}], this)">
+                                [{titulo_video}]
+                            </a>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
+        <section role="tabpanel" id="gerenciar-eventos-tarefas" class="tab-pane">
+            <div class="panel panel-default">
+                <div class="panel-heading">
 
-        <section id="enviar-email-participantes" class="page hide col col-10">
-            <form>
-                <input type="input" class="field" placeholder="Assunto" name="assunto">
-                <textarea class="field" name="mensagem" placeholder="Mensagem"></textarea>
-            </form>
-            <a href="javascript:void()" class="btn btn-blue full-width"
-               onclick="evento.enviar_email_participantes()">enviar</a>
+                    <a class="btn btn-primary"
+                       onclick="evento.carregar_participantes_evento();">
+                        <span class="glyphicon glyphicon-barcode"></span>
+                        <div class="white small-font">Gerenciar participantes</div>
+                    </a>
+
+                    <a class="btn btn-primary"
+                       onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'task-bodies')">
+                        <span class="glyphicon glyphicon-stats"></span>
+                        <div class="white small-font">Dados gerenciais</div>
+                    </a>
+                    <a class="btn btn-primary"
+                       onclick="evento.ir_pagina('enviar-email-participantes', 'task-bodies')">
+                        <span class="glyphicon glyphicon-send"></span>
+                        <div class="white small-font">E-mail para participantes</div>
+                    </a>
+
+
+                    <a class="btn btn-primary full-width"
+                       onclick="evento.ir_pagina('enviar-convite', 'task-bodies')">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <div class="white small-font">convidar usuários</div>
+                    </a>
+                </div>
+                <div class="panel-body" id="task-bodies">
+                    <section id="gerenciar-eventos-participantes" class="page hide col-md-12">
+                        <div class="tabled col-md-12">
+                            <div class="tabled-body md-col-12">
+                                <div class="tabled-row col col-md-12" data-model="participantes_evento" data-self=""
+                                     data-participante-id="[{id}]">
+                                    <div class="col-md-3"><strong> [{nome}] &nbsp; [{sobrenome}] </strong></div>
+                                    <div class="col-md-3"><strong> [{data}] [{hora_inicio}] </strong></div>
+                                    <div class="col-md-1">pago:
+                                        <input type="checkbox" data-value="[{confirmado}]"
+                                               onclick="evento.editar_presenca_pagamento([{id}], this, 'confirmado')">
+                                    </div>
+                                    <div class="col-md-1">presente:
+                                        <input type="checkbox" data-value="[{presente}]"
+                                               onclick="evento.editar_presenca_pagamento([{id}], this, 'presente')">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a href="javascript:void(0)" class="btn"
+                                           onclick="evento.imprimir_cracha([{usuario_id}])">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                            <span>Crachá</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="javascript:void(0)" class="btn"
+                                           onclick="evento.imprimir_certificado([{usuario_id}])">
+
+                                            <span class="glyphicon glyphicon-education"></span>
+                                            <span>Certificado</span>
+                                        </a>
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a href="javascript:void(0)" class="btn"
+                                           onclick="evento.forcar_desinscricao_participante([{id}])">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                            <span>Excluir</span>
+
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section id="gerenciar-eventos-relatorios" class="page hide col-md-12">
+                        <a href="javascript:void(0)" onclick="evento.imprimir_grafico_localidade()"
+                           class="btn btn-primary">gráfico por localidade</a>
+                        <a href="javascript:void(0)" onclick="evento.imprimir_grafico_genero()"
+                           class="btn btn-primary">gráfico por gênero</a>
+
+                    </section>
+
+                    <section id="enviar-email-participantes" class="page hide col-md-12">
+                        <form>
+                            <div class="form-group">
+                                <input type="input" class="form-control" placeholder="Assunto" name="assunto">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="mensagem" placeholder="Mensagem"></textarea>
+                            </div>
+                            <a href="javascript:void()" class="btn btn-primary "
+                               onclick="evento.enviar_email_participantes()">Enviar</a>
+
+                        </form>
+                    </section>
+
+                    <section id="enviar-convite" class="page hide col-md-12">
+                        <div class="col-md-12">
+                            <small class="menu-blue">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz
+                            </small>
+                            <div class="form-group">
+                                <div class="autocomplete">
+                                    <input id="busca_adicionar_usuario_convite"
+                                           placeholder="adicione usuários pesquisando aqui..."
+                                           class="form-control" type="text" data-autocomplete-url="/pesquisar_usuario"
+                                           data-field="id" data-field-text="nome_completo" data-field-img="foto_usuario"
+                                           data-relative-img-url="/upload/">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a href="javascript:void(0)" class="btn btn-primary"
+                                   onclick="evento.inserir_convidado()">enviar convite
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <ul class="list-group">
+                                <li data-model="convites_usuarios" data-self=""
+                                    data-user-id="[{id}]" class="list-group-item">
+                                    [{nome}]
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </section>
-
-        <section id="enviar-convite" class="page hide col col-10">
-            <div>
-                <small class="white">preencher o e-mail completo do usuário deixa a pesquisa mais eficaz</small>
-            </div>
-            <div class="col col-10 autocomplete">
-                <input id="busca_adicionar_usuario_convite"
-                       placeholder="adicione usuários pesquisando aqui..."
-                       class="small-radius search" type="text" data-autocomplete-url="/pesquisar_usuario"
-                       data-field="id" data-field-text="nome_completo" data-field-img="foto_usuario"
-                       data-relative-img-url="/upload/"
-                >
-            </div>
-            <div class="col col-10"><a href="javascript:void(0)" class="btn btn-blue"
-                                       onclick="evento.inserir_convidado()">enviar convite
-            </a>
-            </div>
-
-            <div class="col col-10">
-                <ul class="list-btn">
-                    <li data-model="convites_usuarios" data-self=""
-                        data-user-id="[{id}]">
-                        [{nome}]
-                    </li>
-                </ul>
-            </div>
-
-        </section>
-
-    </section>
-
+    </div>
 </div>

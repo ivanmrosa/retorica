@@ -5,137 +5,137 @@
 {% endblock %}
 
 {% block 'body' %}
-<header class="fixed-header">
-    <div class="col col-1 logo-div ">
-        <center><a href="/evento"><img src="/static/images/logo2.png" title="auditório eventos" alt="auditório eventos"
-                                       class="img-logo white"/></a></center>
-    </div>
 
-    <div id="div-pesq" class="col col-8 hide-mobile slow-hide">
-        <div class="col col-5 autocomplete " id="pesqtext">
-            <input class="search" placeholder="pesquise eventos aqui..." type="text"
-                   data-autocomplete-url="/evento/lista_eventos_autocomplete"
-                   data-field="id" data-field-text="titulo" data-field-img="imagem_divulgacao"
-                   data-relative-img-url="/upload/" id="pesquisa_evento">
+<div class="container-fluid">
+    <nav class="navbar navbar-default navbar-fixed-top bck-menu-blue">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed btn btn-primary" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <!--   <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span> -->
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+
+                <a class="navbar-brand white page-title" href="#">Auditório Eventos</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                </ul>
+
+                <form class="navbar-form navbar-left">
+                    <div class="form-group autocomplete">
+                        <input class="search form-control" placeholder="pesquise eventos aqui..." type="text"
+                               data-autocomplete-url="/evento/lista_eventos_autocomplete"
+                               data-field="id" data-field-text="titulo" data-field-img="imagem_divulgacao"
+                               data-relative-img-url="/upload/" id="pesquisa_evento">
+
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-default form-control" role="button"
+                       title="pesquisar"
+                       id="btn-pesquisa_eventos"><span class="glyphicon glyphicon-search"></span></a>
+
+                </form>
+
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+
+                    <!-- <li><a href="javascript:void(0)" onclick="evento.abrir_edicao_usuario();" class="white"
+                            data-model="dados_perfil_usuario" data-self="">
+                         [{first_name}]&nbsp;[{last_name}]</a>
+                     </li> -->
+                    <li>
+                        <a href="javascript:void(0)" class="white small-font nav-brand"
+                           onclick="evento.abrir_edicao_usuario();" data-model="dados_perfil_usuario"
+                           data-self="">
+                            <img data-id="img-usr" data-src="/upload/[{foto_usuario}]"
+                                 class="big-radius" data-title="[{first_name}]"/>
+                        </a>
+                    </li>
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+    <nav class=" menu ">
+        <div class="container-btn-mnu">
+            <button type="button" class="mnu-button btn btn-primary ">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
         </div>
-
-        <div class="col col-1 ">
-            <a href="javascript:void(0)" class="btn full-width btn-search bck-menu-blue" id="btn-pesquisa_eventos"></a>
-        </div>
-    </div>
-
-    <div class="col col-1 flo-right  ">
-
-        <div class="col col-10 group-pesq hide-mobile">
-            <center>
-                <a href="javascript:void(0)" class="white small-font bold"
-                   onclick="evento.abrir_edicao_usuario();">
-                    <img data-id="img-usr" data-src="/upload/[{foto_usuario}]"
-                         data-model="dados_perfil_usuario" data-self=""
-                         class="big-radius" title="[{first_name}]"
-                    />
-                </a>
-            </center>
-        </div>
-    </div>
-
-    <div class="fixed flo-right top-right hide-desktop stay-on-top">
-        <a href="javascript:void(0)" class="show-plus-header"
-           onclick="mainLib.find('#div-pesq').rmCl('hide-mobile');
-                     mainLib.addClass('hide', this);
-                     mainLib.find('.hide-plus-header').rmCl('hide')">
-            <img src="/static/images/arrow-down24.png">
-        </a>
-        <a href="javascript:void(0)" class="hide-plus-header hide stay-on-top"
-           onclick="mainLib.find('#div-pesq').adCl('hide-mobile');
-                     mainLib.addClass('hide', this);
-                     mainLib.find('.show-plus-header').rmCl('hide')">
-            <img src="/static/images/arrow-up24.png">
-        </a>
-
-    </div>
-
-</header>
-
-
-<section id="menu" class="after-header menu slow-hide">
-
-    <div class="menu-content">
-
-        <ul>
-            <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
+        <div class="menu-content">
+            <ul class="">
+                <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
                          mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos/', 'evento_lista',
                          mainLib.find('#lista_eventos').elements[0], 'evento_privado=false')">
-                <img src="/static/images/home-32.png">
-                <a href="javascript:void(0)" class="white"> Home </a>
-            </li>
-            <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
-               mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_participante/', 'evento_lista',
-                  mainLib.find('#lista_eventos').first())">
-                <a href="javascript:void(0)"><img src="/static/images/list32_5.png"></a>
-                <a href="javascript:void(0)" class="white"> inscrições </a>
-            </li>
-            <li onclick="evento.abrir_edicao_usuario()">
+                    <a href="javascript:void(0)"> Home </a>
+                </li>
+                <li onclick="evento.ir_pagina('lista_eventos', 'evento_conteudo');mainLib.dataBinder.removeReplicatedModel('evento_lista');
+                          mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_participante/', 'evento_lista',
+                        mainLib.find('#lista_eventos').first())">
+                    <a href="javascript:void(0)"> Inscrições </a>
+                </li>
+                <li onclick="evento.abrir_edicao_usuario()">
+                    <a href="javascript:void(0)">Meus dados</a>
+                </li>
 
-                <img src="/static/images/profile-32.png">
-                <a href="javascript:void(0)" class="white">meus dados</a>
-            </li>
+                <li data-model="dados_perfil_usuario"
+                    data-self=""
+                    data-visible="('[{tipo_usuario}]' === 'O')"
+                    onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo');
+                                     evento.pgc_gerenciar_evento();
+                                     mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
+                                     'eventos_organizador', null, null, mainLib.find('#lista_eventos_gerenciar .list-btn li').elements.length <= 1)">
+                    <a href="javascript:void(0)">
+                        Gerenciar eventos </a>
+                </li>
+                <li>
+                    <a href="/logout/">
+                        sair </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-            <li data-model="dados_perfil_usuario"
-                data-self=""
-                data-visible="('[{tipo_usuario}]' === 'O')"
-                onclick="evento.ir_pagina('gerenciar_eventos', 'evento_conteudo');
-                   evento.pgc_gerenciar_evento();
-                   mainLib.dataBinder.bindServerDataOnTemplate('/evento/lista_eventos_organizador',
-                  'eventos_organizador', null, null, mainLib.find('#lista_eventos_gerenciar .list-btn li').elements.length <= 1)">
-                <a href="javascript:void(0)"><img
-                        src="/static/images/manage32_5.png"></a>
-                <a href="javascript:void(0)" class="white">
-                    gerenciar eventos </a>
-            </li>
-            <li>
-                <a href="/logout/"><img
-                        src="/static/images/logout32_5.png"></a>
-                <a href="/logout/" class="white">
-                    sair </a>
-            </li>
 
-        </ul>
+    <div id="evento_conteudo" class="container after-menu">
+        <section id="lista_eventos"
+                 data-template-url="/template/lista_eventos"
+                 data-container-template="lista_eventos"
+                 class="col col-7 page hide slow-hide">
+        </section>
+
+        <section id="gerenciar_eventos" class="page hide col col-7 slow-hide"
+                 data-template-url="/template/gerenciar_eventos"
+                 data-container-template="gerenciar_eventos">
+
+        </section>
+
+        <div data-template-url="/template/detalhe_evento"
+             data-container-template="detalhe_evento">
+
+        </div>
+
+        <div data-template-url="/template/inscricao_evento"
+             data-container-template="inscricao_evento">
+        </div>
+
+        <section id="dados_usuario_logado"
+                 class="page hide col col-7 slow-hide"
+                 data-template-url="/template/dados_usuario"
+                 data-container-template="dados_usuario">
+
+        </section>
     </div>
-
-</section>
-
-
-<div id="evento_conteudo" class="after-header after-menu col col-8 conteudo ">
-    <section id="lista_eventos"
-             data-template-url="/template/lista_eventos"
-             data-container-template="lista_eventos"
-             class="col col-7 page hide slow-hide">
-    </section>
-
-    <section id="gerenciar_eventos" class="page hide col col-7 slow-hide"
-             data-template-url="/template/gerenciar_eventos"
-             data-container-template="gerenciar_eventos" >
-
-    </section>
-
-    <div data-template-url="/template/detalhe_evento"
-         data-container-template="detalhe_evento" >
-
-    </div>
-
-    <div data-template-url="/template/inscricao_evento"
-         data-container-template="inscricao_evento">
-    </div>
-
-    <section id="dados_usuario_logado"
-             class="page hide col col-7 slow-hide"
-             data-template-url="/template/dados_usuario"
-             data-container-template="dados_usuario">
-
-    </section>
-
 </div>
+
 
 {% endblock %}
 
@@ -145,10 +145,33 @@
 
 <script type="text/javascript">
 
-   mainLib.loadMenu();
-
    evento.ir_pagina('lista_eventos');
    mainLib.dataBinder.getTemplate('lista_eventos');
+   mainLib.loadMenu();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 

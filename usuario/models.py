@@ -34,13 +34,13 @@ class UsuarioDetalhe(User):
     foto_usuario = models.ImageField(verbose_name="Foto do perfil", null=True, blank=True)
     telefone = models.CharField(verbose_name="Telefone", max_length=10)
     cidade = models.ForeignKey(verbose_name="Cidade", to=Cidade)
-    cep = models.CharField(verbose_name="CEP/ZIP-Code", max_length=10)
-    endereco = models.CharField(verbose_name="Endereço", max_length=100)
-    bairro = models.CharField(verbose_name="Bairro", max_length=100)
-    numero_endereco = models.IntegerField(verbose_name="Número")
+    cep = models.CharField(verbose_name="CEP/ZIP-Code", max_length=10, blank=True, null=True)
+    endereco = models.CharField(verbose_name="Endereço", max_length=100, blank=True, null=True)
+    bairro = models.CharField(verbose_name="Bairro", max_length=100, blank=True, null=True)
+    numero_endereco = models.IntegerField(verbose_name="Número", blank=True, null=True)
     sexo = models.CharField(verbose_name="Sexo", choices=TIPOS_GENERO, max_length=1)
     cpf = models.CharField(verbose_name="CPF", max_length=11)
-    numero_identidade = models.CharField(verbose_name="Identidade", max_length=20)
+    numero_identidade = models.CharField(verbose_name="Identidade", max_length=20, null=True, blank=True)
 
     def save(self, *args, **kwargs):
 
