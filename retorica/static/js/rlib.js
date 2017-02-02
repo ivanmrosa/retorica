@@ -927,7 +927,7 @@ function hideMenu(e){
         mainLib.removeClass("menu-full", menuList);
         mainLib.removeClass("menu-full", menuShow);
         menuList.setAttribute("style", "height:0%");
-        menuShow.setAttribute("style", "height:0%");
+        menuShow.setAttribute("style", "height:53px");
         content.setAttribute("style", "");
     }
 }
