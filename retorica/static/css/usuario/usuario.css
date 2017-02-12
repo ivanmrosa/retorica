@@ -56,5 +56,8 @@ body {
  .page-title{
       padding: 15px 55px !important;
     }
-}
+    
+ body{
+   background-color: #0082af !important;
+ }
 }

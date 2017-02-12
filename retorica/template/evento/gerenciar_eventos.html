@@ -1,5 +1,5 @@
-<div class="col-md-12 title " id="gerenciar-evento-cards">
-    <div class="btn-group flo-left" aria-label="...">
+  <div class="col-md-12 title" id="gerenciar-evento-cards">
+    <div class="btn-group" aria-label="...">
         <button type="button" class="btn btn-default"
                 onclick="evento.ir_pagina('lista_eventos_gerenciar', 'gerenciar_eventos');
                  mainLib.dataBinder.removeReplicatedModel('eventos_organizador');
@@ -399,30 +399,31 @@
         <section role="tabpanel" id="gerenciar-eventos-tarefas" class="tab-pane">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                   <div class="btn-group" aria-label="...">
+                      <button type="button" class="btn btn-primary"
+                         onclick="evento.carregar_participantes_evento();">
+                          <span class="glyphicon glyphicon-barcode"></span>
+                          <div class="white small-font">Gerenciar participantes</div>
+                      </button>
 
-                    <a class="btn btn-primary"
-                       onclick="evento.carregar_participantes_evento();">
-                        <span class="glyphicon glyphicon-barcode"></span>
-                        <div class="white small-font">Gerenciar participantes</div>
-                    </a>
-
-                    <a class="btn btn-primary"
-                       onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'task-bodies')">
-                        <span class="glyphicon glyphicon-stats"></span>
-                        <div class="white small-font">Dados gerenciais</div>
-                    </a>
-                    <a class="btn btn-primary"
-                       onclick="evento.ir_pagina('enviar-email-participantes', 'task-bodies')">
-                        <span class="glyphicon glyphicon-send"></span>
-                        <div class="white small-font">E-mail para participantes</div>
-                    </a>
+                      <button type="button" class="btn btn-primary"
+                         onclick="evento.ir_pagina('gerenciar-eventos-relatorios', 'task-bodies')">
+                          <span class="glyphicon glyphicon-stats"></span>
+                          <div class="white small-font">Gráficos</div>
+                      </button>
+                      <button type="button" class="btn btn-primary"
+                         onclick="evento.ir_pagina('enviar-email-participantes', 'task-bodies')">
+                          <span class="glyphicon glyphicon-send"></span>
+                          <div class="white small-font">Enviar e-mail</div>
+                      </button>
 
 
-                    <a class="btn btn-primary full-width"
-                       onclick="evento.ir_pagina('enviar-convite', 'task-bodies')">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                        <div class="white small-font">convidar usuários</div>
-                    </a>
+                      <button type="button" class="btn btn-primary full-width"
+                         onclick="evento.ir_pagina('enviar-convite', 'task-bodies')">
+                          <span class="glyphicon glyphicon-envelope"></span>
+                          <div class="white small-font">Convidar usuários</div>
+                      </button>
+                    </div>
                 </div>
                 <div class="panel-body" id="task-bodies">
                     <section id="gerenciar-eventos-participantes" class="page hide col-md-12">
